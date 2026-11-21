@@ -419,38 +419,72 @@
             ⚡ تدريب تفاعلي فوري
           </span>
           <h2 class="text-xl sm:text-2xl font-black text-slate-900">مولّد أسئلة التحصيلي المبكر</h2>
-          <p class="text-sm text-slate-500 mt-1">اختر القسم وعدد الأسئلة وابدأ التدريب مع التصحيح والشرح الفوري.</p>
+          <p class="text-sm text-slate-500 mt-1">اختر القسم والمادة وعدد الأسئلة وابدأ التدريب مع التصحيح والشرح الفوري.</p>
         </div>
 
-        <!-- اختيار القسم -->
+        <!-- 1. اختيار القسم الرئيسي -->
         <div class="space-y-2.5">
           <label class="text-sm font-extrabold text-slate-800 block">1. اختر القسم</label>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-            <button type="button" data-qsection="all" class="q-sec-btn py-3 px-4 rounded-2xl text-sm font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition">
-              الكل (شامل)
-            </button>
-            <button type="button" data-qsection="skills" class="q-sec-btn py-3 px-4 rounded-2xl text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <button type="button" data-qsection="skills" class="q-sec-btn py-3.5 px-4 rounded-2xl text-sm font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition">
               قسم المهارات
             </button>
-            <button type="button" data-qsection="sci" class="q-sec-btn py-3 px-4 rounded-2xl text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">
-              القسم العلمي
+            <button type="button" data-qsection="sci" class="q-sec-btn py-3.5 px-4 rounded-2xl text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">
+              القسم العلمي (4 مواد)
             </button>
           </div>
         </div>
 
-        <!-- اختيار عدد الأسئلة -->
-        <div class="space-y-2.5">
-          <label class="text-sm font-extrabold text-slate-800 block">2. عدد الأسئلة في الجلسة</label>
+        <!-- اختيار المادة (يظهر عند اختيار القسم العلمي) -->
+        <div id="sciSubjectWrapper" class="hidden space-y-2.5 pt-1">
+          <label class="text-sm font-extrabold text-slate-800 block">اختر المادة العلمية</label>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-            <button type="button" data-qcount="5" class="q-cnt-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition">5 أسئلة (سريع)</button>
-            <button type="button" data-qcount="10" class="q-cnt-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">10 أسئلة</button>
-            <button type="button" data-qcount="22" class="q-cnt-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">22 سؤالاً</button>
-            <button type="button" data-qcount="999" class="q-cnt-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">كل المتاح</button>
+            <button type="button" data-qsubject="الرياضيات" class="q-sub-btn py-3 px-3 rounded-2xl text-sm font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition">
+              الرياضيات
+            </button>
+            <button type="button" data-qsubject="الفيزياء" class="q-sub-btn py-3 px-3 rounded-2xl text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">
+              الفيزياء
+            </button>
+            <button type="button" data-qsubject="الكيمياء" class="q-sub-btn py-3 px-3 rounded-2xl text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">
+              الكيمياء
+            </button>
+            <button type="button" data-qsubject="الأحياء" class="q-sub-btn py-3 px-3 rounded-2xl text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">
+              الأحياء
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. اختيار عدد الأسئلة -->
+        <div class="space-y-3">
+          <label class="text-sm font-extrabold text-slate-800 block">2. عدد الأسئلة في الجلسة</label>
+          <div class="grid grid-cols-3 gap-2.5">
+            <button type="button" id="qPreset1Btn" data-qmode="preset1" class="q-cnt-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition">
+              10 أسئلة
+            </button>
+            <button type="button" id="qPreset2Btn" data-qmode="preset2" class="q-cnt-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">
+              22 سؤالاً
+            </button>
+            <button type="button" id="qCustomBtn" data-qmode="custom" class="q-cnt-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">
+              مخصص (5 - 30)
+            </button>
+          </div>
+
+          <!-- شريط التخصيص (يظهر عند اختيار "مخصص") -->
+          <div id="customCountBox" class="hidden p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs sm:text-sm font-bold text-slate-700">حدد عدد الأسئلة المطلوب:</span>
+              <input id="customCountNum" type="number" min="5" max="30" value="15" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-white font-extrabold text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            </div>
+            <input id="customCountRange" type="range" min="5" max="30" value="15" class="w-full" />
+            <div class="flex justify-between text-[11px] text-slate-400 font-medium">
+              <span>5 أسئلة</span>
+              <span id="customMaxLabel">30 سؤالاً</span>
+            </div>
           </div>
         </div>
 
         <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-100">
-          <p id="availableQuestionsHint" class="text-xs font-bold text-slate-500">الأسئلة المتاحة حالياً: 7 أسئلة</p>
+          <p id="availableQuestionsHint" class="text-xs font-bold text-slate-500">الأسئلة المتاحة حالياً: 3 أسئلة</p>
           <button id="startQuizBtn" type="button" class="w-full sm:w-auto px-8 py-3 rounded-2xl text-sm sm:text-base font-extrabold text-white bg-gradient-to-l from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-md shadow-emerald-600/20 transition cursor-pointer">
             ابدأ التدريب الآن ←
           </button>
@@ -948,8 +982,10 @@
 
     // ==================== منطق مولّد الأسئلة والتدريب ====================
     const quizState = {
-      section: 'all',
-      count: 5,
+      section: 'skills',       // 'skills' | 'sci'
+      subject: 'الرياضيات',    // للمواد العلمية الأربعة
+      countMode: 'preset1',    // 'preset1' | 'preset2' | 'custom'
+      customCount: 15,
       pool: [],
       currentIndex: 0,
       score: 0,
@@ -957,20 +993,70 @@
     };
 
     const qSecBtns = document.querySelectorAll('.q-sec-btn');
+    const qSubBtns = document.querySelectorAll('.q-sub-btn');
     const qCntBtns = document.querySelectorAll('.q-cnt-btn');
+    const sciSubjectWrapper = document.getElementById('sciSubjectWrapper');
+    const qPreset1Btn = document.getElementById('qPreset1Btn');
+    const qPreset2Btn = document.getElementById('qPreset2Btn');
+    const qCustomBtn = document.getElementById('qCustomBtn');
+    const customCountBox = document.getElementById('customCountBox');
+    const customCountRange = document.getElementById('customCountRange');
+    const customCountNum = document.getElementById('customCountNum');
+    const customMaxLabel = document.getElementById('customMaxLabel');
+
     const availableQuestionsHint = document.getElementById('availableQuestionsHint');
     const quizSetupCard = document.getElementById('quizSetupCard');
     const quizPlayCard = document.getElementById('quizPlayCard');
     const quizResultCard = document.getElementById('quizResultCard');
 
+    function getQuizLimits() {
+      if (quizState.section === 'skills') {
+        return { p1: 10, p2: 22, min: 5, max: 30 };
+      }
+      return { p1: 10, p2: 20, min: 5, max: 50 };
+    }
+
+    function getSelectedQuestionCount() {
+      const lim = getQuizLimits();
+      if (quizState.countMode === 'preset1') return lim.p1;
+      if (quizState.countMode === 'preset2') return lim.p2;
+      return clamp(quizState.customCount, lim.min, lim.max);
+    }
+
+    function syncCountControls() {
+      const lim = getQuizLimits();
+      qPreset1Btn.textContent = `${lim.p1} أسئلة`;
+      qPreset2Btn.textContent = `${lim.p2} سؤالاً`;
+      qCustomBtn.textContent = `مخصص (${lim.min} - ${lim.max})`;
+
+      customCountRange.min = lim.min;
+      customCountRange.max = lim.max;
+      customCountNum.min = lim.min;
+      customCountNum.max = lim.max;
+      customMaxLabel.textContent = `${lim.max} سؤالاً`;
+
+      quizState.customCount = clamp(quizState.customCount, lim.min, lim.max);
+      customCountRange.value = quizState.customCount;
+      customCountNum.value = quizState.customCount;
+
+      if (quizState.countMode === 'custom') {
+        customCountBox.classList.remove('hidden');
+      } else {
+        customCountBox.classList.add('hidden');
+      }
+    }
+
     function getFilteredQuestions() {
-      if (quizState.section === 'all') return [...QUESTIONS];
-      return QUESTIONS.filter(q => q.section === quizState.section);
+      if (quizState.section === 'skills') {
+        return QUESTIONS.filter(q => q.section === 'skills');
+      }
+      return QUESTIONS.filter(q => q.section === 'sci' && q.subject === quizState.subject);
     }
 
     function updateQuizHint() {
       const total = getFilteredQuestions().length;
-      availableQuestionsHint.textContent = `الأسئلة المتاحة في هذا القسم حالياً: ${total} سؤالاً`;
+      const label = quizState.section === 'skills' ? 'قسم المهارات' : `مادة ${quizState.subject}`;
+      availableQuestionsHint.textContent = `الأسئلة المتاحة في ${label} حالياً: ${total} سؤالاً`;
     }
 
     qSecBtns.forEach(btn => {
@@ -978,9 +1064,30 @@
         quizState.section = btn.dataset.qsection;
         qSecBtns.forEach(b => {
           if (b.dataset.qsection === quizState.section) {
-            b.className = 'q-sec-btn py-3 px-4 rounded-2xl text-sm font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition';
+            b.className = 'q-sec-btn py-3.5 px-4 rounded-2xl text-sm font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition';
           } else {
-            b.className = 'q-sec-btn py-3 px-4 rounded-2xl text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition';
+            b.className = 'q-sec-btn py-3.5 px-4 rounded-2xl text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition';
+          }
+        });
+
+        if (quizState.section === 'sci') {
+          sciSubjectWrapper.classList.remove('hidden');
+        } else {
+          sciSubjectWrapper.classList.add('hidden');
+        }
+        syncCountControls();
+        updateQuizHint();
+      });
+    });
+
+    qSubBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        quizState.subject = btn.dataset.qsubject;
+        qSubBtns.forEach(b => {
+          if (b.dataset.qsubject === quizState.subject) {
+            b.className = 'q-sub-btn py-3 px-3 rounded-2xl text-sm font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition';
+          } else {
+            b.className = 'q-sub-btn py-3 px-3 rounded-2xl text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition';
           }
         });
         updateQuizHint();
@@ -989,15 +1096,28 @@
 
     qCntBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        quizState.count = parseInt(btn.dataset.qcount, 10);
+        quizState.countMode = btn.dataset.qmode;
         qCntBtns.forEach(b => {
-          if (parseInt(b.dataset.qcount, 10) === quizState.count) {
+          if (b.dataset.qmode === quizState.countMode) {
             b.className = 'q-cnt-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition';
           } else {
             b.className = 'q-cnt-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition';
           }
         });
+        syncCountControls();
       });
+    });
+
+    customCountRange.addEventListener('input', (e) => {
+      quizState.customCount = parseInt(e.target.value, 10);
+      customCountNum.value = quizState.customCount;
+    });
+
+    customCountNum.addEventListener('input', (e) => {
+      const lim = getQuizLimits();
+      const val = clamp(parseInt(e.target.value, 10) || lim.min, lim.min, lim.max);
+      quizState.customCount = val;
+      customCountRange.value = val;
     });
 
     function shuffle(arr) {
@@ -1012,7 +1132,8 @@
     function startQuiz() {
       const filtered = shuffle(getFilteredQuestions());
       if (filtered.length === 0) return;
-      quizState.pool = filtered.slice(0, Math.min(quizState.count, filtered.length));
+      const desiredCount = getSelectedQuestionCount();
+      quizState.pool = filtered.slice(0, Math.min(desiredCount, filtered.length));
       quizState.currentIndex = 0;
       quizState.score = 0;
 
@@ -1046,12 +1167,12 @@
         btn.type = 'button';
         btn.className = 'w-full text-right p-4 rounded-2xl border border-slate-200 bg-slate-50/70 hover:border-emerald-400 hover:bg-emerald-50/40 font-bold text-slate-800 transition flex items-center gap-3 cursor-pointer';
         btn.innerHTML = `<span class="w-7 h-7 rounded-lg bg-white border border-slate-200 text-xs font-extrabold flex items-center justify-center shrink-0 text-slate-600">${letters[idx]}</span><span>${optText}</span>`;
-        btn.addEventListener('click', () => handleAnswer(idx, btn));
+        btn.addEventListener('click', () => handleAnswer(idx));
         optionsList.appendChild(btn);
       });
     }
 
-    function handleAnswer(selectedIdx, clickedBtn) {
+    function handleAnswer(selectedIdx) {
       if (quizState.answered) return;
       quizState.answered = true;
       const q = quizState.pool[quizState.currentIndex];
@@ -1110,11 +1231,13 @@
       updatePresetStyles();
       updateSdStyles();
       updateAll();
+      syncCountControls();
       updateQuizHint();
     });
     updatePresetStyles();
     updateSdStyles();
     updateAll();
+    syncCountControls();
     updateQuizHint();
   </script>
 </body>
