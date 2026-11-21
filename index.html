@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>حاسبة درجة التحصيلي المبكر (بالانحراف المعياري)</title>
+  <title>حاسبة وتدريب التحصيلي المبكر — Nabthati</title>
   <!-- خط Tajawal من Google Fonts لتجربة قراءة عربية حديثة -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -80,6 +80,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-emerald-200 selection:text-emerald-950">
   <div class="watermark-bg" aria-hidden="true"></div>
+
   <!-- الشريط العلوي -->
   <header class="bg-white border-b border-slate-200/80 sticky top-0 z-30 backdrop-blur-md bg-white/90">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-3">
@@ -92,16 +93,16 @@
         </div>
         <div>
           <h1 class="text-lg sm:text-xl font-extrabold text-slate-900 leading-tight">
-            حاسبة درجة التحصيلي المبكر
+            منصة التحصيلي المبكر
           </h1>
           <p class="text-xs sm:text-sm text-slate-500 font-medium">
-            تقدير إحصائي بالانحراف المعياري (مقياس 1000)
+            حاسبة الدرجة بالانحراف المعياري + مولّد التدريبات
           </p>
         </div>
       </div>
 
-      <!-- أزرار إعادة التعيين ونسخ النتيجة -->
-      <div class="flex items-center gap-2">
+      <!-- أزرار الحاسبة (تظهر في خانة الحاسبة فقط) -->
+      <div id="calcHeaderActions" class="flex items-center gap-2">
         <button id="resetBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 transition flex items-center gap-1.5 cursor-pointer">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
@@ -113,332 +114,408 @@
         </button>
       </div>
     </div>
+
+    <!-- شريط التنقل بين الخانتين -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 pb-3">
+      <div class="inline-flex p-1.5 rounded-2xl bg-slate-100 border border-slate-200/80 w-full sm:w-auto">
+        <button id="tabCalcBtn" type="button" class="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-emerald-700 shadow-sm transition flex items-center justify-center gap-2">
+          <span>📊</span>
+          حاسبة الدرجة
+        </button>
+        <button id="tabQuizBtn" type="button" class="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2">
+          <span>⚡</span>
+          مولّد الأسئلة والتدريب
+        </button>
+      </div>
+    </div>
   </header>
 
   <!-- المحتوى الرئيسي -->
-  <main class="max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1 space-y-6">
+  <main class="max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1">
 
-    <!-- بانر النتيجة الأبرز (التوقع المنطقي) -->
-    <section class="relative overflow-hidden rounded-3xl bg-gradient-to-l from-emerald-800 via-emerald-700 to-teal-700 text-white p-6 sm:p-8 shadow-xl shadow-emerald-900/15">
-      <!-- زخرفة خلفية ناعمة -->
-      <div class="absolute -left-16 -top-16 w-64 h-64 rounded-full bg-white/10 blur-3xl pointer-events-none"></div>
-      <div class="absolute -right-12 -bottom-20 w-72 h-72 rounded-full bg-teal-400/20 blur-3xl pointer-events-none"></div>
+    <!-- ==================== الخانة الأولى: حاسبة الدرجة ==================== -->
+    <div id="calcSection" class="space-y-6">
 
-      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        <div class="space-y-2">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-xs sm:text-sm font-bold text-emerald-50 border border-white/15">
-            <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span>
-            التوقع المنطقي (إصابة 50% من الأسئلة المشكوك فيها)
+      <!-- بانر النتيجة الأبرز (التوقع المنطقي) -->
+      <section class="relative overflow-hidden rounded-3xl bg-gradient-to-l from-emerald-800 via-emerald-700 to-teal-700 text-white p-6 sm:p-8 shadow-xl shadow-emerald-900/15">
+        <div class="absolute -left-16 -top-16 w-64 h-64 rounded-full bg-white/10 blur-3xl pointer-events-none"></div>
+        <div class="absolute -right-12 -bottom-20 w-72 h-72 rounded-full bg-teal-400/20 blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-xs sm:text-sm font-bold text-emerald-50 border border-white/15">
+              <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span>
+              التوقع المنطقي (إصابة 50% من الأسئلة المشكوك فيها)
+            </div>
+            <div class="flex items-baseline gap-3 pt-1">
+              <span id="heroTotalScore" class="text-5xl sm:text-6xl font-black tracking-tight">880</span>
+              <span class="text-lg sm:text-xl font-bold text-emerald-100/90">من <span id="heroMaxCap">1000</span></span>
+            </div>
+            <p id="heroPercentileText" class="text-sm sm:text-base font-medium text-emerald-50/95 flex items-center gap-1.5"></p>
           </div>
-          <div class="flex items-baseline gap-3 pt-1">
-            <span id="heroTotalScore" class="text-5xl sm:text-6xl font-black tracking-tight">880</span>
-            <span class="text-lg sm:text-xl font-bold text-emerald-100/90">من <span id="heroMaxCap">1000</span></span>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 w-full lg:w-auto">
+            <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 text-center">
+              <div class="text-xs text-emerald-100 font-medium mb-1">القسم العلمي (75%)</div>
+              <div id="heroSciScore" class="text-2xl sm:text-3xl font-extrabold">885</div>
+              <div id="heroSciRaw" class="text-[11px] text-emerald-200 mt-0.5">88 / 88 صح</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 text-center">
+              <div class="text-xs text-emerald-100 font-medium mb-1">قسم المهارات (25%)</div>
+              <div id="heroSkillsScore" class="text-2xl sm:text-3xl font-extrabold">850</div>
+              <div id="heroSkillsRaw" class="text-[11px] text-emerald-200 mt-0.5">22 / 22 صح</div>
+            </div>
+            <div class="col-span-2 sm:col-span-1 bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-center flex flex-col justify-center">
+              <div class="text-xs text-emerald-100 font-medium mb-1">معيار الانحراف (Z)</div>
+              <div id="heroZScore" class="text-2xl sm:text-3xl font-extrabold" dir="ltr">+2.26σ</div>
+              <div class="text-[11px] text-emerald-200 mt-0.5">فوق متوسط الطلاب</div>
+            </div>
           </div>
-          <p id="heroPercentileText" class="text-sm sm:text-base font-medium text-emerald-50/95 flex items-center gap-1.5">
-            <!-- يُحدّث عبر JS -->
-          </p>
+        </div>
+      </section>
+
+      <!-- الشبكة الرئيسية للحاسبة -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+        <!-- عمود المدخلات (5 أعمدة) -->
+        <div class="lg:col-span-5 space-y-5">
+
+          <!-- بطاقة القسم العلمي -->
+          <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-5">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3.5">
+              <div>
+                <h2 class="text-base sm:text-lg font-extrabold text-slate-900">القسم العلمي</h2>
+                <p class="text-xs text-slate-500">88 سؤالاً • الوزن النسبي 75%</p>
+              </div>
+              <span id="sciRemainingBadge" class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200/70">
+                88 مؤكدة صح
+              </span>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label for="sciConfirmedRange" class="text-sm font-bold text-slate-700">الأخطاء المؤكدة</label>
+                <input id="sciConfirmedNum" type="number" min="0" max="88" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              </div>
+              <input id="sciConfirmedRange" type="range" min="0" max="88" value="0" class="w-full" />
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label for="sciUncertainRange" class="text-sm font-bold text-slate-700">الأسئلة المشكوك فيها</label>
+                <input id="sciUncertainNum" type="number" min="0" max="88" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500" />
+              </div>
+              <input id="sciUncertainRange" type="range" min="0" max="88" value="0" class="w-full amber-thumb" />
+            </div>
+          </div>
+
+          <!-- بطاقة قسم المهارات -->
+          <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-5">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3.5">
+              <div>
+                <h2 class="text-base sm:text-lg font-extrabold text-slate-900">قسم المهارات</h2>
+                <p class="text-xs text-slate-500">22 سؤالاً • الوزن النسبي 25%</p>
+              </div>
+              <span id="skillsRemainingBadge" class="px-3 py-1 rounded-xl bg-teal-50 text-teal-700 text-xs font-bold border border-teal-200/70">
+                22 مؤكدة صح
+              </span>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label for="skillsConfirmedRange" class="text-sm font-bold text-slate-700">الأخطاء المؤكدة</label>
+                <input id="skillsConfirmedNum" type="number" min="0" max="22" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              </div>
+              <input id="skillsConfirmedRange" type="range" min="0" max="22" value="0" class="w-full" />
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label for="skillsUncertainRange" class="text-sm font-bold text-slate-700">الأسئلة المشكوك فيها</label>
+                <input id="skillsUncertainNum" type="number" min="0" max="22" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500" />
+              </div>
+              <input id="skillsUncertainRange" type="range" min="0" max="22" value="0" class="w-full amber-thumb" />
+            </div>
+          </div>
+
+          <!-- بطاقة إعدادات المنحنى والانحراف المعياري -->
+          <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-5">
+            <div class="border-b border-slate-100 pb-3.5">
+              <h2 class="text-base sm:text-lg font-extrabold text-slate-900">إعدادات المنحنى والانحراف المعياري</h2>
+              <p class="text-xs text-slate-500">تحكّم بمستوى صعوبة النموذج وقوة الانحراف</p>
+            </div>
+
+            <div class="space-y-2">
+              <span class="text-xs font-bold text-slate-500 block">مستوى صعوبة الاختبار (تقدير متوسط أخطاء الطلاب)</span>
+              <div class="grid grid-cols-3 gap-2">
+                <button type="button" data-preset="20" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">سهل (~20)</button>
+                <button type="button" data-preset="28" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">متوسط (~28)</button>
+                <button type="button" data-preset="38" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">صعب (~38)</button>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label for="avgMistakesRange" class="text-sm font-bold text-slate-700">متوسط أخطاء الطلاب في الاختبار</label>
+                <span class="text-sm font-extrabold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-xl border border-teal-200/70">
+                  <span id="avgMistakesVal">25</span> خطأ
+                </span>
+              </div>
+              <input id="avgMistakesRange" type="range" min="10" max="50" value="25" class="w-full teal-thumb" />
+              <div class="flex justify-between text-[11px] text-slate-400 font-medium">
+                <span>10 أخطاء (سهل جداً)</span>
+                <span>50 خطأ (صعب جداً)</span>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <span class="text-sm font-bold text-slate-700 block">قوة الانحراف المعياري</span>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <button type="button" data-sd="weak" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-50 text-slate-700 transition text-center">
+                  انحراف ضعيف
+                  <span class="block text-[10px] font-normal opacity-80 mt-0.5">تشتت عالٍ</span>
+                </button>
+                <button type="button" data-sd="medium" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition text-center">
+                  انحراف متوسط
+                  <span class="block text-[10px] font-normal opacity-90 mt-0.5">توزيع معتدل</span>
+                </button>
+                <button type="button" data-sd="strong" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-50 text-slate-700 transition text-center">
+                  انحراف قوي
+                  <span class="block text-[10px] font-normal opacity-80 mt-0.5">تكدس حول المتوسط</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-3">
+              <div>
+                <span class="text-sm font-bold text-slate-800 block">سقف المقياس</span>
+                <span id="capDesc" class="text-xs text-slate-500">المقياس الرسمي الكامل (1000)</span>
+              </div>
+              <div class="inline-flex p-1 rounded-xl bg-slate-100 border border-slate-200">
+                <button type="button" id="cap1000Btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-emerald-700 shadow-sm transition">1000 رسمي</button>
+                <button type="button" id="cap950Btn" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition">950 تحفظي</button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- تفصيل القسمين داخل البانر -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 w-full lg:w-auto">
-          <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 text-center">
-            <div class="text-xs text-emerald-100 font-medium mb-1">القسم العلمي (75%)</div>
-            <div id="heroSciScore" class="text-2xl sm:text-3xl font-extrabold">885</div>
-            <div id="heroSciRaw" class="text-[11px] text-emerald-200 mt-0.5">88 / 88 صح</div>
+        <!-- عمود النتائج والمنحنى (7 أعمدة) -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-lg">المتفائل</span>
+                  <span id="optRaw" class="text-[11px] font-bold text-slate-400">110 / 110 صح</span>
+                </div>
+                <div class="flex items-baseline gap-1.5 my-2">
+                  <span id="optTotal" class="text-3xl font-black text-slate-900">876</span>
+                  <span class="text-xs font-bold text-slate-400">/ <span class="cap-label">1000</span></span>
+                </div>
+                <p class="text-[11px] text-slate-500 mb-4">إصابة جميع الأسئلة المشكوك فيها</p>
+              </div>
+              <div class="pt-3 border-t border-slate-100 space-y-1.5 text-xs">
+                <div class="flex justify-between"><span class="text-slate-500">العلمي (75%):</span><span id="optSci" class="font-bold text-slate-800">885</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">المهارات (25%):</span><span id="optSkills" class="font-bold text-slate-800">850</span></div>
+              </div>
+            </div>
+
+            <div class="bg-emerald-50/60 rounded-3xl p-5 shadow-md shadow-emerald-900/5 border-2 border-emerald-500 flex flex-col justify-between relative">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-extrabold text-white bg-emerald-600 px-2.5 py-1 rounded-lg">التوقع المنطقي</span>
+                  <span id="midRaw" class="text-[11px] font-bold text-emerald-700">110 / 110 صح</span>
+                </div>
+                <div class="flex items-baseline gap-1.5 my-2">
+                  <span id="midTotal" class="text-3xl font-black text-emerald-800">876</span>
+                  <span class="text-xs font-bold text-emerald-600/80">/ <span class="cap-label">1000</span></span>
+                </div>
+                <p class="text-[11px] text-emerald-800/80 mb-4">إصابة 50% من الأسئلة المشكوك فيها</p>
+              </div>
+              <div class="pt-3 border-t border-emerald-200/70 space-y-1.5 text-xs">
+                <div class="flex justify-between"><span class="text-emerald-900/70">العلمي (75%):</span><span id="midSci" class="font-extrabold text-emerald-900">885</span></div>
+                <div class="flex justify-between"><span class="text-emerald-900/70">المهارات (25%):</span><span id="midSkills" class="font-extrabold text-emerald-900">850</span></div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-lg">أسوأ احتمال</span>
+                  <span id="worstRaw" class="text-[11px] font-bold text-slate-400">110 / 110 صح</span>
+                </div>
+                <div class="flex items-baseline gap-1.5 my-2">
+                  <span id="worstTotal" class="text-3xl font-black text-slate-900">876</span>
+                  <span class="text-xs font-bold text-slate-400">/ <span class="cap-label">1000</span></span>
+                </div>
+                <p class="text-[11px] text-slate-500 mb-4">الخطأ في جميع الأسئلة المشكوك فيها</p>
+              </div>
+              <div class="pt-3 border-t border-slate-100 space-y-1.5 text-xs">
+                <div class="flex justify-between"><span class="text-slate-500">العلمي (75%):</span><span id="worstSci" class="font-bold text-slate-800">885</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">المهارات (25%):</span><span id="worstSkills" class="font-bold text-slate-800">850</span></div>
+              </div>
+            </div>
           </div>
-          <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 text-center">
-            <div class="text-xs text-emerald-100 font-medium mb-1">قسم المهارات (25%)</div>
-            <div id="heroSkillsScore" class="text-2xl sm:text-3xl font-extrabold">850</div>
-            <div id="heroSkillsRaw" class="text-[11px] text-emerald-200 mt-0.5">22 / 22 صح</div>
-          </div>
-          <div class="col-span-2 sm:col-span-1 bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-center flex flex-col justify-center">
-            <div class="text-xs text-emerald-100 font-medium mb-1">معيار الانحراف (Z)</div>
-            <div id="heroZScore" class="text-2xl sm:text-3xl font-extrabold" dir="ltr">+2.26σ</div>
-            <div class="text-[11px] text-emerald-200 mt-0.5">فوق متوسط الطلاب</div>
+
+          <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+              <div>
+                <h3 class="text-base sm:text-lg font-extrabold text-slate-900">منحنى التوزيع الطبيعي (Bell Curve)</h3>
+                <p class="text-xs text-slate-500">موقعك المتوقع مقارنةً بمتوسط بقية المختبرين</p>
+              </div>
+              <div class="flex items-center gap-3 text-xs font-bold">
+                <span class="flex items-center gap-1.5 text-slate-500">
+                  <span class="w-3 h-0.5 bg-slate-400 inline-block border-t border-dashed border-slate-500"></span>
+                  متوسط الطلاب
+                </span>
+                <span class="flex items-center gap-1.5 text-emerald-700">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block"></span>
+                  موقعك المتوقع
+                </span>
+              </div>
+            </div>
+
+            <div id="canvasContainer" class="w-full h-64 sm:h-72 relative rounded-2xl bg-slate-50/70 border border-slate-100 overflow-hidden">
+              <canvas id="bellCurveCanvas" class="w-full h-full block"></canvas>
+            </div>
+
+            <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-3 text-center bg-slate-50 rounded-2xl p-3 border border-slate-100">
+              <div>
+                <span class="text-[11px] text-slate-500 block">متوسط الطلاب (صح)</span>
+                <span id="meanCorrectInfo" class="text-sm font-extrabold text-slate-800">85 / 110</span>
+              </div>
+              <div>
+                <span class="text-[11px] text-slate-500 block">إجاباتك المرجّحة (صح)</span>
+                <span id="userCorrectInfo" class="text-sm font-extrabold text-emerald-700">110 / 110</span>
+              </div>
+              <div class="col-span-2 sm:col-span-1">
+                <span class="text-[11px] text-slate-500 block">الفارق فوق المتوسط</span>
+                <span id="diffCorrectInfo" class="text-sm font-extrabold text-teal-700">+25 سؤالاً</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- الشبكة الرئيسية: المدخلات يميناً والنتائج والمنحنى يساراً على الشاشات الكبيرة -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-
-      <!-- عمود المدخلات (5 أعمدة) -->
-      <div class="lg:col-span-5 space-y-5">
-
-        <!-- بطاقة القسم العلمي -->
-        <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-5">
-          <div class="flex items-center justify-between border-b border-slate-100 pb-3.5">
-            <div>
-              <h2 class="text-base sm:text-lg font-extrabold text-slate-900">القسم العلمي</h2>
-              <p class="text-xs text-slate-500">88 سؤالاً • الوزن النسبي 75%</p>
-            </div>
-            <span id="sciRemainingBadge" class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200/70">
-              88 مؤكدة صح
-            </span>
-          </div>
-
-          <!-- الأخطاء المؤكدة علمي -->
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <label for="sciConfirmedRange" class="text-sm font-bold text-slate-700">الأخطاء المؤكدة</label>
-              <input id="sciConfirmedNum" type="number" min="0" max="88" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-            </div>
-            <input id="sciConfirmedRange" type="range" min="0" max="88" value="0" class="w-full" />
-          </div>
-
-          <!-- الأسئلة المشكوك فيها علمي -->
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <label for="sciUncertainRange" class="text-sm font-bold text-slate-700">الأسئلة المشكوك فيها</label>
-              <input id="sciUncertainNum" type="number" min="0" max="88" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500" />
-            </div>
-            <input id="sciUncertainRange" type="range" min="0" max="88" value="0" class="w-full amber-thumb" />
-          </div>
+      <!-- شرح سريع للمصطلحات -->
+      <details class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200/80 text-sm text-slate-600 cursor-pointer">
+        <summary class="font-extrabold text-slate-800 select-none">
+          كيف تعمل الحاسبة؟ وما معنى الانحراف المعياري و (Z)؟
+        </summary>
+        <div class="mt-3 pt-3 border-t border-slate-100 space-y-2 leading-relaxed">
+          <p><strong>• الانحراف المعياري:</strong> يقيس مدى تقارب درجات الطلاب؛ كلما كان "قوياً" يعني أن أغلب الطلاب متقاربون جداً حول المتوسط، فتفرق معك كل إجابة صح بشكل أكبر.</p>
+          <p><strong>• معيار (Z):</strong> يوضح كم تبعد درجتك عن متوسط بقية المختبرين (كلما زاد الرقم الموجب كنت ضمن نسبة أعلى من الطلاب).</p>
         </div>
-
-        <!-- بطاقة قسم المهارات -->
-        <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-5">
-          <div class="flex items-center justify-between border-b border-slate-100 pb-3.5">
-            <div>
-              <h2 class="text-base sm:text-lg font-extrabold text-slate-900">قسم المهارات</h2>
-              <p class="text-xs text-slate-500">22 سؤالاً • الوزن النسبي 25%</p>
-            </div>
-            <span id="skillsRemainingBadge" class="px-3 py-1 rounded-xl bg-teal-50 text-teal-700 text-xs font-bold border border-teal-200/70">
-              22 مؤكدة صح
-            </span>
-          </div>
-
-          <!-- الأخطاء المؤكدة مهارات -->
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <label for="skillsConfirmedRange" class="text-sm font-bold text-slate-700">الأخطاء المؤكدة</label>
-              <input id="skillsConfirmedNum" type="number" min="0" max="22" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-            </div>
-            <input id="skillsConfirmedRange" type="range" min="0" max="22" value="0" class="w-full" />
-          </div>
-
-          <!-- الأسئلة المشكوك فيها مهارات -->
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <label for="skillsUncertainRange" class="text-sm font-bold text-slate-700">الأسئلة المشكوك فيها</label>
-              <input id="skillsUncertainNum" type="number" min="0" max="22" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500" />
-            </div>
-            <input id="skillsUncertainRange" type="range" min="0" max="22" value="0" class="w-full amber-thumb" />
-          </div>
-        </div>
-
-        <!-- بطاقة إعدادات المنحنى والانحراف المعياري -->
-        <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-5">
-          <div class="border-b border-slate-100 pb-3.5">
-            <h2 class="text-base sm:text-lg font-extrabold text-slate-900">إعدادات المنحنى والانحراف المعياري</h2>
-            <p class="text-xs text-slate-500">تحكّم بمستوى صعوبة النموذج وقوة الانحراف</p>
-          </div>
-
-          <!-- أزرار مستوى الصعوبة السريعة -->
-          <div class="space-y-2">
-            <span class="text-xs font-bold text-slate-500 block">مستوى صعوبة الاختبار (تقدير متوسط أخطاء الطلاب)</span>
-            <div class="grid grid-cols-3 gap-2">
-              <button type="button" data-preset="20" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">
-                سهل (~20)
-              </button>
-              <button type="button" data-preset="28" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">
-                متوسط (~28)
-              </button>
-              <button type="button" data-preset="38" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">
-                صعب (~38)
-              </button>
-            </div>
-          </div>
-
-          <!-- شريط متوسط أخطاء الطلاب -->
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <label for="avgMistakesRange" class="text-sm font-bold text-slate-700">متوسط أخطاء الطلاب في الاختبار</label>
-              <span class="text-sm font-extrabold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-xl border border-teal-200/70">
-                <span id="avgMistakesVal">25</span> خطأ
-              </span>
-            </div>
-            <input id="avgMistakesRange" type="range" min="10" max="50" value="25" class="w-full teal-thumb" />
-            <div class="flex justify-between text-[11px] text-slate-400 font-medium">
-              <span>10 أخطاء (سهل جداً)</span>
-              <span>50 خطأ (صعب جداً)</span>
-            </div>
-          </div>
-
-          <!-- قوة الانحراف المعياري -->
-          <div class="space-y-2">
-            <span class="text-sm font-bold text-slate-700 block">قوة الانحراف المعياري</span>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              <button type="button" data-sd="weak" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-50 text-slate-700 transition text-center">
-                انحراف ضعيف
-                <span class="block text-[10px] font-normal opacity-80 mt-0.5">تشتت عالٍ</span>
-              </button>
-              <button type="button" data-sd="medium" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition text-center">
-                انحراف متوسط
-                <span class="block text-[10px] font-normal opacity-90 mt-0.5">توزيع معتدل</span>
-              </button>
-              <button type="button" data-sd="strong" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-50 text-slate-700 transition text-center">
-                انحراف قوي
-                <span class="block text-[10px] font-normal opacity-80 mt-0.5">تكدس حول المتوسط</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- مفتاح سقف الدرجات -->
-          <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-3">
-            <div>
-              <span class="text-sm font-bold text-slate-800 block">سقف المقياس</span>
-              <span id="capDesc" class="text-xs text-slate-500">المقياس الرسمي الكامل (1000)</span>
-            </div>
-            <div class="inline-flex p-1 rounded-xl bg-slate-100 border border-slate-200">
-              <button type="button" id="cap1000Btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-emerald-700 shadow-sm transition">
-                1000 رسمي
-              </button>
-              <button type="button" id="cap950Btn" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition">
-                950 تحفظي
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- عمود النتائج والمنحنى (7 أعمدة) -->
-      <div class="lg:col-span-7 space-y-6">
-
-        <!-- بطاقات المقارنة للسيناريوهات الثلاثة -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <!-- السيناريو المتفائل -->
-          <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-bold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-lg">المتفائل</span>
-                <span id="optRaw" class="text-[11px] font-bold text-slate-400">110 / 110 صح</span>
-              </div>
-              <div class="flex items-baseline gap-1.5 my-2">
-                <span id="optTotal" class="text-3xl font-black text-slate-900">876</span>
-                <span class="text-xs font-bold text-slate-400">/ <span class="cap-label">1000</span></span>
-              </div>
-              <p class="text-[11px] text-slate-500 mb-4">إصابة جميع الأسئلة المشكوك فيها</p>
-            </div>
-            <div class="pt-3 border-t border-slate-100 space-y-1.5 text-xs">
-              <div class="flex justify-between">
-                <span class="text-slate-500">العلمي (75%):</span>
-                <span id="optSci" class="font-bold text-slate-800">885</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-slate-500">المهارات (25%):</span>
-                <span id="optSkills" class="font-bold text-slate-800">850</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- التوقع المنطقي (مميز) -->
-          <div class="bg-emerald-50/60 rounded-3xl p-5 shadow-md shadow-emerald-900/5 border-2 border-emerald-500 flex flex-col justify-between relative">
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-extrabold text-white bg-emerald-600 px-2.5 py-1 rounded-lg">التوقع المنطقي</span>
-                <span id="midRaw" class="text-[11px] font-bold text-emerald-700">110 / 110 صح</span>
-              </div>
-              <div class="flex items-baseline gap-1.5 my-2">
-                <span id="midTotal" class="text-3xl font-black text-emerald-800">876</span>
-                <span class="text-xs font-bold text-emerald-600/80">/ <span class="cap-label">1000</span></span>
-              </div>
-              <p class="text-[11px] text-emerald-800/80 mb-4">إصابة 50% من الأسئلة المشكوك فيها</p>
-            </div>
-            <div class="pt-3 border-t border-emerald-200/70 space-y-1.5 text-xs">
-              <div class="flex justify-between">
-                <span class="text-emerald-900/70">العلمي (75%):</span>
-                <span id="midSci" class="font-extrabold text-emerald-900">885</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-emerald-900/70">المهارات (25%):</span>
-                <span id="midSkills" class="font-extrabold text-emerald-900">850</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- أسوأ احتمال -->
-          <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-lg">أسوأ احتمال</span>
-                <span id="worstRaw" class="text-[11px] font-bold text-slate-400">110 / 110 صح</span>
-              </div>
-              <div class="flex items-baseline gap-1.5 my-2">
-                <span id="worstTotal" class="text-3xl font-black text-slate-900">876</span>
-                <span class="text-xs font-bold text-slate-400">/ <span class="cap-label">1000</span></span>
-              </div>
-              <p class="text-[11px] text-slate-500 mb-4">الخطأ في جميع الأسئلة المشكوك فيها</p>
-            </div>
-            <div class="pt-3 border-t border-slate-100 space-y-1.5 text-xs">
-              <div class="flex justify-between">
-                <span class="text-slate-500">العلمي (75%):</span>
-                <span id="worstSci" class="font-bold text-slate-800">885</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-slate-500">المهارات (25%):</span>
-                <span id="worstSkills" class="font-bold text-slate-800">850</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- بطاقة الرسم البياني لمنحنى التوزيع الطبيعي -->
-        <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80">
-          <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
-            <div>
-              <h3 class="text-base sm:text-lg font-extrabold text-slate-900">منحنى التوزيع الطبيعي (Bell Curve)</h3>
-              <p class="text-xs text-slate-500">موقعك المتوقع مقارنةً بمتوسط بقية المختبرين</p>
-            </div>
-            <div class="flex items-center gap-3 text-xs font-bold">
-              <span class="flex items-center gap-1.5 text-slate-500">
-                <span class="w-3 h-0.5 bg-slate-400 inline-block border-t border-dashed border-slate-500"></span>
-                متوسط الطلاب
-              </span>
-              <span class="flex items-center gap-1.5 text-emerald-700">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block"></span>
-                موقعك المتوقع
-              </span>
-            </div>
-          </div>
-
-          <!-- حاوية الـ Canvas المتجاوبة -->
-          <div id="canvasContainer" class="w-full h-64 sm:h-72 relative rounded-2xl bg-slate-50/70 border border-slate-100 overflow-hidden">
-            <canvas id="bellCurveCanvas" class="w-full h-full block"></canvas>
-          </div>
-
-          <!-- شريط معلومات إضافية أسفل المنحنى -->
-          <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-3 text-center bg-slate-50 rounded-2xl p-3 border border-slate-100">
-            <div>
-              <span class="text-[11px] text-slate-500 block">متوسط الطلاب (صح)</span>
-              <span id="meanCorrectInfo" class="text-sm font-extrabold text-slate-800">85 / 110</span>
-            </div>
-            <div>
-              <span class="text-[11px] text-slate-500 block">إجاباتك المرجّحة (صح)</span>
-              <span id="userCorrectInfo" class="text-sm font-extrabold text-emerald-700">110 / 110</span>
-            </div>
-            <div class="col-span-2 sm:col-span-1">
-              <span class="text-[11px] text-slate-500 block">الفارق فوق المتوسط</span>
-              <span id="diffCorrectInfo" class="text-sm font-extrabold text-teal-700">+25 سؤالاً</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
+      </details>
     </div>
 
-    <!-- شرح سريع للمصطلحات -->
-    <details class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200/80 text-sm text-slate-600 cursor-pointer">
-      <summary class="font-extrabold text-slate-800 select-none">
-        كيف تعمل الحاسبة؟ وما معنى الانحراف المعياري و (Z)؟
-      </summary>
-      <div class="mt-3 pt-3 border-t border-slate-100 space-y-2 leading-relaxed">
-        <p><strong>• الانحراف المعياري:</strong> يقيس مدى تقارب درجات الطلاب؛ كلما كان "قوياً" يعني أن أغلب الطلاب متقاربون جداً حول المتوسط، فتفرق معك كل إجابة صح بشكل أكبر.</p>
-        <p><strong>• معيار (Z):</strong> يوضح كم تبعد درجتك عن متوسط بقية المختبرين (كلما زاد الرقم الموجب كنت ضمن نسبة أعلى من الطلاب).</p>
-      </div>
-    </details>
+    <!-- ==================== الخانة الثانية: مولد الأسئلة والتدريب ==================== -->
+    <div id="quizSection" class="hidden max-w-3xl mx-auto space-y-6">
 
+      <!-- شاشة إعدادات التدريب -->
+      <div id="quizSetupCard" class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80 space-y-6">
+        <div class="border-b border-slate-100 pb-4">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70 mb-2">
+            ⚡ تدريب تفاعلي فوري
+          </span>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900">مولّد أسئلة التحصيلي المبكر</h2>
+          <p class="text-sm text-slate-500 mt-1">اختر القسم وعدد الأسئلة وابدأ التدريب مع التصحيح والشرح الفوري.</p>
+        </div>
+
+        <!-- اختيار القسم -->
+        <div class="space-y-2.5">
+          <label class="text-sm font-extrabold text-slate-800 block">1. اختر القسم</label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <button type="button" data-qsection="all" class="q-sec-btn py-3 px-4 rounded-2xl text-sm font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition">
+              الكل (شامل)
+            </button>
+            <button type="button" data-qsection="skills" class="q-sec-btn py-3 px-4 rounded-2xl text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">
+              قسم المهارات
+            </button>
+            <button type="button" data-qsection="sci" class="q-sec-btn py-3 px-4 rounded-2xl text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">
+              القسم العلمي
+            </button>
+          </div>
+        </div>
+
+        <!-- اختيار عدد الأسئلة -->
+        <div class="space-y-2.5">
+          <label class="text-sm font-extrabold text-slate-800 block">2. عدد الأسئلة في الجلسة</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <button type="button" data-qcount="5" class="q-cnt-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition">5 أسئلة (سريع)</button>
+            <button type="button" data-qcount="10" class="q-cnt-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">10 أسئلة</button>
+            <button type="button" data-qcount="22" class="q-cnt-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">22 سؤالاً</button>
+            <button type="button" data-qcount="999" class="q-cnt-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">كل المتاح</button>
+          </div>
+        </div>
+
+        <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-100">
+          <p id="availableQuestionsHint" class="text-xs font-bold text-slate-500">الأسئلة المتاحة حالياً: 7 أسئلة</p>
+          <button id="startQuizBtn" type="button" class="w-full sm:w-auto px-8 py-3 rounded-2xl text-sm sm:text-base font-extrabold text-white bg-gradient-to-l from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-md shadow-emerald-600/20 transition cursor-pointer">
+            ابدأ التدريب الآن ←
+          </button>
+        </div>
+      </div>
+
+      <!-- شاشة السؤال النشط -->
+      <div id="quizPlayCard" class="hidden bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80 space-y-6">
+        <div class="flex items-center justify-between gap-2">
+          <span id="quizSubjectBadge" class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70">المهارات</span>
+          <span id="quizProgressText" class="text-xs font-bold text-slate-500">سؤال 1 من 5</span>
+        </div>
+
+        <!-- شريط التقدم -->
+        <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+          <div id="quizProgressBar" class="h-full bg-emerald-600 rounded-full transition-all duration-300" style="width: 20%"></div>
+        </div>
+
+        <!-- نص السؤال -->
+        <h3 id="quizQuestionText" class="text-lg sm:text-xl font-extrabold text-slate-900 leading-relaxed"></h3>
+
+        <!-- الخيارات -->
+        <div id="quizOptionsList" class="space-y-3"></div>
+
+        <!-- صندوق الشرح بعد الإجابة -->
+        <div id="quizExplanationBox" class="hidden rounded-2xl p-4 bg-slate-50 border border-slate-200 text-sm text-slate-700 leading-relaxed">
+          <strong class="text-emerald-800 block mb-1">💡 التوضيح:</strong>
+          <span id="quizExplanationText"></span>
+        </div>
+
+        <!-- أزرار التحكم -->
+        <div class="pt-2 flex items-center justify-between gap-3 border-t border-slate-100">
+          <button id="quitQuizBtn" type="button" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition">
+            إنهاء التدريب
+          </button>
+          <button id="nextQuestionBtn" type="button" class="hidden px-6 py-2.5 rounded-xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition">
+            السؤال التالي ←
+          </button>
+        </div>
+      </div>
+
+      <!-- شاشة النتيجة النهائية للتدريب -->
+      <div id="quizResultCard" class="hidden bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80 text-center space-y-5">
+        <div class="w-16 h-16 mx-auto rounded-3xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-3xl border border-emerald-200/70">
+          🎯
+        </div>
+        <div>
+          <h3 class="text-2xl font-black text-slate-900">أحسنت! أنهيت جولة التدريب</h3>
+          <p id="quizResultSubtitle" class="text-sm text-slate-500 mt-1"></p>
+        </div>
+        <div class="inline-flex items-baseline gap-2 px-6 py-3 rounded-2xl bg-emerald-50 border border-emerald-200">
+          <span id="quizScoreNum" class="text-4xl font-black text-emerald-700">0</span>
+          <span class="text-base font-bold text-emerald-600/80">من <span id="quizScoreTotal">0</span></span>
+        </div>
+        <div class="pt-3 flex flex-wrap items-center justify-center gap-3">
+          <button id="retryQuizBtn" type="button" class="px-6 py-3 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition">
+            جولة جديدة بنفس الإعدادات
+          </button>
+          <button id="backToSetupBtn" type="button" class="px-6 py-3 rounded-2xl text-sm font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition">
+            تغيير القسم والعدد
+          </button>
+        </div>
+      </div>
+
+    </div>
   </main>
 
   <!-- التذييل وتنويه إخلاء المسؤولية -->
@@ -454,7 +531,7 @@
     </div>
   </footer>
 
-  <!-- المنطق البرمجي وربط الواجهة بملف الحسابات calc.js -->
+  <!-- المنطق البرمجي: ربط الحاسبة (calc.js) ومولّد الأسئلة (questions.js) -->
   <script type="module">
     import {
       TOTAL_SKILLS,
@@ -465,11 +542,38 @@
       clamp,
       calculateScenario
     } from './calc.js';
+    import { QUESTIONS } from './questions.js';
 
-    // حالة التطبيق (نسخة من الإعدادات الافتراضية)
+    // ==================== التنقل بين الخانتين ====================
+    const tabCalcBtn = document.getElementById('tabCalcBtn');
+    const tabQuizBtn = document.getElementById('tabQuizBtn');
+    const calcSection = document.getElementById('calcSection');
+    const quizSection = document.getElementById('quizSection');
+    const calcHeaderActions = document.getElementById('calcHeaderActions');
+
+    function switchTab(tab) {
+      if (tab === 'calc') {
+        calcSection.classList.remove('hidden');
+        quizSection.classList.add('hidden');
+        calcHeaderActions.classList.remove('hidden');
+        tabCalcBtn.className = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-emerald-700 shadow-sm transition flex items-center justify-center gap-2';
+        tabQuizBtn.className = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2';
+        updateAll();
+      } else {
+        calcSection.classList.add('hidden');
+        quizSection.classList.remove('hidden');
+        calcHeaderActions.classList.add('hidden');
+        tabQuizBtn.className = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-emerald-700 shadow-sm transition flex items-center justify-center gap-2';
+        tabCalcBtn.className = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2';
+      }
+    }
+
+    tabCalcBtn.addEventListener('click', () => switchTab('calc'));
+    tabQuizBtn.addEventListener('click', () => switchTab('quiz'));
+
+    // ==================== منطق الحاسبة ====================
     const state = { ...DEFAULT_STATE };
 
-    // عناصر DOM
     const el = {
       sciConfirmedRange: document.getElementById('sciConfirmedRange'),
       sciConfirmedNum: document.getElementById('sciConfirmedNum'),
@@ -527,14 +631,11 @@
     const sdBtns = document.querySelectorAll('.sd-btn');
     const capLabels = document.querySelectorAll('.cap-label');
 
-    // تنسيق الأرقام العشرية النظيف (إزالة .0)
     function fmtNum(n) {
       return Number.isInteger(n) ? n.toString() : n.toFixed(1);
     }
 
-    // تحديث واجهة المستخدم والحسابات
     function updateAll() {
-      // مزامنة قيم المدخلات
       el.sciConfirmedRange.value = state.sciConfirmed;
       el.sciConfirmedNum.value = state.sciConfirmed;
       el.sciUncertainRange.value = state.sciUncertain;
@@ -548,18 +649,15 @@
       el.avgMistakesRange.value = state.avgMistakes;
       el.avgMistakesVal.textContent = state.avgMistakes;
 
-      // شارات الإجابات المؤكدة
       const sciSureCorrect = TOTAL_SCI - state.sciConfirmed - state.sciUncertain;
       const skillsSureCorrect = TOTAL_SKILLS - state.skillsConfirmed - state.skillsUncertain;
       el.sciRemainingBadge.textContent = `${sciSureCorrect} مؤكدة صح`;
       el.skillsRemainingBadge.textContent = `${skillsSureCorrect} مؤكدة صح`;
 
-      // حساب السيناريوهات الثلاثة عبر calc.js
       const opt = calculateScenario(state, 0);
       const mid = calculateScenario(state, 0.5);
       const worst = calculateScenario(state, 1);
 
-      // تحديث البانر الرئيسي
       el.heroTotalScore.textContent = mid.totalScore;
       el.heroMaxCap.textContent = state.maxCap;
       el.heroSciScore.textContent = mid.sciScore;
@@ -570,7 +668,6 @@
       const zSign = mid.zWeighted >= 0 ? '+' : '';
       el.heroZScore.textContent = `${zSign}${mid.zWeighted.toFixed(2)}σ`;
 
-      // حساب المئيني (أعلى X% من المختبرين)
       const cdf = normalCDF(mid.zWeighted);
       const topPercent = (1 - cdf) * 100;
       let percentileLabel = '';
@@ -583,7 +680,6 @@
       }
       el.heroPercentileText.textContent = percentileLabel;
 
-      // تحديث البطاقات الثلاث
       el.optTotal.textContent = opt.totalScore;
       el.optSci.textContent = opt.sciScore;
       el.optSkills.textContent = opt.skillsScore;
@@ -601,18 +697,15 @@
 
       capLabels.forEach(lbl => lbl.textContent = state.maxCap);
 
-      // معلومات أسفل المنحنى
       const meanCorrectTotal = 110 - state.avgMistakes;
       const diff = mid.totalCorrect - meanCorrectTotal;
       el.meanCorrectInfo.textContent = `${fmtNum(meanCorrectTotal)} / 110`;
       el.userCorrectInfo.textContent = `${fmtNum(mid.totalCorrect)} / 110`;
       el.diffCorrectInfo.textContent = `${diff >= 0 ? '+' : ''}${fmtNum(diff)} سؤالاً`;
 
-      // رسم المنحنى
       drawBellCurve(mid.zWeighted);
     }
 
-    // رسم منحنى التوزيع الطبيعي على HTML5 Canvas
     function drawBellCurve(userZ) {
       const canvas = el.canvas;
       const container = el.canvasContainer;
@@ -628,16 +721,12 @@
       ctx.scale(dpr, dpr);
       ctx.clearRect(0, 0, width, height);
 
-      const padLeft = 28;
-      const padRight = 28;
-      const padTop = 44;
-      const padBottom = 38;
+      const padLeft = 28, padRight = 28, padTop = 44, padBottom = 38;
       const plotW = width - padLeft - padRight;
       const plotH = height - padTop - padBottom;
       const baseY = height - padBottom;
 
-      const minX = -3.8;
-      const maxX = 3.8;
+      const minX = -3.8, maxX = 3.8;
       const spread = (SD_CONFIG[state.sdMode] || SD_CONFIG.medium).visualSpread;
 
       const xToPx = (x) => padLeft + ((x - minX) / (maxX - minX)) * plotW;
@@ -649,12 +738,10 @@
       const userVisualX = clamp(userZ * spread, minX + 0.15, maxX - 0.15);
       const userPxX = xToPx(userVisualX);
 
-      // 1. تظليل المساحة أسفل المنحنى حتى موقع المستخدم
       ctx.beginPath();
       ctx.moveTo(xToPx(minX), baseY);
-      const steps = 160;
-      for (let i = 0; i <= steps; i++) {
-        const x = minX + (i / steps) * (userVisualX - minX);
+      for (let i = 0; i <= 160; i++) {
+        const x = minX + (i / 160) * (userVisualX - minX);
         ctx.lineTo(xToPx(x), yToPx(pdf(x)));
       }
       ctx.lineTo(userPxX, baseY);
@@ -665,20 +752,16 @@
       ctx.fillStyle = grad;
       ctx.fill();
 
-      // 2. رسم خط المنحنى الكامل
       ctx.beginPath();
       for (let i = 0; i <= 200; i++) {
         const x = minX + (i / 200) * (maxX - minX);
-        const px = xToPx(x);
-        const py = yToPx(pdf(x));
-        if (i === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
+        const px = xToPx(x), py = yToPx(pdf(x));
+        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
       }
       ctx.strokeStyle = '#0d9488';
       ctx.lineWidth = 2.8;
       ctx.stroke();
 
-      // 3. خط المحور الأفقي السفلي
       ctx.beginPath();
       ctx.moveTo(padLeft, baseY);
       ctx.lineTo(width - padRight, baseY);
@@ -686,13 +769,11 @@
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      // 4. خط متوسط الطلاب (متقطع في المنتصف)
       const meanPxX = xToPx(0);
-      const meanTopY = yToPx(pdf(0));
       ctx.save();
       ctx.beginPath();
       ctx.setLineDash([5, 5]);
-      ctx.moveTo(meanPxX, meanTopY);
+      ctx.moveTo(meanPxX, yToPx(pdf(0)));
       ctx.lineTo(meanPxX, baseY);
       ctx.strokeStyle = '#94a3b8';
       ctx.lineWidth = 1.5;
@@ -704,7 +785,6 @@
       ctx.textAlign = 'center';
       ctx.fillText('متوسط الطلاب (0σ)', meanPxX, baseY + 20);
 
-      // 5. خط ومؤشر موقع المستخدم
       const userPxY = yToPx(pdf(userVisualX));
       ctx.beginPath();
       ctx.moveTo(userPxX, userPxY);
@@ -726,22 +806,16 @@
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // شارة Z-score فوق مؤشر المستخدم
       const zText = `موقعك (${userZ >= 0 ? '+' : ''}${userZ.toFixed(2)}σ)`;
       ctx.font = '800 12px Tajawal, sans-serif';
-      const textW = ctx.measureText(zText).width;
-      const badgeW = textW + 18;
+      const badgeW = ctx.measureText(zText).width + 18;
       const badgeH = 26;
-      let badgeX = userPxX - badgeW / 2;
-      badgeX = clamp(badgeX, 8, width - badgeW - 8);
+      const badgeX = clamp(userPxX - badgeW / 2, 8, width - badgeW - 8);
       const badgeY = Math.max(8, userPxY - badgeH - 12);
 
       ctx.beginPath();
-      if (typeof ctx.roundRect === 'function') {
-        ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 8);
-      } else {
-        ctx.rect(badgeX, badgeY, badgeW, badgeH);
-      }
+      if (typeof ctx.roundRect === 'function') ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 8);
+      else ctx.rect(badgeX, badgeY, badgeW, badgeH);
       ctx.fillStyle = '#047857';
       ctx.fill();
 
@@ -751,7 +825,6 @@
       ctx.fillText(zText, badgeX + badgeW / 2, badgeY + badgeH / 2 + 1);
     }
 
-    // معالجة تحديث أخطاء القسم مع ضمان عدم تجاوز المجموع لعدد الأسئلة
     function setSectionValues(section, type, rawVal) {
       const maxTotal = section === 'sci' ? TOTAL_SCI : TOTAL_SKILLS;
       const val = clamp(parseInt(rawVal, 10) || 0, 0, maxTotal);
@@ -759,44 +832,33 @@
       if (section === 'sci') {
         if (type === 'confirmed') {
           state.sciConfirmed = val;
-          if (state.sciConfirmed + state.sciUncertain > TOTAL_SCI) {
-            state.sciUncertain = TOTAL_SCI - state.sciConfirmed;
-          }
+          if (state.sciConfirmed + state.sciUncertain > TOTAL_SCI) state.sciUncertain = TOTAL_SCI - state.sciConfirmed;
         } else {
           state.sciUncertain = val;
-          if (state.sciConfirmed + state.sciUncertain > TOTAL_SCI) {
-            state.sciConfirmed = TOTAL_SCI - state.sciUncertain;
-          }
+          if (state.sciConfirmed + state.sciUncertain > TOTAL_SCI) state.sciConfirmed = TOTAL_SCI - state.sciUncertain;
         }
       } else {
         if (type === 'confirmed') {
           state.skillsConfirmed = val;
-          if (state.skillsConfirmed + state.skillsUncertain > TOTAL_SKILLS) {
-            state.skillsUncertain = TOTAL_SKILLS - state.skillsConfirmed;
-          }
+          if (state.skillsConfirmed + state.skillsUncertain > TOTAL_SKILLS) state.skillsUncertain = TOTAL_SKILLS - state.skillsConfirmed;
         } else {
           state.skillsUncertain = val;
-          if (state.skillsConfirmed + state.skillsUncertain > TOTAL_SKILLS) {
-            state.skillsConfirmed = TOTAL_SKILLS - state.skillsUncertain;
-          }
+          if (state.skillsConfirmed + state.skillsUncertain > TOTAL_SKILLS) state.skillsConfirmed = TOTAL_SKILLS - state.skillsUncertain;
         }
       }
       updateAll();
     }
 
-    // ربط أحداث القسم العلمي
     el.sciConfirmedRange.addEventListener('input', (e) => setSectionValues('sci', 'confirmed', e.target.value));
     el.sciConfirmedNum.addEventListener('input', (e) => setSectionValues('sci', 'confirmed', e.target.value));
     el.sciUncertainRange.addEventListener('input', (e) => setSectionValues('sci', 'uncertain', e.target.value));
     el.sciUncertainNum.addEventListener('input', (e) => setSectionValues('sci', 'uncertain', e.target.value));
 
-    // ربط أحداث قسم المهارات
     el.skillsConfirmedRange.addEventListener('input', (e) => setSectionValues('skills', 'confirmed', e.target.value));
     el.skillsConfirmedNum.addEventListener('input', (e) => setSectionValues('skills', 'confirmed', e.target.value));
     el.skillsUncertainRange.addEventListener('input', (e) => setSectionValues('skills', 'uncertain', e.target.value));
     el.skillsUncertainNum.addEventListener('input', (e) => setSectionValues('skills', 'uncertain', e.target.value));
 
-    // ربط متوسط أخطاء الطلاب
     el.avgMistakesRange.addEventListener('input', (e) => {
       state.avgMistakes = parseInt(e.target.value, 10);
       updatePresetStyles();
@@ -828,21 +890,17 @@
       });
     }
 
-    presetBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        state.avgMistakes = parseInt(btn.dataset.preset, 10);
-        updatePresetStyles();
-        updateAll();
-      });
-    });
+    presetBtns.forEach(btn => btn.addEventListener('click', () => {
+      state.avgMistakes = parseInt(btn.dataset.preset, 10);
+      updatePresetStyles();
+      updateAll();
+    }));
 
-    sdBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        state.sdMode = btn.dataset.sd;
-        updateSdStyles();
-        updateAll();
-      });
-    });
+    sdBtns.forEach(btn => btn.addEventListener('click', () => {
+      state.sdMode = btn.dataset.sd;
+      updateSdStyles();
+      updateAll();
+    }));
 
     function setCap(cap) {
       state.maxCap = cap;
@@ -861,7 +919,6 @@
     el.cap1000Btn.addEventListener('click', () => setCap(1000));
     el.cap950Btn.addEventListener('click', () => setCap(950));
 
-    // زر إعادة التعيين
     el.resetBtn.addEventListener('click', () => {
       Object.assign(state, DEFAULT_STATE);
       updatePresetStyles();
@@ -869,13 +926,13 @@
       setCap(DEFAULT_STATE.maxCap);
     });
 
-    // إعادة رسم المنحنى عند تغيير حجم الشاشة
     window.addEventListener('resize', () => {
-      const mid = calculateScenario(state, 0.5);
-      drawBellCurve(mid.zWeighted);
+      if (!calcSection.classList.contains('hidden')) {
+        const mid = calculateScenario(state, 0.5);
+        drawBellCurve(mid.zWeighted);
+      }
     });
 
-    // زر نسخ ومشاركة النتيجة
     const shareBtn = document.getElementById('shareBtn');
     if (shareBtn) {
       shareBtn.addEventListener('click', () => {
@@ -889,15 +946,176 @@
       });
     }
 
+    // ==================== منطق مولّد الأسئلة والتدريب ====================
+    const quizState = {
+      section: 'all',
+      count: 5,
+      pool: [],
+      currentIndex: 0,
+      score: 0,
+      answered: false
+    };
+
+    const qSecBtns = document.querySelectorAll('.q-sec-btn');
+    const qCntBtns = document.querySelectorAll('.q-cnt-btn');
+    const availableQuestionsHint = document.getElementById('availableQuestionsHint');
+    const quizSetupCard = document.getElementById('quizSetupCard');
+    const quizPlayCard = document.getElementById('quizPlayCard');
+    const quizResultCard = document.getElementById('quizResultCard');
+
+    function getFilteredQuestions() {
+      if (quizState.section === 'all') return [...QUESTIONS];
+      return QUESTIONS.filter(q => q.section === quizState.section);
+    }
+
+    function updateQuizHint() {
+      const total = getFilteredQuestions().length;
+      availableQuestionsHint.textContent = `الأسئلة المتاحة في هذا القسم حالياً: ${total} سؤالاً`;
+    }
+
+    qSecBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        quizState.section = btn.dataset.qsection;
+        qSecBtns.forEach(b => {
+          if (b.dataset.qsection === quizState.section) {
+            b.className = 'q-sec-btn py-3 px-4 rounded-2xl text-sm font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition';
+          } else {
+            b.className = 'q-sec-btn py-3 px-4 rounded-2xl text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition';
+          }
+        });
+        updateQuizHint();
+      });
+    });
+
+    qCntBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        quizState.count = parseInt(btn.dataset.qcount, 10);
+        qCntBtns.forEach(b => {
+          if (parseInt(b.dataset.qcount, 10) === quizState.count) {
+            b.className = 'q-cnt-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition';
+          } else {
+            b.className = 'q-cnt-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition';
+          }
+        });
+      });
+    });
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function startQuiz() {
+      const filtered = shuffle(getFilteredQuestions());
+      if (filtered.length === 0) return;
+      quizState.pool = filtered.slice(0, Math.min(quizState.count, filtered.length));
+      quizState.currentIndex = 0;
+      quizState.score = 0;
+
+      quizSetupCard.classList.add('hidden');
+      quizResultCard.classList.add('hidden');
+      quizPlayCard.classList.remove('hidden');
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = quizState.pool[quizState.currentIndex];
+      quizState.answered = false;
+
+      document.getElementById('quizSubjectBadge').textContent = q.subject;
+      document.getElementById('quizProgressText').textContent = `سؤال ${quizState.currentIndex + 1} من ${quizState.pool.length}`;
+      document.getElementById('quizProgressBar').style.width = `${((quizState.currentIndex + 1) / quizState.pool.length) * 100}%`;
+      document.getElementById('quizQuestionText').textContent = q.question;
+
+      const expBox = document.getElementById('quizExplanationBox');
+      const nextBtn = document.getElementById('nextQuestionBtn');
+      expBox.classList.add('hidden');
+      nextBtn.classList.add('hidden');
+      nextBtn.textContent = quizState.currentIndex === quizState.pool.length - 1 ? 'عرض النتيجة 🎯' : 'السؤال التالي ←';
+
+      const optionsList = document.getElementById('quizOptionsList');
+      optionsList.innerHTML = '';
+      const letters = ['أ', 'ب', 'ج', 'د'];
+
+      q.options.forEach((optText, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'w-full text-right p-4 rounded-2xl border border-slate-200 bg-slate-50/70 hover:border-emerald-400 hover:bg-emerald-50/40 font-bold text-slate-800 transition flex items-center gap-3 cursor-pointer';
+        btn.innerHTML = `<span class="w-7 h-7 rounded-lg bg-white border border-slate-200 text-xs font-extrabold flex items-center justify-center shrink-0 text-slate-600">${letters[idx]}</span><span>${optText}</span>`;
+        btn.addEventListener('click', () => handleAnswer(idx, btn));
+        optionsList.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(selectedIdx, clickedBtn) {
+      if (quizState.answered) return;
+      quizState.answered = true;
+      const q = quizState.pool[quizState.currentIndex];
+      const allBtns = document.getElementById('quizOptionsList').querySelectorAll('button');
+
+      allBtns.forEach((btn, idx) => {
+        btn.disabled = true;
+        btn.classList.remove('hover:border-emerald-400', 'hover:bg-emerald-50/40', 'cursor-pointer');
+        if (idx === q.answer) {
+          btn.className = 'w-full text-right p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 font-extrabold text-emerald-900 flex items-center gap-3';
+        } else if (idx === selectedIdx && selectedIdx !== q.answer) {
+          btn.className = 'w-full text-right p-4 rounded-2xl border-2 border-rose-400 bg-rose-50 font-bold text-rose-800 flex items-center gap-3';
+        } else {
+          btn.className = 'w-full text-right p-4 rounded-2xl border border-slate-200 bg-slate-50/40 font-medium text-slate-400 flex items-center gap-3 opacity-70';
+        }
+      });
+
+      if (selectedIdx === q.answer) quizState.score++;
+
+      if (q.explanation) {
+        document.getElementById('quizExplanationText').textContent = q.explanation;
+        document.getElementById('quizExplanationBox').classList.remove('hidden');
+      }
+      document.getElementById('nextQuestionBtn').classList.remove('hidden');
+    }
+
+    document.getElementById('startQuizBtn').addEventListener('click', startQuiz);
+    document.getElementById('retryQuizBtn').addEventListener('click', startQuiz);
+
+    document.getElementById('nextQuestionBtn').addEventListener('click', () => {
+      if (quizState.currentIndex < quizState.pool.length - 1) {
+        quizState.currentIndex++;
+        renderQuestion();
+      } else {
+        quizPlayCard.classList.add('hidden');
+        quizResultCard.classList.remove('hidden');
+        const total = quizState.pool.length;
+        const pct = Math.round((quizState.score / total) * 100);
+        document.getElementById('quizScoreNum').textContent = quizState.score;
+        document.getElementById('quizScoreTotal').textContent = total;
+        document.getElementById('quizResultSubtitle').textContent = `نسبة إجاباتك الصحيحة: ${pct}%`;
+      }
+    });
+
+    function showSetup() {
+      quizPlayCard.classList.add('hidden');
+      quizResultCard.classList.add('hidden');
+      quizSetupCard.classList.remove('hidden');
+    }
+
+    document.getElementById('quitQuizBtn').addEventListener('click', showSetup);
+    document.getElementById('backToSetupBtn').addEventListener('click', showSetup);
+
     // التشغيل الأولي
     window.addEventListener('load', () => {
       updatePresetStyles();
       updateSdStyles();
       updateAll();
+      updateQuizHint();
     });
     updatePresetStyles();
     updateSdStyles();
     updateAll();
+    updateQuizHint();
   </script>
 </body>
 </html>
