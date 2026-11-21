@@ -528,6 +528,15 @@
     const sdBtns = document.querySelectorAll('.sd-btn');
     const capLabels = document.querySelectorAll('.cap-label');
     const fmtNum = (n) => Number.isInteger(n) ? n.toString() : n.toFixed(1);
+    function formatMathText(str) {
+      if (!str) return '';
+      return String(str).replace(/(\(?-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?\)?|[A-Za-z0-9_+\-=^/×÷±]+(?:\s+[A-Za-z0-9_+\-=^/×÷±]+){0,3})/g, (match) => {
+        if (/[A-Za-z0-9]/.test(match) && (/[(),+\-=^/×÷±]/.test(match) || /\d/.test(match))) {
+          return `<span dir="ltr" class="inline-block font-bold">${match}</span>`;
+        }
+        return match;
+      });
+    }
 
     function updateAll() {
       el.sciConfirmedRange.value = state.sciConfirmed; el.sciConfirmedNum.value = state.sciConfirmed;
@@ -821,7 +830,7 @@
       const total = examState.questions.length;
       document.getElementById('examSubjectBadge').textContent = q.subject;
       document.getElementById('examQNumber').textContent = `سؤال ${examState.currentIdx + 1} من ${total}`;
-      document.getElementById('examQuestionText').textContent = q.question;
+      document.getElementById('examQuestionText').innerHTML = formatMathText(q.question);
       document.getElementById('examWarningMsg').classList.add('hidden');
 
       const list = document.getElementById('examOptionsList');
@@ -836,7 +845,7 @@
         btn.className = isSelected
           ? 'w-full text-right p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50 font-extrabold text-emerald-900 transition flex items-center gap-3 cursor-pointer'
           : 'w-full text-right p-4 rounded-2xl border border-slate-200 bg-slate-50/70 hover:border-emerald-400 hover:bg-emerald-50/30 font-bold text-slate-800 transition flex items-center gap-3 cursor-pointer';
-        btn.innerHTML = `<span class="w-7 h-7 rounded-lg ${isSelected ? 'bg-emerald-600 text-white' : 'bg-white border border-slate-200 text-slate-600'} text-xs font-extrabold flex items-center justify-center shrink-0">${letters[idx]}</span><span>${opt}</span>`;
+        btn.innerHTML = `<span class="w-7 h-7 rounded-lg ${isSelected ? 'bg-emerald-600 text-white' : 'bg-white border border-slate-200 text-slate-600'} text-xs font-extrabold flex items-center justify-center shrink-0">${letters[idx]}</span><span>${formatMathText(opt)}</span>`;
         btn.addEventListener('click', () => {
           examState.answers[examState.currentIdx] = idx;
           renderExamQuestion();
@@ -972,10 +981,10 @@
             <div class="flex items-center justify-between text-xs font-extrabold">
               <span class="text-emerald-700">سؤال #${item.num} • ${item.q.subject}</span>
             </div>
-            <p class="font-extrabold text-slate-900">${item.q.question}</p>
-            <p class="text-xs font-bold text-rose-700">إجابتك: ${item.q.options[item.userAns]}</p>
-            <p class="text-xs font-extrabold text-emerald-700">الإجابة الصحيحة: ${item.q.options[item.q.answer]}</p>
-            <p class="text-xs text-slate-600 bg-white p-2.5 rounded-xl border border-slate-100">💡 ${item.q.explanation}</p>
+            <p class="font-extrabold text-slate-900">${formatMathText(item.q.question)}</p>
+            <p class="text-xs font-bold text-rose-700">إجابتك: ${formatMathText(item.q.options[item.userAns])}</p>
+            <p class="text-xs font-extrabold text-emerald-700">الإجابة الصحيحة: ${formatMathText(item.q.options[item.q.answer])}</p>
+            <p class="text-xs text-slate-600 bg-white p-2.5 rounded-xl border border-slate-100">💡 ${formatMathText(item.q.explanation)}</p>
           `;
           reviewList.appendChild(div);
         });
