@@ -1324,7 +1324,7 @@
       document.getElementById('resZScore').textContent = `${calcRes.zWeighted >= 0 ? '+' : ''}${calcRes.zWeighted.toFixed(2)}σ`;
 
       document.getElementById('resModeDesc').textContent = examState.scoreMode === 'default'
-        ? 'محسوبة بنظام 3PL-IRT (EAP): ترجيح كل سؤال حسب صعوبته الفعلية مع حماية ضد تحيّز العينة.'
+        ? 'محسوبة بنظام 3PL-IRT (WLE): ترجيح كل سؤال حسب صعوبته الفعلية مع حماية ضد تحيّز العينة.'
         : `مقارنة مباشرة بطلاب الموقع (3PL-IRT): متوسط الأخطاء الفعلي ${avgFromStudents.toFixed(1)} خطأ (من ${attempts} محاولة مكتملة).`;
 
       const calBadge = document.getElementById('resCalibrationBadge');
