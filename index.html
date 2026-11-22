@@ -6,7 +6,7 @@
   <title>منصة التحصيلي المبكر — حاسبة الدرجة + المحاكيات الإلكترونية | Nabthati</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -25,6 +25,7 @@
       background-repeat: repeat;
     }
     body { font-family: 'Tajawal', sans-serif; }
+    .exam-font { font-family: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif; line-height: 1.9; letter-spacing: 0; }
     input[type="range"] { -webkit-appearance: none; appearance: none; height: 8px; border-radius: 9999px; background: #e2e8f0; outline: none; }
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%;
@@ -317,11 +318,14 @@
             <h3 id="examTitle" class="text-base sm:text-lg font-black text-slate-900">المحاكي الأول</h3>
             <p id="examAnsweredCounter" class="text-xs font-bold text-emerald-700">تم حل 0 من 110 سؤالاً</p>
           </div>
-          <div class="flex items-center gap-2">
-            <button id="toggleNavBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="submitMockBtn" type="button" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-teal-700 text-white hover:bg-teal-800 shadow-sm transition cursor-pointer">
+              تسليم الاختبار 🎯
+            </button>
+            <button id="toggleNavBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
               خريطة الأسئلة (110)
             </button>
-            <button id="exitMockBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 hover:bg-rose-100 transition">
+            <button id="exitMockBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 hover:bg-rose-100 transition cursor-pointer">
               خروج
             </button>
           </div>
@@ -350,24 +354,19 @@
             <div id="examProgressBar" class="h-full bg-emerald-600 rounded-full transition-all duration-200" style="width: 1%"></div>
           </div>
 
-          <h3 id="examQuestionText" class="text-lg sm:text-xl font-extrabold text-slate-900 leading-relaxed"></h3>
+          <h3 id="examQuestionText" class="exam-font text-base sm:text-lg font-semibold text-slate-900"></h3>
 
-          <div id="examOptionsList" class="space-y-3"></div>
+          <div id="examOptionsList" class="exam-font space-y-3"></div>
 
           <div id="examWarningMsg" class="hidden rounded-2xl p-3.5 bg-amber-50 border border-amber-200 text-xs sm:text-sm font-bold text-amber-800"></div>
 
-          <div class="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
-            <button id="prevQBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
+            <button id="prevQBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
               → السابق
             </button>
-            <div class="flex items-center gap-2">
-              <button id="nextQBtn" type="button" class="px-6 py-2.5 rounded-xl text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition">
-                التالي ←
-              </button>
-              <button id="submitMockBtn" type="button" class="px-6 py-2.5 rounded-xl text-sm font-extrabold bg-teal-700 text-white hover:bg-teal-800 shadow-sm transition">
-                تسليم المحاكي وحساب الدرجة 🎯
-              </button>
-            </div>
+            <button id="nextQBtn" type="button" class="px-7 py-2.5 rounded-xl text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+              التالي ←
+            </button>
           </div>
         </div>
       </div>
@@ -429,7 +428,7 @@
         <!-- مراجعة الأخطاء -->
         <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-4">
           <h3 class="text-base sm:text-lg font-extrabold text-slate-900">مراجعة الأسئلة التي أخطأت فيها</h3>
-          <div id="mistakesReviewList" class="space-y-3"></div>
+          <div id="mistakesReviewList" class="exam-font space-y-3"></div>
         </div>
       </div>
 
@@ -530,9 +529,9 @@
     const fmtNum = (n) => Number.isInteger(n) ? n.toString() : n.toFixed(1);
     function formatMathText(str) {
       if (!str) return '';
-      return String(str).replace(/(\(?-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?\)?|[A-Za-z0-9_+\-=^/×÷±]+(?:\s+[A-Za-z0-9_+\-=^/×÷±]+){0,3})/g, (match) => {
+      return String(str).replace(/(\(?-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?\)?|[A-Za-z0-9_+\-=^/×÷±²³⁰¹⁴⁵⁶⁷⁸⁹]+(?:\s+[A-Za-z0-9_+\-=^/×÷±²³⁰¹⁴⁵⁶⁷⁸⁹]+){0,2})/g, (match) => {
         if (/[A-Za-z0-9]/.test(match) && (/[(),+\-=^/×÷±]/.test(match) || /\d/.test(match))) {
-          return `<span dir="ltr" class="inline-block font-bold">${match}</span>`;
+          return `<bdi dir="ltr" class="px-0.5 font-semibold">${match}</bdi>`;
         }
         return match;
       });
@@ -717,6 +716,21 @@
       }
     }
 
+    function getLastAttempt(mockId) {
+      try {
+        const raw = localStorage.getItem(`nabthati_mock_last_${mockId}`);
+        return raw ? JSON.parse(raw) : null;
+      } catch {
+        return null;
+      }
+    }
+
+    function saveLastAttempt(mockId, payload) {
+      try {
+        localStorage.setItem(`nabthati_mock_last_${mockId}`, JSON.stringify(payload));
+      } catch {}
+    }
+
     async function saveCompletedAttempt(mockId, totalMistakes, sciMistakes, skillsMistakes) {
       // 1. حفظ محلي فوري
       const stats = getLocalMockStats(mockId);
@@ -741,6 +755,7 @@
       mocksGrid.innerHTML = '';
       MOCKS_CATALOG.forEach(m => {
         const stats = getLocalMockStats(m.id);
+        const lastAttempt = getLastAttempt(m.id);
         const avgText = stats.attempts > 0
           ? `متوسط أخطاء الطلاب: ${(stats.totalMistakesSum / stats.attempts).toFixed(1)} (${stats.attempts} محاولة مكتملة)`
           : 'لا توجد محاولات مكتملة بعد';
@@ -757,11 +772,22 @@
             <p class="text-xs text-slate-500 leading-relaxed">${m.desc}</p>
             <p class="text-[11px] font-bold text-teal-700 bg-teal-50/70 px-2.5 py-1.5 rounded-xl">${avgText}</p>
           </div>
-          <button type="button" data-start-mock="${m.id}" class="w-full py-2.5 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
-            ابدأ ${m.title} ←
-          </button>
+          <div class="space-y-2">
+            <button type="button" data-start-mock="${m.id}" class="w-full py-2.5 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+              ${lastAttempt ? 'إعادة المحاكي ←' : `ابدأ ${m.title} ←`}
+            </button>
+            ${lastAttempt ? `
+              <button type="button" data-review-mock="${m.id}" class="w-full py-2 rounded-2xl text-xs font-extrabold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition cursor-pointer">
+                مراجعة المحاولة السابقة (${110 - lastAttempt.totalMistakes}/110) 🔍
+              </button>
+            ` : ''}
+          </div>
         `;
-        card.querySelector('button').addEventListener('click', () => loadAndStartMock(m));
+        card.querySelector(`[data-start-mock="${m.id}"]`).addEventListener('click', () => loadAndStartMock(m));
+        const reviewBtn = card.querySelector(`[data-review-mock="${m.id}"]`);
+        if (reviewBtn) {
+          reviewBtn.addEventListener('click', () => openSavedAttempt(m, lastAttempt));
+        }
         mocksGrid.appendChild(card);
       });
     }
@@ -912,13 +938,27 @@
       const totalMistakes = sciMistakes + skillsMistakes;
       const stats = await saveCompletedAttempt(examState.mockId, totalMistakes, sciMistakes, skillsMistakes);
 
-      examState.lastResult = { sciMistakes, skillsMistakes, totalMistakes, bySubject, wrongItems, stats };
+      const resultPayload = { sciMistakes, skillsMistakes, totalMistakes, bySubject, wrongItems, stats, meta: examState.meta };
+      saveLastAttempt(examState.mockId, resultPayload);
+      examState.lastResult = resultPayload;
       examState.scoreMode = 'default';
       renderMockResult();
       mockExamView.classList.add('hidden');
       mockResultView.classList.remove('hidden');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+    function openSavedAttempt(mockInfo, saved) {
+      examState.mockId = mockInfo.id;
+      examState.meta = saved.meta || { id: mockInfo.id, title: mockInfo.title };
+      examState.lastResult = { ...saved, stats: getLocalMockStats(mockInfo.id) };
+      examState.scoreMode = 'default';
+      renderMockResult();
+      mocksListView.classList.add('hidden');
+      mockExamView.classList.add('hidden');
+      mockResultView.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     function renderMockResult() {
       const r = examState.lastResult;
