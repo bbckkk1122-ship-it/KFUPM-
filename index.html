@@ -318,9 +318,15 @@
       <!-- 2. شاشة أداء المحاكي -->
       <div id="mockExamView" class="hidden max-w-4xl mx-auto space-y-5">
         <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-slate-200/80 flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h3 id="examTitle" class="text-base sm:text-lg font-black text-slate-900">المحاكي الأول</h3>
-            <p id="examAnsweredCounter" class="text-xs font-bold text-emerald-700">تم حل 0 من 110 سؤالاً</p>
+          <div class="flex items-center gap-3">
+            <div>
+              <h3 id="examTitle" class="text-base sm:text-lg font-black text-slate-900">المحاكي الأول</h3>
+              <p id="examAnsweredCounter" class="text-xs font-bold text-emerald-700">تم حل 0 من 110 سؤالاً</p>
+            </div>
+            <div class="px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-xs sm:text-sm font-extrabold text-slate-700 flex items-center gap-1.5" dir="ltr">
+              <span>⏱</span>
+              <span id="examTimerDisplay">00:00</span>
+            </div>
           </div>
           <div class="flex flex-wrap items-center gap-2">
             <button id="submitMockBtn" type="button" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-teal-700 text-white hover:bg-teal-800 shadow-sm transition cursor-pointer">
@@ -386,6 +392,7 @@
                 <span class="text-lg font-bold text-emerald-100">من 1000</span>
               </div>
               <p id="resModeDesc" class="text-xs sm:text-sm text-emerald-100"></p>
+              <p id="resDurationText" class="text-xs font-bold text-emerald-200/90"></p>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center">
@@ -729,9 +736,60 @@
       questions: [],
       answers: {}, // { index: optionIdx }
       currentIdx: 0,
+      elapsedSeconds: 0,
+      timerInterval: null,
       lastResult: null,
       scoreMode: 'default' // 'default' | 'students'
     };
+
+    function formatTime(sec) {
+      const s = Math.max(0, Math.floor(sec || 0));
+      const h = Math.floor(s / 3600);
+      const m = Math.floor((s % 3600) / 60);
+      const r = s % 60;
+      const pad = (n) => String(n).padStart(2, '0');
+      return h > 0 ? `${pad(h)}:${pad(m)}:${pad(r)}` : `${pad(m)}:${pad(r)}`;
+    }
+
+    function startExamTimer() {
+      stopExamTimer();
+      const disp = document.getElementById('examTimerDisplay');
+      if (disp) disp.textContent = formatTime(examState.elapsedSeconds);
+      examState.timerInterval = setInterval(() => {
+        examState.elapsedSeconds++;
+        if (disp) disp.textContent = formatTime(examState.elapsedSeconds);
+        if (examState.elapsedSeconds % 5 === 0) saveProgress();
+      }, 1000);
+    }
+
+    function stopExamTimer() {
+      if (examState.timerInterval) {
+        clearInterval(examState.timerInterval);
+        examState.timerInterval = null;
+      }
+    }
+
+    function getSavedProgress(mockId) {
+      try {
+        const raw = localStorage.getItem(`nabthati_mock_progress_${mockId}`);
+        return raw ? JSON.parse(raw) : null;
+      } catch { return null; }
+    }
+
+    function saveProgress() {
+      if (!examState.mockId) return;
+      try {
+        localStorage.setItem(`nabthati_mock_progress_${examState.mockId}`, JSON.stringify({
+          answers: examState.answers,
+          currentIdx: examState.currentIdx,
+          elapsedSeconds: examState.elapsedSeconds
+        }));
+      } catch {}
+    }
+
+    function clearProgress(mockId) {
+      try { localStorage.removeItem(`nabthati_mock_progress_${mockId}`); } catch {}
+    }
 
     function getLocalMockStats(mockId) {
       try {
@@ -782,9 +840,15 @@
       MOCKS_CATALOG.forEach(m => {
         const stats = getLocalMockStats(m.id);
         const lastAttempt = getLastAttempt(m.id);
+        const savedProg = getSavedProgress(m.id);
+        const progCount = savedProg && savedProg.answers ? Object.keys(savedProg.answers).length : 0;
         const avgText = stats.attempts > 0
           ? `متوسط أخطاء الطلاب: ${(stats.totalMistakesSum / stats.attempts).toFixed(1)} (${stats.attempts} محاولة مكتملة)`
           : 'لا توجد محاولات مكتملة بعد';
+
+        const startLabel = progCount > 0
+          ? `استكمال المحاكي (${progCount}/110) ←`
+          : (lastAttempt ? 'إعادة المحاكي ←' : `ابدأ ${m.title} ←`);
 
         const card = document.createElement('div');
         card.className = 'bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between gap-4 hover:border-emerald-400 transition';
@@ -799,8 +863,8 @@
             <p class="text-[11px] font-bold text-teal-700 bg-teal-50/70 px-2.5 py-1.5 rounded-xl">${avgText}</p>
           </div>
           <div class="space-y-2">
-            <button type="button" data-start-mock="${m.id}" class="w-full py-2.5 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
-              ${lastAttempt ? 'إعادة المحاكي ←' : `ابدأ ${m.title} ←`}
+            <button type="button" data-start-mock="${m.id}" class="w-full py-2.5 rounded-2xl text-sm font-extrabold text-white ${progCount > 0 ? 'bg-amber-600 hover:bg-amber-700' : 'bg-emerald-600 hover:bg-emerald-700'} shadow-sm transition cursor-pointer">
+              ${startLabel}
             </button>
             ${lastAttempt ? `
               <button type="button" data-review-mock="${m.id}" class="w-full py-2 rounded-2xl text-xs font-extrabold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition cursor-pointer">
@@ -824,8 +888,16 @@
         examState.mockId = mockInfo.id;
         examState.meta = mod.MOCK_META || { id: mockInfo.id, title: mockInfo.title };
         examState.questions = mod.QUESTIONS || [];
-        examState.answers = {};
-        examState.currentIdx = 0;
+        const savedProg = getSavedProgress(mockInfo.id);
+        if (savedProg && savedProg.answers) {
+          examState.answers = savedProg.answers;
+          examState.currentIdx = clamp(savedProg.currentIdx || 0, 0, Math.max(0, examState.questions.length - 1));
+          examState.elapsedSeconds = savedProg.elapsedSeconds || 0;
+        } else {
+          examState.answers = {};
+          examState.currentIdx = 0;
+          examState.elapsedSeconds = 0;
+        }
 
         document.getElementById('examTitle').textContent = examState.meta.title;
         mocksListView.classList.add('hidden');
@@ -833,6 +905,7 @@
         mockExamView.classList.remove('hidden');
         buildNavGrid();
         renderExamQuestion();
+        startExamTimer();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (err) {
         alert(`ملف ${mockInfo.title} (mock${mockInfo.id}.js) غير مرفوع في المستودع بعد. ارفع الملف ثم أعد المحاولة!`);
@@ -900,6 +973,7 @@
         btn.innerHTML = `<span class="w-7 h-7 rounded-lg ${isSelected ? 'bg-emerald-600 text-white' : 'bg-white border border-slate-200 text-slate-600'} text-xs font-extrabold flex items-center justify-center shrink-0">${letters[idx]}</span><span>${formatMathText(opt)}</span>`;
         btn.addEventListener('click', () => {
           examState.answers[examState.currentIdx] = idx;
+          saveProgress();
           renderExamQuestion();
         });
         list.appendChild(btn);
@@ -917,17 +991,17 @@
       document.getElementById('questionNavDrawer').classList.toggle('hidden');
     });
     document.getElementById('prevQBtn').addEventListener('click', () => {
-      if (examState.currentIdx > 0) { examState.currentIdx--; renderExamQuestion(); }
+      if (examState.currentIdx > 0) { examState.currentIdx--; saveProgress(); renderExamQuestion(); }
     });
     document.getElementById('nextQBtn').addEventListener('click', () => {
-      if (examState.currentIdx < examState.questions.length - 1) { examState.currentIdx++; renderExamQuestion(); }
+      if (examState.currentIdx < examState.questions.length - 1) { examState.currentIdx++; saveProgress(); renderExamQuestion(); }
     });
     document.getElementById('exitMockBtn').addEventListener('click', () => {
-      if (confirm('هل تريد الخروج من المحاكي؟ لن يتم حفظ إجاباتك ما لم تكمل جميع الأسئلة.')) {
-        mockExamView.classList.add('hidden');
-        mocksListView.classList.remove('hidden');
-        renderMocksGrid();
-      }
+      saveProgress();
+      stopExamTimer();
+      mockExamView.classList.add('hidden');
+      mocksListView.classList.remove('hidden');
+      renderMocksGrid();
     });
 
     document.getElementById('submitMockBtn').addEventListener('click', async () => {
@@ -965,7 +1039,9 @@
       const totalMistakes = sciMistakes + skillsMistakes;
       const stats = await saveCompletedAttempt(examState.mockId, totalMistakes, sciMistakes, skillsMistakes);
 
-      const resultPayload = { sciMistakes, skillsMistakes, totalMistakes, bySubject, wrongItems, stats, meta: examState.meta };
+      stopExamTimer();
+      clearProgress(examState.mockId);
+      const resultPayload = { sciMistakes, skillsMistakes, totalMistakes, bySubject, wrongItems, stats, meta: examState.meta, durationSeconds: examState.elapsedSeconds };
       saveLastAttempt(examState.mockId, resultPayload);
       examState.lastResult = resultPayload;
       examState.scoreMode = 'default';
@@ -1015,6 +1091,10 @@
         ? 'محسوبة وفق المعيار الافتراضي: انحراف متوسط + متوسط أخطاء الطلاب 25 خطأ.'
         : `محسوبة بناءً على حل الطلاب في هذا المحاكي: متوسط الأخطاء الفعلي ${avgFromStudents.toFixed(1)} خطأ (من ${r.stats.attempts} محاولة مكتملة).`;
 
+      const durEl = document.getElementById('resDurationText');
+      if (durEl) {
+        durEl.textContent = r.durationSeconds ? `⏱ الوقت المستغرق: ${formatTime(r.durationSeconds)}` : '';
+      }
       document.getElementById('studentsStatsSummary').textContent =
         `متوسط أخطاء الطلاب المسجّل: ${avgFromStudents.toFixed(1)} خطأ (عدد المحاولات المكتملة: ${r.stats.attempts})`;
 

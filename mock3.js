@@ -1035,15 +1035,15 @@ export const QUESTIONS = [
     "id": 74,
     "section": "sci",
     "subject": "الكيمياء",
-    "question": "في سلسلة النشاط الكيميائي للهالوجينات، أي تفاعل من التالية لا يحدث $(NR)$؟",
+    "question": "في سلسلة النشاط الكيميائي للهالوجينات، أي من التفاعلات التالية لا يحدث؟",
     "options": [
-      "$\\text{F}_2 + 2\\text{NaBr} \\to 2\\text{NaF} + \\text{Br}_2$",
-      "$\\text{Cl}_2 + 2\\text{KF} \\to \\text{NR}$",
-      "$\\text{Cl}_2 + 2\\text{NaI} \\to 2\\text{NaCl} + \\text{I}_2$",
-      "$\\text{F}_2 + 2\\text{KCl} \\to 2\\text{KF} + \\text{Cl}_2$"
+      "$\\text{F}_2 + 2\\text{NaBr} \\to$",
+      "$\\text{Cl}_2 + 2\\text{KF} \\to$",
+      "$\\text{Cl}_2 + 2\\text{NaI} \\to$",
+      "$\\text{F}_2 + 2\\text{KCl} \\to$"
     ],
     "answer": 1,
-    "explanation": "الكلور أقل نشاطاً من الفلور، فلا يستطيع أن يحل محله في $\\text{KF}$ وبالتالي لا يحدث التفاعل."
+    "explanation": "الكلور أقل نشاطاً من الفلور، فلا يستطيع أن يحل محله في $\\text{KF}$ وبالتالي لا يحدث التفاعل ($\\text{NR}$)."
   },
   {
     "id": 75,
