@@ -48,6 +48,35 @@
     html.dark .text-teal-700 { color: #5eead4 !important; }
     html.dark .bg-amber-50 { background-color: rgba(120, 53, 15, 0.35) !important; border-color: #d97706 !important; color: #fde68a !important; }
     html.dark .bg-rose-50 { background-color: rgba(136, 19, 55, 0.35) !important; color: #fda4af !important; }
+    /* الحفاظ على وضوح الرسومات والجداول في الوضع الليلي */
+    html.dark #examQuestionSvg svg,
+    html.dark #mistakesReviewList svg {
+      background-color: #ffffff !important;
+      border-color: #475569 !important;
+    }
+    html.dark #examQuestionSvg table,
+    html.dark #mistakesReviewList table {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+    html.dark #examQuestionSvg table th,
+    html.dark #examQuestionSvg table td,
+    html.dark #mistakesReviewList table th,
+    html.dark #mistakesReviewList table td {
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+    html.dark #examQuestionSvg table .bg-slate-100,
+    html.dark #mistakesReviewList table .bg-slate-100 {
+      background-color: #f1f5f9 !important;
+      color: #0f172a !important;
+    }
+    html.dark #examQuestionSvg table .bg-amber-50,
+    html.dark #mistakesReviewList table .bg-amber-50 {
+      background-color: #fef3c7 !important;
+      color: #0f172a !important;
+    }
     input[type="range"] { -webkit-appearance: none; appearance: none; height: 8px; border-radius: 9999px; background: #e2e8f0; outline: none; }
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%;
@@ -858,6 +887,8 @@
       try { localStorage.removeItem(`nabthati_mock_progress_${mockId}`); } catch {}
     }
 
+    let globalStatsCache = {};
+
     function getLocalMockStats(mockId) {
       try {
         const raw = localStorage.getItem(`nabthati_mock_stats_${mockId}`);
@@ -865,6 +896,29 @@
       } catch {
         return { attempts: 0, totalMistakesSum: 0 };
       }
+    }
+
+    function getEffectiveMockStats(mockId) {
+      const g = globalStatsCache[String(mockId)];
+      if (g && g.attempts > 0) return g;
+      return getLocalMockStats(mockId);
+    }
+
+    async function fetchGlobalStats() {
+      if (!STATS_API_URL) return;
+      try {
+        const res = await fetch(STATS_API_URL);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && typeof data === 'object') {
+          globalStatsCache = data;
+          renderMocksGrid();
+          if (examState.lastResult && !mockResultView.classList.contains('hidden')) {
+            examState.lastResult.stats = getEffectiveMockStats(examState.mockId);
+            renderMockResult();
+          }
+        }
+      } catch {}
     }
 
     function getLastAttempt(mockId) {
@@ -884,28 +938,29 @@
 
     async function saveCompletedAttempt(mockId, totalMistakes, sciMistakes, skillsMistakes) {
       // 1. حفظ محلي فوري
-      const stats = getLocalMockStats(mockId);
-      stats.attempts += 1;
-      stats.totalMistakesSum += totalMistakes;
-      try { localStorage.setItem(`nabthati_mock_stats_${mockId}`, JSON.stringify(stats)); } catch {}
+      const localStats = getLocalMockStats(mockId);
+      localStats.attempts += 1;
+      localStats.totalMistakesSum += totalMistakes;
+      try { localStorage.setItem(`nabthati_mock_stats_${mockId}`, JSON.stringify(localStats)); } catch {}
 
-      // 2. إرسال اختياري لقاعدة بيانات سحابية إذا تم ربط STATS_API_URL
+      // 2. إرسال لقاعدة بيانات Google Sheets (بصيغة text/plain لتفادي مشاكل CORS) ثم تحديث المتوسط العام
       if (STATS_API_URL) {
         try {
           await fetch(STATS_API_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ mockId, totalMistakes, sciMistakes, skillsMistakes, ts: Date.now() })
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ mockId: String(mockId), totalMistakes, sciMistakes, skillsMistakes, ts: Date.now() })
           });
+          await fetchGlobalStats();
         } catch {}
       }
-      return stats;
+      return getEffectiveMockStats(mockId);
     }
 
     function renderMocksGrid() {
       mocksGrid.innerHTML = '';
       MOCKS_CATALOG.forEach(m => {
-        const stats = getLocalMockStats(m.id);
+        const stats = getEffectiveMockStats(m.id);
         const lastAttempt = getLastAttempt(m.id);
         const savedProg = getSavedProgress(m.id);
         const progCount = savedProg && savedProg.answers ? Object.keys(savedProg.answers).length : 0;
@@ -1148,7 +1203,7 @@
     function openSavedAttempt(mockInfo, saved) {
       examState.mockId = mockInfo.id;
       examState.meta = saved.meta || { id: mockInfo.id, title: mockInfo.title };
-      examState.lastResult = { ...saved, stats: getLocalMockStats(mockInfo.id) };
+      examState.lastResult = { ...saved, stats: getEffectiveMockStats(mockInfo.id) };
       examState.scoreMode = 'default';
       examState.mistakeFilter = 'الكل';
       renderMockResult();
@@ -1283,7 +1338,7 @@
       renderMocksGrid();
     });
 
-    window.addEventListener('load', () => { updatePresetStyles(); updateSdStyles(); updateAll(); renderMocksGrid(); });
+    window.addEventListener('load', () => { updatePresetStyles(); updateSdStyles(); updateAll(); renderMocksGrid(); fetchGlobalStats(); });
     updatePresetStyles(); updateSdStyles(); updateAll(); renderMocksGrid();
   </script>
 </body>
