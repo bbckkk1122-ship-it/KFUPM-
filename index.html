@@ -300,7 +300,7 @@
     <!-- ==================== الخانة الثانية: المحاكيات الإلكترونية ==================== -->
     <div id="mocksSection" class="hidden space-y-6">
 
-      <!-- 1. قائمة المحاكيات العشرة -->
+      <!-- 1. قائمة المحاكيات الثلاثة -->
       <div id="mocksListView" class="space-y-6">
         <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80">
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70 mb-2">
@@ -710,8 +710,8 @@
       });
     }
 
-    // ==================== منطق المحاكيات الإلكترونية (10 محاكيات) ====================
-    const MOCKS_CATALOG = Array.from({ length: 10 }, (_, i) => ({
+    // ==================== منطق المحاكيات الإلكترونية (3 محاكيات) ====================
+    const MOCKS_CATALOG = Array.from({ length: 3 }, (_, i) => ({
       id: i + 1,
       title: `المحاكي رقم ${i + 1}`,
       file: `./mock${i + 1}.js`,
