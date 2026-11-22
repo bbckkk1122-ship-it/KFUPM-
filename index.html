@@ -7,6 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -26,6 +29,7 @@
     }
     body { font-family: 'Tajawal', sans-serif; }
     .exam-font { font-family: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif; line-height: 1.9; letter-spacing: 0; }
+    .katex { direction: ltr; unicode-bidi: isolate; font-size: 1.08em; }
     input[type="range"] { -webkit-appearance: none; appearance: none; height: 8px; border-radius: 9999px; background: #e2e8f0; outline: none; }
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%;
@@ -529,18 +533,34 @@
     const fmtNum = (n) => Number.isInteger(n) ? n.toString() : n.toFixed(1);
     function formatMathText(str) {
       if (!str) return '';
-      return String(str).replace(/[^\u0600-\u06FF«»]+/g, (chunk) => {
-        const leadMatch = chunk.match(/^[\s:؛،؟.!]+/);
-        const lead = leadMatch ? leadMatch[0] : '';
-        const rest = chunk.slice(lead.length);
-        const trailMatch = rest.match(/[\s:؛،؟.!]+$/);
-        const trail = trailMatch ? trailMatch[0] : '';
-        const core = trail ? rest.slice(0, -trail.length) : rest;
-        if (core && /[A-Za-z0-9]/.test(core)) {
-          return `${lead}<bdi dir="ltr" style="unicode-bidi: isolate;" class="font-semibold">${core}</bdi>${trail}`;
-        }
-        return chunk;
-      });
+      // تقسيم النص لحماية معادلات KaTeX ($...$) من أي تعديل
+      return String(str).split(/(\$\$[\s\S]+?\$\$|\$[^$]+?\$)/g).map((part) => {
+        if (part.startsWith('$') && part.endsWith('$')) return part;
+        return part.replace(/[^\u0600-\u06FF«»]+/g, (chunk) => {
+          const leadMatch = chunk.match(/^[\s:؛،؟.!]+/);
+          const lead = leadMatch ? leadMatch[0] : '';
+          const rest = chunk.slice(lead.length);
+          const trailMatch = rest.match(/[\s:؛،؟.!]+$/);
+          const trail = trailMatch ? trailMatch[0] : '';
+          const core = trail ? rest.slice(0, -trail.length) : rest;
+          if (core && /[A-Za-z0-9]/.test(core)) {
+            return `${lead}<bdi dir="ltr" style="unicode-bidi: isolate;" class="font-semibold">${core}</bdi>${trail}`;
+          }
+          return chunk;
+        });
+      }).join('');
+    }
+
+    function renderKaTeXIn(container) {
+      if (typeof window.renderMathInElement === 'function' && container) {
+        window.renderMathInElement(container, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });
+      }
     }
 
     function updateAll() {
@@ -889,6 +909,7 @@
       document.getElementById('prevQBtn').classList.toggle('opacity-40', examState.currentIdx === 0);
       document.getElementById('nextQBtn').disabled = examState.currentIdx === total - 1;
       document.getElementById('nextQBtn').classList.toggle('opacity-40', examState.currentIdx === total - 1);
+      renderKaTeXIn(mockExamView);
       updateNavStyles();
     }
 
@@ -1035,6 +1056,7 @@
           reviewList.appendChild(div);
         });
       }
+      renderKaTeXIn(reviewList);
     }
 
     document.getElementById('scoreModeDefaultBtn').addEventListener('click', () => { examState.scoreMode = 'default'; renderMockResult(); });
