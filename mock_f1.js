@@ -988,7 +988,7 @@ export const QUESTIONS = [
     "id": 70,
     "section": "sci",
     "subject": "الفيزياء",
-    "question": "قطعة مستقيمة طولها $2\\text{ m}$ مثبتة عند طرفها الأيسر، أثّرت في طرفها الأيمن قوة مقدارها $30\\text{ N}$ بزاوية $30^\\circ$؛ ما مقدار العزم المتولد حول محور الدوران؟",
+    "question": "ما مقدار العزم الكلي المتولد حول محور الدوران (الطرف الأيسر) للقطعة المستقيمة التي طولها $2\\text{ m}$، وفقاً للشكل؟",
     "options": [
       "$15\\text{ N}\\cdot\\text{m}$",
       "$45\\text{ N}\\cdot\\text{m}$",
@@ -996,7 +996,8 @@ export const QUESTIONS = [
       "$60\\text{ N}\\cdot\\text{m}$"
     ],
     "answer": 2,
-    "explanation": "$\\tau = F r \\sin\\theta = 30 \\times 2 \\times \\sin 30^\\circ = 60 \\times 0.5 = 30\\text{ N}\\cdot\\text{m}$."
+    "explanation": "عزم القوة العمودية لأعلى $= +30 \\times 2 = +60\\text{ N}\\cdot\\text{m}$، وعزم القوة الأفقية $15\\sqrt{3}\\text{ N}$ يساوي صفراً لأنها تمر بمحور الدوران، وعزم القوة المائلة بزاوية $30^\\circ$ لأسفل $= -30 \\times 2 \\times \\sin 30^\\circ = -30\\text{ N}\\cdot\\text{m}$. إذن العزم الكلي $= 60 + 0 - 30 = 30\\text{ N}\\cdot\\text{m}$.",
+    "svg": "<svg viewBox=\"0 0 320 175\" class=\"w-full max-w-sm mx-auto my-2 bg-white rounded-xl border border-slate-200 p-2\" dir=\"ltr\">\n  <!-- Vertical wall/bar at left -->\n  <rect x=\"42\" y=\"20\" width=\"10\" height=\"135\" rx=\"2\" fill=\"#cbd5e1\" stroke=\"#334155\" stroke-width=\"1.8\"/>\n  <!-- Horizontal rod (2 m) -->\n  <rect x=\"52\" y=\"84\" width=\"140\" height=\"8\" fill=\"#e2e8f0\" stroke=\"#334155\" stroke-width=\"1.8\"/>\n  <!-- Pivot circle at left end -->\n  <circle cx=\"47\" cy=\"88\" r=\"8\" fill=\"#ffffff\" stroke=\"#334155\" stroke-width=\"2\"/>\n  <circle cx=\"47\" cy=\"88\" r=\"3\" fill=\"#334155\"/>\n  <!-- Length indicator 2 m -->\n  <line x1=\"56\" y1=\"74\" x2=\"188\" y2=\"74\" stroke=\"#0f172a\" stroke-width=\"1.5\"/>\n  <polygon points=\"55,74 63,70 63,78\" fill=\"#0f172a\"/>\n  <polygon points=\"189,74 181,70 181,78\" fill=\"#0f172a\"/>\n  <text x=\"122\" y=\"67\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#0f172a\">2 m</text>\n  <!-- Force 1: 30 N Up (Blue) -->\n  <line x1=\"192\" y1=\"84\" x2=\"192\" y2=\"30\" stroke=\"#0284c7\" stroke-width=\"2.5\"/>\n  <polygon points=\"192,24 187,34 197,34\" fill=\"#0284c7\"/>\n  <text x=\"192\" y=\"18\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#0284c7\">30 N</text>\n  <!-- Force 2: 15√3 N Right (Amber) -->\n  <line x1=\"192\" y1=\"88\" x2=\"252\" y2=\"88\" stroke=\"#eab308\" stroke-width=\"2.5\"/>\n  <polygon points=\"258,88 248,83 248,93\" fill=\"#eab308\"/>\n  <text x=\"286\" y=\"93\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#ca8a04\">15√3 N</text>\n  <!-- Force 3: 30 N Down-Left at 30 deg (Red) -->\n  <line x1=\"192\" y1=\"92\" x2=\"144\" y2=\"122\" stroke=\"#dc2626\" stroke-width=\"2.5\"/>\n  <polygon points=\"139,125 149,124 144,116\" fill=\"#dc2626\"/>\n  <text x=\"148\" y=\"148\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#dc2626\">30 N</text>\n  <!-- 30 deg angle arc -->\n  <path d=\"M 164 92 A 28 28 0 0 0 169 106\" fill=\"none\" stroke=\"#334155\" stroke-width=\"1.5\"/>\n  <text x=\"148\" y=\"106\" font-size=\"12\" font-weight=\"bold\" fill=\"#0f172a\">30°</text>\n</svg>"
   },
   {
     "id": 71,
