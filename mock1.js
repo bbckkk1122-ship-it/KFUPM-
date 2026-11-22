@@ -441,7 +441,7 @@ export const QUESTIONS = [
       "10 cm"
     ],
     "answer": 1,
-    "explanation": "النسبة بين المحيطين تساوي النسبة بين الضلعين المتناظرين: $24/32 = x/8 ← x = (24 \\times 8)/32 = 6 cm$."
+    "explanation": "النسبة بين المحيطين تساوي النسبة بين الضلعين المتناظرين: $\\dfrac{24}{32} = \\dfrac{x}{8} \\implies x = \\dfrac{24 \\times 8}{32} = 6\\text{ cm}$."
   },
   {
     "id": 32,
@@ -735,7 +735,7 @@ export const QUESTIONS = [
       "250 m"
     ],
     "answer": 2,
-    "explanation": "$\\Deltay = v_i \\cdot t + \\frac{1}{2}gt^{2} = 0 + \\frac{1}{2}(10)(5^{2}) = 5 \\times 25 = 125 m$."
+    "explanation": "$\\Delta y = v_i \\cdot t + \\dfrac{1}{2}gt^2 = 0 + \\dfrac{1}{2}(10)(5^2) = 5 \\times 25 = 125\\text{ m}$."
   },
   {
     "id": 53,
@@ -847,7 +847,7 @@ export const QUESTIONS = [
       "زيادة المسافة بينهما إلى الضعف $(2r)$"
     ],
     "answer": 2,
-    "explanation": "من قانون الجذب العام $F ∝ 1/r^{2}$؛ فعند نقص المسافة إلى النصف (1/2) تزداد القوة إلى $1/(1/2)^{2} = 4$ أمثالها."
+    "explanation": "من قانون الجذب العام $F \\propto \\dfrac{1}{r^2}$؛ فعند نقص المسافة إلى النصف ($\\dfrac{1}{2}$) تزداد القوة إلى $4$ أمثالها."
   },
   {
     "id": 61,
@@ -861,7 +861,7 @@ export const QUESTIONS = [
       "التسارع الزاوي"
     ],
     "answer": 0,
-    "explanation": "التردد الزاوي $f = ω / 2\\pi$ هو عدد الدورات الكاملة في الثانية الواحدة."
+    "explanation": "التردد الزاوي $f = \\dfrac{\\omega}{2\\pi}$ هو عدد الدورات الكاملة في الثانية الواحدة."
   },
   {
     "id": 62,
@@ -931,7 +931,7 @@ export const QUESTIONS = [
       "120 J"
     ],
     "answer": 2,
-    "explanation": "$\\DeltaKE = \\frac{1}{2} m (v_f^{2} - v_i^{2}) = \\frac{1}{2} (2) (10^{2} - 0) = 100 J$."
+    "explanation": "$\\Delta KE = \\dfrac{1}{2} m (v_f^2 - v_i^2) = \\dfrac{1}{2}(2)(10^2 - 0) = 100\\text{ J}$."
   },
   {
     "id": 67,
@@ -959,7 +959,7 @@ export const QUESTIONS = [
       "125%"
     ],
     "answer": 1,
-    "explanation": "الكفاءة $e = (MA / IMA) \\times 100 = (0.8 / 1) \\times 100 = 80%$."
+    "explanation": "الكفاءة $e = \\dfrac{MA}{IMA} \\times 100 = \\dfrac{0.8}{1} \\times 100 = 80\\%$."
   },
   {
     "id": 69,
@@ -1057,7 +1057,7 @@ export const QUESTIONS = [
       "75%"
     ],
     "answer": 2,
-    "explanation": "كتلة ذرتي الأكسجين $= 2 \\times 8 = 16 g$، فتكون كتلة الكربون = 32 - 16 = 16 g، والنسبة $= (16/32) \\times 100 = 50%$."
+    "explanation": "كتلة ذرتي الأكسجين $= 2 \\times 8 = 16\\text{ g}$، فتكون كتلة الكربون $= 32 - 16 = 16\\text{ g}$، والنسبة $= \\dfrac{16}{32} \\times 100 = 50\\%$."
   },
   {
     "id": 76,
@@ -1141,7 +1141,7 @@ export const QUESTIONS = [
       "$Al(SO_{4})_{3}$"
     ],
     "answer": 2,
-    "explanation": "نبادل الشحنات بين الأيونين فتصبح الصيغة $Al_{2}(SO_{4})_{3} ($كبريتات الألومنيوم)."
+    "explanation": "نبادل الشحنات بين الأيونين فتصبح الصيغة $\\text{Al}_2(\\text{SO}_4)_3$ (كبريتات الألومنيوم)."
   },
   {
     "id": 82,
@@ -1183,7 +1183,7 @@ export const QUESTIONS = [
       "450 mL"
     ],
     "answer": 1,
-    "explanation": "حسب قانون بويل $P_{1}V_{1} = P_{2}V_{2} ← 200 \\times 300 = 300 \\times V_{2} ← V_{2} = 200 mL$."
+    "explanation": "حسب قانون بويل $P_1 V_1 = P_2 V_2 \\implies 200 \\times 300 = 300 \\times V_2 \\implies V_2 = 200\\text{ mL}$."
   },
   {
     "id": 85,

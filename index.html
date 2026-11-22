@@ -30,6 +30,24 @@
     body { font-family: 'Tajawal', sans-serif; }
     .exam-font { font-family: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif; line-height: 1.9; letter-spacing: 0; }
     .katex { direction: ltr; unicode-bidi: isolate; font-size: 1.08em; }
+    /* الوضع الليلي (Dark Mode) */
+    html.dark body { background-color: #0f172a; color: #e2e8f0; }
+    html.dark header, html.dark footer { background-color: rgba(15, 23, 42, 0.92) !important; border-color: #1e293b !important; }
+    html.dark .bg-white { background-color: #1e293b !important; border-color: #334155 !important; }
+    html.dark .bg-slate-50, html.dark .bg-slate-50\/70 { background-color: #0f172a !important; border-color: #334155 !important; }
+    html.dark .bg-slate-100 { background-color: #334155 !important; color: #e2e8f0 !important; }
+    html.dark .text-slate-900, html.dark .text-slate-800 { color: #f8fafc !important; }
+    html.dark .text-slate-700, html.dark .text-slate-600 { color: #cbd5e1 !important; }
+    html.dark .text-slate-500 { color: #94a3b8 !important; }
+    html.dark .border-slate-100, html.dark .border-slate-200, html.dark .border-slate-200\/80 { border-color: #334155 !important; }
+    html.dark input[type="number"] { background-color: #0f172a !important; border-color: #334155 !important; color: #34d399 !important; }
+    html.dark input[type="range"] { background: #334155; }
+    html.dark .bg-emerald-50, html.dark .bg-emerald-50\/60 { background-color: rgba(6, 78, 59, 0.35) !important; border-color: #059669 !important; }
+    html.dark .text-emerald-900, html.dark .text-emerald-800 { color: #a7f3d0 !important; }
+    html.dark .bg-teal-50, html.dark .bg-teal-50\/70 { background-color: rgba(19, 78, 74, 0.35) !important; border-color: #0d9488 !important; }
+    html.dark .text-teal-700 { color: #5eead4 !important; }
+    html.dark .bg-amber-50 { background-color: rgba(120, 53, 15, 0.35) !important; border-color: #d97706 !important; color: #fde68a !important; }
+    html.dark .bg-rose-50 { background-color: rgba(136, 19, 55, 0.35) !important; color: #fda4af !important; }
     input[type="range"] { -webkit-appearance: none; appearance: none; height: 8px; border-radius: 9999px; background: #e2e8f0; outline: none; }
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%;
@@ -57,16 +75,21 @@
         </div>
       </div>
 
-      <div id="calcHeaderActions" class="flex items-center gap-2">
+      <div class="flex items-center gap-2">
+        <button id="darkModeBtn" type="button" title="تبديل الوضع الليلي" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition cursor-pointer">
+          🌙
+        </button>
+        <div id="calcHeaderActions" class="flex items-center gap-2">
         <button id="resetBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 transition flex items-center gap-1.5 cursor-pointer">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
           </svg>
           إعادة التعيين
         </button>
-        <button id="shareBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition flex items-center gap-1.5 shadow-sm">
+        <button id="shareBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition flex items-center gap-1.5 shadow-sm cursor-pointer">
           نسخ نتيجتي
         </button>
+        </div>
       </div>
     </div>
 
@@ -347,6 +370,7 @@
             <span>اضغط على أي رقم للانتقال إليه مباشرة:</span>
             <div class="flex items-center gap-3">
               <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-emerald-600 inline-block"></span> مجاب</span>
+              <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-amber-400 inline-block"></span> مميّز للمراجعة</span>
               <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-slate-200 inline-block"></span> غير مجاب</span>
             </div>
           </div>
@@ -355,9 +379,14 @@
 
         <!-- بطاقة السؤال -->
         <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80 space-y-6">
-          <div class="flex items-center justify-between gap-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
             <span id="examSubjectBadge" class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70">المهارات</span>
-            <span id="examQNumber" class="text-xs font-extrabold text-slate-500">سؤال 1 من 110</span>
+            <div class="flex items-center gap-2">
+              <button id="flagQBtn" type="button" class="px-3 py-1 rounded-xl text-xs font-extrabold bg-slate-100 text-slate-600 hover:bg-amber-100 hover:text-amber-800 border border-slate-200 transition cursor-pointer">
+                🚩 تمييز للمراجعة
+              </button>
+              <span id="examQNumber" class="text-xs font-extrabold text-slate-500">سؤال 1 من 110</span>
+            </div>
           </div>
 
           <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
@@ -430,15 +459,23 @@
           </div>
           <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100">
             <div id="subjectBreakdown" class="flex flex-wrap gap-2 text-xs font-bold"></div>
-            <button id="backToMocksBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-extrabold bg-slate-900 text-white hover:bg-slate-800 transition">
-              العودة لقائمة المحاكيات
-            </button>
+            <div class="flex flex-wrap items-center gap-2">
+              <button id="shareMockResBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+                نسخ نتيجتي في المحاكي 📋
+              </button>
+              <button id="backToMocksBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-extrabold bg-slate-900 text-white hover:bg-slate-800 transition cursor-pointer">
+                العودة لقائمة المحاكيات
+              </button>
+            </div>
           </div>
         </div>
 
         <!-- مراجعة الأخطاء -->
         <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-4">
-          <h3 class="text-base sm:text-lg font-extrabold text-slate-900">مراجعة الأسئلة التي أخطأت فيها</h3>
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <h3 class="text-base sm:text-lg font-extrabold text-slate-900">مراجعة الأسئلة التي أخطأت فيها</h3>
+            <div id="mistakesFilterBar" class="flex flex-wrap gap-1.5"></div>
+          </div>
           <div id="mistakesReviewList" class="exam-font space-y-3"></div>
         </div>
       </div>
@@ -473,6 +510,22 @@
     const STATS_API_URL = '';
 
     // ==================== التنقل بين الخانتين ====================
+    // ==================== الوضع الليلي (Dark Mode) ====================
+    const darkModeBtn = document.getElementById('darkModeBtn');
+    function applyDarkMode(isDark) {
+      document.documentElement.classList.toggle('dark', isDark);
+      if (darkModeBtn) darkModeBtn.textContent = isDark ? '☀️' : '🌙';
+      try { localStorage.setItem('nabthati_dark_mode', isDark ? '1' : '0'); } catch {}
+    }
+    try {
+      if (localStorage.getItem('nabthati_dark_mode') === '1') applyDarkMode(true);
+    } catch {}
+    if (darkModeBtn) {
+      darkModeBtn.addEventListener('click', () => {
+        applyDarkMode(!document.documentElement.classList.contains('dark'));
+      });
+    }
+
     const tabCalcBtn = document.getElementById('tabCalcBtn');
     const tabMocksBtn = document.getElementById('tabMocksBtn');
     const calcSection = document.getElementById('calcSection');
@@ -735,11 +788,13 @@
       meta: null,
       questions: [],
       answers: {}, // { index: optionIdx }
+      flagged: {}, // { index: true }
       currentIdx: 0,
       elapsedSeconds: 0,
       timerInterval: null,
       lastResult: null,
-      scoreMode: 'default' // 'default' | 'students'
+      scoreMode: 'default', // 'default' | 'students'
+      mistakeFilter: 'الكل'
     };
 
     function formatTime(sec) {
@@ -781,6 +836,7 @@
       try {
         localStorage.setItem(`nabthati_mock_progress_${examState.mockId}`, JSON.stringify({
           answers: examState.answers,
+          flagged: examState.flagged,
           currentIdx: examState.currentIdx,
           elapsedSeconds: examState.elapsedSeconds
         }));
@@ -891,10 +947,12 @@
         const savedProg = getSavedProgress(mockInfo.id);
         if (savedProg && savedProg.answers) {
           examState.answers = savedProg.answers;
+          examState.flagged = savedProg.flagged || {};
           examState.currentIdx = clamp(savedProg.currentIdx || 0, 0, Math.max(0, examState.questions.length - 1));
           examState.elapsedSeconds = savedProg.elapsedSeconds || 0;
         } else {
           examState.answers = {};
+          examState.flagged = {};
           examState.currentIdx = 0;
           examState.elapsedSeconds = 0;
         }
@@ -923,6 +981,7 @@
         b.className = 'py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 text-slate-600 hover:bg-emerald-100 transition cursor-pointer';
         b.addEventListener('click', () => {
           examState.currentIdx = idx;
+          saveProgress();
           renderExamQuestion();
         });
         grid.appendChild(b);
@@ -940,8 +999,11 @@
         if (!btn) return;
         const isCurrent = idx === examState.currentIdx;
         const isAnswered = examState.answers[idx] !== undefined;
+        const isFlagged = !!examState.flagged[idx];
         if (isCurrent) {
           btn.className = 'py-1.5 rounded-lg text-xs font-black bg-slate-900 text-white ring-2 ring-emerald-400 cursor-pointer';
+        } else if (isFlagged) {
+          btn.className = 'py-1.5 rounded-lg text-xs font-extrabold bg-amber-400 text-slate-900 ring-1 ring-amber-500 cursor-pointer';
         } else if (isAnswered) {
           btn.className = 'py-1.5 rounded-lg text-xs font-extrabold bg-emerald-600 text-white cursor-pointer';
         } else {
@@ -955,6 +1017,14 @@
       const total = examState.questions.length;
       document.getElementById('examSubjectBadge').textContent = q.subject;
       document.getElementById('examQNumber').textContent = `سؤال ${examState.currentIdx + 1} من ${total}`;
+      const flagBtn = document.getElementById('flagQBtn');
+      if (flagBtn) {
+        const isFlagged = !!examState.flagged[examState.currentIdx];
+        flagBtn.textContent = isFlagged ? '🚩 مميّز للمراجعة' : '🚩 تمييز للمراجعة';
+        flagBtn.className = isFlagged
+          ? 'px-3 py-1 rounded-xl text-xs font-extrabold bg-amber-400 text-slate-900 border border-amber-500 transition cursor-pointer'
+          : 'px-3 py-1 rounded-xl text-xs font-extrabold bg-slate-100 text-slate-600 hover:bg-amber-100 hover:text-amber-800 border border-slate-200 transition cursor-pointer';
+      }
       document.getElementById('examQuestionText').innerHTML = formatMathText(q.question);
       document.getElementById('examWarningMsg').classList.add('hidden');
 
@@ -987,6 +1057,13 @@
       updateNavStyles();
     }
 
+    document.getElementById('flagQBtn').addEventListener('click', () => {
+      const idx = examState.currentIdx;
+      if (examState.flagged[idx]) delete examState.flagged[idx];
+      else examState.flagged[idx] = true;
+      saveProgress();
+      renderExamQuestion();
+    });
     document.getElementById('toggleNavBtn').addEventListener('click', () => {
       document.getElementById('questionNavDrawer').classList.toggle('hidden');
     });
@@ -1045,6 +1122,7 @@
       saveLastAttempt(examState.mockId, resultPayload);
       examState.lastResult = resultPayload;
       examState.scoreMode = 'default';
+      examState.mistakeFilter = 'الكل';
       renderMockResult();
       mockExamView.classList.add('hidden');
       mockResultView.classList.remove('hidden');
@@ -1056,6 +1134,7 @@
       examState.meta = saved.meta || { id: mockInfo.id, title: mockInfo.title };
       examState.lastResult = { ...saved, stats: getLocalMockStats(mockInfo.id) };
       examState.scoreMode = 'default';
+      examState.mistakeFilter = 'الكل';
       renderMockResult();
       mocksListView.classList.add('hidden');
       mockExamView.classList.add('hidden');
@@ -1116,12 +1195,37 @@
         breakdown.appendChild(span);
       });
 
+      const filterBar = document.getElementById('mistakesFilterBar');
       const reviewList = document.getElementById('mistakesReviewList');
+      if (filterBar) {
+        filterBar.innerHTML = '';
+        const subjects = ['الكل', 'المهارات', 'الرياضيات', 'الفيزياء', 'الكيمياء', 'الأحياء'];
+        subjects.forEach(subj => {
+          const cnt = subj === 'الكل' ? r.wrongItems.length : r.wrongItems.filter(it => it.q.subject === subj).length;
+          if (subj !== 'الكل' && cnt === 0) return;
+          const b = document.createElement('button');
+          b.type = 'button';
+          const active = examState.mistakeFilter === subj;
+          b.className = active
+            ? 'px-3 py-1 rounded-xl text-xs font-extrabold bg-emerald-600 text-white shadow-sm transition cursor-pointer'
+            : 'px-3 py-1 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition cursor-pointer';
+          b.textContent = `${subj} (${cnt})`;
+          b.addEventListener('click', () => { examState.mistakeFilter = subj; renderMockResult(); });
+          filterBar.appendChild(b);
+        });
+      }
+
       reviewList.innerHTML = '';
+      const filteredWrongs = examState.mistakeFilter === 'الكل'
+        ? r.wrongItems
+        : r.wrongItems.filter(it => it.q.subject === examState.mistakeFilter);
+
       if (r.wrongItems.length === 0) {
         reviewList.innerHTML = '<div class="p-4 rounded-2xl bg-emerald-50 text-emerald-800 font-extrabold text-sm">ما شاء الله! لا توجد أي أخطاء (110 / 110) 🎉</div>';
+      } else if (filteredWrongs.length === 0) {
+        reviewList.innerHTML = '<div class="p-4 rounded-2xl bg-emerald-50 text-emerald-800 font-bold text-sm">لا توجد أخطاء في هذه المادة! 👏</div>';
       } else {
-        r.wrongItems.forEach(item => {
+        filteredWrongs.forEach(item => {
           const div = document.createElement('div');
           div.className = 'p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-sm';
           div.innerHTML = `
@@ -1141,6 +1245,21 @@
 
     document.getElementById('scoreModeDefaultBtn').addEventListener('click', () => { examState.scoreMode = 'default'; renderMockResult(); });
     document.getElementById('scoreModeStudentsBtn').addEventListener('click', () => { examState.scoreMode = 'students'; renderMockResult(); });
+    const shareMockResBtn = document.getElementById('shareMockResBtn');
+    if (shareMockResBtn) {
+      shareMockResBtn.addEventListener('click', () => {
+        const r = examState.lastResult;
+        if (!r) return;
+        const score = document.getElementById('resPredictedScore').textContent;
+        const subjectsLine = Object.entries(r.bySubject).map(([s, d]) => `${s}: ${d.correct}/${d.total}`).join(' | ');
+        const durLine = r.durationSeconds ? `\n⏱ الوقت: ${formatTime(r.durationSeconds)}` : '';
+        const text = `نتيجتي في ${examState.meta.title} (التحصيلي المبكر):\n🎯 الدرجة المتوقعة: ${score} من 1000\n✅ الإجابات الصحيحة: ${110 - r.totalMistakes} / 110\n📊 ${subjectsLine}${durLine}\n\nجرّب المحاكيات من هنا:\n${window.location.href}`;
+        navigator.clipboard.writeText(text).then(() => {
+          shareMockResBtn.textContent = 'تم النسخ! ✓';
+          setTimeout(() => { shareMockResBtn.textContent = 'نسخ نتيجتي في المحاكي 📋'; }, 2000);
+        });
+      });
+    }
     document.getElementById('backToMocksBtn').addEventListener('click', () => {
       mockResultView.classList.add('hidden');
       mocksListView.classList.remove('hidden');
