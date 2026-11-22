@@ -393,6 +393,7 @@
             <div id="examProgressBar" class="h-full bg-emerald-600 rounded-full transition-all duration-200" style="width: 1%"></div>
           </div>
 
+          <div id="examQuestionSvg" class="hidden"></div>
           <h3 id="examQuestionText" class="exam-font text-base sm:text-lg font-semibold text-slate-900"></h3>
 
           <div id="examOptionsList" class="exam-font space-y-3"></div>
@@ -507,7 +508,7 @@
     } from './calc.js';
 
     // اختياري: ضع هنا رابط Google Apps Script أو Firebase لحفظ متوسط أخطاء جميع الطلاب سحابياً عبر كل الأجهزة
-    const STATS_API_URL = 'https://script.google.com/macros/s/AKfycbw2UnUkxaZ4lYMmas_KM0_1bhIHFYw05NjpnyJOD6Do1s8WeU-hVXbFSLq9_O2GVxt0/exec';
+    const STATS_API_URL = '';
 
     // ==================== التنقل بين الخانتين ====================
     // ==================== الوضع الليلي (Dark Mode) ====================
@@ -771,12 +772,22 @@
     }
 
     // ==================== منطق المحاكيات الإلكترونية (3 محاكيات) ====================
-    const MOCKS_CATALOG = Array.from({ length: 3 }, (_, i) => ({
-      id: i + 1,
-      title: `المحاكي رقم ${i + 1}`,
-      file: `./mock${i + 1}.js`,
-      desc: '110 أسئلة (22 مهارات • 24 رياضيات • 24 فيزياء • 20 كيمياء • 20 أحياء)'
-    }));
+    const MOCKS_CATALOG = [
+      {
+        id: 'f1',
+        badge: 'الفترة الأولى ⭐',
+        title: 'محاكي الفترة الأولى',
+        file: './mock_f1.js',
+        desc: '110 أسئلة (22 مهارات • 24 رياضيات • 24 فيزياء • 20 كيمياء • 20 أحياء)'
+      },
+      ...Array.from({ length: 3 }, (_, i) => ({
+        id: i + 1,
+        badge: `محاكي #${i + 1}`,
+        title: `المحاكي رقم ${i + 1}`,
+        file: `./mock${i + 1}.js`,
+        desc: '110 أسئلة (22 مهارات • 24 رياضيات • 24 فيزياء • 20 كيمياء • 20 أحياء)'
+      }))
+    ];
 
     const mocksListView = document.getElementById('mocksListView');
     const mockExamView = document.getElementById('mockExamView');
@@ -911,7 +922,7 @@
         card.innerHTML = `
           <div class="space-y-2">
             <div class="flex items-center justify-between">
-              <span class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70">محاكي #${m.id}</span>
+              <span class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70">${m.badge || `محاكي #${m.id}`}</span>
               <span class="text-[11px] font-bold text-slate-400">110 أسئلة</span>
             </div>
             <h3 class="text-lg font-black text-slate-900">${m.title}</h3>
@@ -966,7 +977,7 @@
         startExamTimer();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (err) {
-        alert(`ملف ${mockInfo.title} (mock${mockInfo.id}.js) غير مرفوع في المستودع بعد. ارفع الملف ثم أعد المحاولة!`);
+        alert(`ملف ${mockInfo.title} (${mockInfo.file}) غير مرفوع في المستودع بعد. ارفع الملف ثم أعد المحاولة!`);
       }
     }
 
@@ -1024,6 +1035,11 @@
         flagBtn.className = isFlagged
           ? 'px-3 py-1 rounded-xl text-xs font-extrabold bg-amber-400 text-slate-900 border border-amber-500 transition cursor-pointer'
           : 'px-3 py-1 rounded-xl text-xs font-extrabold bg-slate-100 text-slate-600 hover:bg-amber-100 hover:text-amber-800 border border-slate-200 transition cursor-pointer';
+      }
+      const svgBox = document.getElementById('examQuestionSvg');
+      if (svgBox) {
+        if (q.svg) { svgBox.innerHTML = q.svg; svgBox.classList.remove('hidden'); }
+        else { svgBox.innerHTML = ''; svgBox.classList.add('hidden'); }
       }
       document.getElementById('examQuestionText').innerHTML = formatMathText(q.question);
       document.getElementById('examWarningMsg').classList.add('hidden');
@@ -1232,6 +1248,7 @@
             <div class="flex items-center justify-between text-xs font-extrabold">
               <span class="text-emerald-700">سؤال #${item.num} • ${item.q.subject}</span>
             </div>
+            ${item.q.svg ? `<div class="my-2">${item.q.svg}</div>` : ''}
             <p class="font-extrabold text-slate-900">${formatMathText(item.q.question)}</p>
             <p class="text-xs font-bold text-rose-700">إجابتك: ${formatMathText(item.q.options[item.userAns])}</p>
             <p class="text-xs font-extrabold text-emerald-700">الإجابة الصحيحة: ${formatMathText(item.q.options[item.q.answer])}</p>
