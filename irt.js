@@ -1,11 +1,12 @@
-// محرك التصحيح المعياري 3PL-IRT (EAP) + المزج البايزي (Empirical Bayes)
-// يحاكي آلية قياس في ترجيح الأسئلة حسب صعوبتها الفعلية مع حماية ضد تحيز العينة
+// محرك التصحيح المعياري الصرف: 3PL-IRT (Warm's WLE) على التوزيع الطبيعي المعياري N(0, 1)
+// المقياس القياسي المعتمد: الدرجة = 650 + 100 × theta (بدون تضخيم اصطناعي للسقف)
 
+const D_CONST = 1.702;         // ثابت التحويل بين الدالة اللوجستية والمنحنى الطبيعي
+const A_DISC = 0.65;           // معامل التمييز القياسي (يعطي تشتتاً طبيعياً ~16 خطأ لـ 110 أسئلة)
 const C_GUESS = 0.25;          // معامل التخمين (4 خيارات)
-const PRIOR_WEIGHT_K = 20;     // وزن التقدير المبدئي (20 مختبراً افتراضياً)
-const EAP_PRIOR_SD = 2.2;      // انحراف التوزيع المبدئي لتقليل الانكماش عند القمم
-const SCALE_BASE = 655;        // نقطة الارتكاز للدرجة المتوسطة
-const SCALE_SLOPE = 1180;      // ميل التحويل (يعادل انحرافاً متوسطاً يميل للقوي)
+const PRIOR_WEIGHT_K = 20;     // وزن التقدير المبدئي في المزج البايزي (Empirical Bayes)
+const SCALE_MEAN = 650;        // المتوسط المعياري على مقياس 1000
+const SCALE_SD = 100;          // الانحراف المعياري القياسي للمقياس (كل 1σ = 100 درجة)
 
 function clamp(val, min, max) {
   return Math.max(min, Math.min(max, val));
@@ -21,69 +22,88 @@ function sigmoid(x) {
 }
 
 /**
- * تحويل نسبة الحل الصحيح (p) إلى معامل الصعوبة (b) في نموذج 3PL
+ * تقريب دالة الخطأ erf لحساب التوزيع الطبيعي التراكمي Phi بدقة عالية
+ */
+function normalCDF(z) {
+  const sign = z < 0 ? -1 : 1;
+  const x = Math.abs(z) / Math.SQRT2;
+  const t = 1 / (1 + 0.3275911 * x);
+  const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x);
+  return 0.5 * (1 + sign * y);
+}
+
+function inverseNormalCDF(p) {
+  let lo = -4.0;
+  let hi = 4.0;
+  for (let i = 0; i < 40; i++) {
+    const mid = 0.5 * (lo + hi);
+    if (normalCDF(mid) < p) lo = mid;
+    else hi = mid;
+  }
+  return 0.5 * (lo + hi);
+}
+
+/**
+ * تحويل نسبة الحل الصحيح (p) إلى معامل الصعوبة الحقيقي (b) على توزيع N(0, 1)
+ * باستخدام العلاقة الدقيقة: E[Phi(a*(theta - b))] = Phi(-a*b / sqrt(1 + a^2)) = p*
  */
 function pToB(p) {
   const pStar = clamp((p - C_GUESS) / (1 - C_GUESS), 0.04, 0.96);
-  return -Math.log(pStar / (1 - pStar));
+  const zP = inverseNormalCDF(pStar);
+  return (-zP * Math.sqrt(1 + A_DISC * A_DISC)) / A_DISC;
 }
 
 /**
- * احتمال الإجابة الصحيحة لطالب قدرته theta على سؤال صعوبته b
+ * تقدير قدرة الطالب (theta_hat) باستخدام مقدّر Warm's WLE غير المتحيّز (1989)
  */
-function irtProb(theta, b) {
-  const z = clamp(theta - b, -30, 30);
-  return C_GUESS + (1 - C_GUESS) / (1 + Math.exp(-z));
-}
-
-/**
- * تقدير قدرة الطالب (theta_hat) بطريقة EAP العددية (101 نقطة تكامل)
- */
-function estimateThetaEAP(itemsWithResp) {
+function estimateThetaWLE(itemsWithResp) {
   if (!itemsWithResp || itemsWithResp.length === 0) return 0;
-  const grid = [];
-  const logPosts = [];
-  let maxLog = -Infinity;
 
-  for (let k = 0; k <= 100; k++) {
-    const th = -5.0 + 0.1 * k;
-    grid.push(th);
-    let ll = -0.5 * Math.pow(th / EAP_PRIOR_SD, 2);
+  let uSum = 0;
+  for (let i = 0; i < itemsWithResp.length; i++) uSum += itemsWithResp[i].u;
+  if (uSum === itemsWithResp.length) return 2.6;   // سقف معياري للدرجة الكاملة (910)
+  if (uSum === 0) return -3.5;
+
+  const wleScore = (th) => {
+    let s = 0;
+    let info = 0;
+    let jTerm = 0;
     for (let i = 0; i < itemsWithResp.length; i++) {
       const { u, b } = itemsWithResp[i];
-      const p = irtProb(th, b);
-      ll += Math.log(u === 1 ? p : (1 - p));
+      const z = clamp(D_CONST * A_DISC * (th - b), -30, 30);
+      const q = 1 / (1 + Math.exp(-z));
+      const p = C_GUESS + (1 - C_GUESS) * q;
+      const p1 = D_CONST * A_DISC * (1 - C_GUESS) * q * (1 - q);
+      const p2 = D_CONST * A_DISC * p1 * (1 - 2 * q);
+      const denom = p * (1 - p);
+      if (denom < 1e-9) continue;
+      s += (u - p) * (p1 / denom);
+      info += (p1 * p1) / denom;
+      jTerm += (p1 * p2) / denom;
     }
-    logPosts.push(ll);
-    if (ll > maxLog) maxLog = ll;
-  }
+    const biasCorr = info > 1e-9 ? jTerm / (2 * info) : 0;
+    return s + biasCorr;
+  };
 
-  let sumW = 0;
-  let sumThW = 0;
-  for (let k = 0; k < grid.length; k++) {
-    const w = Math.exp(logPosts[k] - maxLog);
-    sumW += w;
-    sumThW += grid[k] * w;
+  let lo = -4.0;
+  let hi = 4.0;
+  for (let iter = 0; iter < 38; iter++) {
+    const mid = 0.5 * (lo + hi);
+    if (wleScore(mid) > 0) lo = mid;
+    else hi = mid;
   }
-  return sumW > 0 ? sumThW / sumW : 0;
+  return 0.5 * (lo + hi);
 }
 
 /**
- * منحنى الدرجة الحقيقية (Test Characteristic Curve) عند قدرة theta
+ * التحويل المعياري المباشر من القدرة (theta) إلى الدرجة (200 - 1000)
  */
-function testCharacteristicPct(theta, sectionItems) {
-  if (!sectionItems || sectionItems.length === 0) return 0.7;
-  let sum = 0;
-  for (let i = 0; i < sectionItems.length; i++) {
-    sum += irtProb(theta, sectionItems[i].b);
-  }
-  return sum / sectionItems.length;
+function scoreFromTheta(theta) {
+  return clamp(Math.round(SCALE_MEAN + SCALE_SD * theta), 200, 1000);
 }
 
 /**
  * معايرة صعوبة كل سؤال بدمج التقدير المبدئي مع بيانات الطلاب الفعلية (Empirical Bayes)
- * mode = 'qiyas'    -> حماية ضد تحيز العينة (إبقاء متوسط الصعوبة على معيار الاختبار الحقيقي مع أخذ الفروق النسبية من الطلاب)
- * mode = 'students' -> مقارنة مباشرة بمستوى طلاب الموقع
  */
 export function calibrateItems(questions, globalStats, mode = 'qiyas') {
   const attempts = (globalStats && Number(globalStats.attempts)) || 0;
@@ -105,7 +125,7 @@ export function calibrateItems(questions, globalStats, mode = 'qiyas') {
     };
   });
 
-  // إذا كان الوضع 'qiyas'، نعيد توسيط متوسط الـ logit إلى متوسط الاختبار الحقيقي لمنع تحيز العينة (Selection Bias)
+  // في وضع 'qiyas'، نعيد توسيط متوسط الـ logit إلى معيار الاختبار الحقيقي لمنع تحيّز العينة
   let shift = 0;
   if (mode === 'qiyas' && attempts > 0 && qCorrect) {
     const meanLogitEmp = rawEmp.reduce((s, it) => s + logit(it.pEmp), 0) / rawEmp.length;
@@ -147,7 +167,7 @@ export function getCalibrationStatus(attempts) {
 }
 
 /**
- * الحساب الكامل لنتيجة المحاكي بنظام 3PL-IRT (EAP) مع تشخيص تأثير كل خطأ
+ * الحساب الكامل لنتيجة المحاكي بنظام 3PL-IRT (Warm's WLE) على المقياس القياسي الصرف (650 + 100θ)
  */
 export function calculateIRTResult(questions, answersBitstring, globalStats, mode = 'qiyas') {
   const calItems = calibrateItems(questions, globalStats, mode);
@@ -159,25 +179,15 @@ export function calculateIRTResult(questions, answersBitstring, globalStats, mod
   const sciResp = sciItems.map((it) => ({ u: getU(it.idx), b: it.b }));
   const skillsResp = skillsItems.map((it) => ({ u: getU(it.idx), b: it.b }));
 
-  const thSci = estimateThetaEAP(sciResp);
-  const thSkills = estimateThetaEAP(skillsResp);
+  const thSci = estimateThetaWLE(sciResp);
+  const thSkills = estimateThetaWLE(skillsResp);
 
-  const tccSci = testCharacteristicPct(thSci, sciItems);
-  const tccSkills = testCharacteristicPct(thSkills, skillsItems);
+  const sciScore = scoreFromTheta(thSci);
+  const skillsScore = scoreFromTheta(thSkills);
+  const totalScore = Math.round(0.75 * sciScore + 0.25 * skillsScore);
+  const zWeighted = 0.75 * thSci + 0.25 * thSkills;
 
-  const meanPSci = sciItems.reduce((s, it) => s + it.pCal, 0) / Math.max(1, sciItems.length);
-  const meanPSkills = skillsItems.reduce((s, it) => s + it.pCal, 0) / Math.max(1, skillsItems.length);
-
-  // التحقق من الدرجة الكاملة (0 أخطاء)
-  const sciAllCorrect = sciResp.every((r) => r.u === 1);
-  const skillsAllCorrect = skillsResp.every((r) => r.u === 1);
-
-  const sciScore = sciAllCorrect ? 1000 : clamp(Math.round(SCALE_BASE + (tccSci - meanPSci) * SCALE_SLOPE), 200, 995);
-  const skillsScore = skillsAllCorrect ? 1000 : clamp(Math.round(SCALE_BASE + (tccSkills - meanPSkills) * SCALE_SLOPE), 200, 995);
-  const totalScore = (sciAllCorrect && skillsAllCorrect) ? 1000 : Math.round(0.75 * sciScore + 0.25 * skillsScore);
-  const zWeighted = (totalScore - SCALE_BASE) / 115;
-
-  // حساب تأثير كل سؤال أخطأ فيه الطالب (كم درجة خسرها بسبب هذا السؤال تحديداً)
+  // حساب تأثير كل سؤال أخطأ فيه الطالب بدقة (كم درجة خسرها بسبب هذا السؤال تحديداً)
   const itemDiagnostics = {};
   for (let i = 0; i < calItems.length; i++) {
     const it = calItems[i];
@@ -195,18 +205,13 @@ export function calculateIRTResult(questions, answersBitstring, globalStats, mod
 
     let pointsLost = 0;
     if (u === 0) {
-      // محاكاة: لو كان الطالب أجاب هذا السؤال صح، كم كانت سترتفع درجته؟
       if (it.section === 'skills') {
         const modResp = skillsResp.map((r, k) => (skillsItems[k].idx === it.idx ? { ...r, u: 1 } : r));
-        const newTh = estimateThetaEAP(modResp);
-        const newTcc = testCharacteristicPct(newTh, skillsItems);
-        const newS = modResp.every((r) => r.u === 1) ? 1000 : clamp(Math.round(SCALE_BASE + (newTcc - meanPSkills) * SCALE_SLOPE), 200, 995);
+        const newS = scoreFromTheta(estimateThetaWLE(modResp));
         pointsLost = Math.max(1, Math.round(0.25 * (newS - skillsScore)));
       } else {
         const modResp = sciResp.map((r, k) => (sciItems[k].idx === it.idx ? { ...r, u: 1 } : r));
-        const newTh = estimateThetaEAP(modResp);
-        const newTcc = testCharacteristicPct(newTh, sciItems);
-        const newS = modResp.every((r) => r.u === 1) ? 1000 : clamp(Math.round(SCALE_BASE + (newTcc - meanPSci) * SCALE_SLOPE), 200, 995);
+        const newS = scoreFromTheta(estimateThetaWLE(modResp));
         pointsLost = Math.max(1, Math.round(0.75 * (newS - sciScore)));
       }
     }
