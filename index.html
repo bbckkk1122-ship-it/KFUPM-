@@ -360,7 +360,7 @@
           </span>
           <h2 class="text-xl sm:text-2xl font-black text-slate-900">المحاكيات الإلكترونية للتحصيلي المبكر</h2>
           <p class="text-sm text-slate-500 mt-1">
-            كل محاكي يطابق توزيع الاختبار الرسمي: <strong>22 مهارات • 24 رياضيات • 24 فيزياء • 20 كيمياء • 20 أحياء</strong> (مع سؤال متطابقات مثلثية في كل محاكي). يجب إكمال جميع الأسئلة لتسجيل نتيجتك وتوقع درجتك من 1000.
+            كل محاكي يطابق توزيع الاختبار الرسمي: <strong>22 مهارات • 24 رياضيات • 24 فيزياء • 20 كيمياء • 20 أحياء</strong> (مع سؤال متطابقات مثلثية في كل محاكي). يجب إكمال جميع الأسئلة لتسجيل نتيجتك وتوقع درجتك من 1000. <strong>يُسمح بمحاولة واحدة فقط لكل محاكي</strong> لضمان دقة متوسط وتوزيع درجات الطلاب، ويمكنك مراجعة نتيجتك وأخطائك في أي وقت.
           </p>
         </div>
 
@@ -537,7 +537,7 @@
     } from './calc.js';
 
     // اختياري: ضع هنا رابط Google Apps Script أو Firebase لحفظ متوسط أخطاء جميع الطلاب سحابياً عبر كل الأجهزة
-    const STATS_API_URL = 'https://script.google.com/macros/s/AKfycbw2UnUkxaZ4lYMmas_KM0_1bhIHFYw05NjpnyJOD6Do1s8WeU-hVXbFSLq9_O2GVxt0/exec';
+    const STATS_API_URL = '';
 
     // ==================== التنقل بين الخانتين ====================
     // ==================== الوضع الليلي (Dark Mode) ====================
@@ -936,7 +936,25 @@
       } catch {}
     }
 
+    function hasCompletedMock(mockId) {
+      try {
+        return localStorage.getItem(`nabthati_mock_completed_${mockId}`) === '1' || !!getLastAttempt(mockId);
+      } catch {
+        return false;
+      }
+    }
+
+    function markMockCompleted(mockId) {
+      try { localStorage.setItem(`nabthati_mock_completed_${mockId}`, '1'); } catch {}
+    }
+
     async function saveCompletedAttempt(mockId, totalMistakes, sciMistakes, skillsMistakes) {
+      // منع تكرار التسجيل أو الإرسال أكثر من مرة لنفس المحاكي
+      if (hasCompletedMock(mockId)) {
+        return getEffectiveMockStats(mockId);
+      }
+      markMockCompleted(mockId);
+
       // 1. حفظ محلي فوري
       const localStats = getLocalMockStats(mockId);
       localStats.attempts += 1;
@@ -962,7 +980,8 @@
       MOCKS_CATALOG.forEach(m => {
         const stats = getEffectiveMockStats(m.id);
         const lastAttempt = getLastAttempt(m.id);
-        const savedProg = getSavedProgress(m.id);
+        const completed = hasCompletedMock(m.id);
+        const savedProg = !completed ? getSavedProgress(m.id) : null;
         const progCount = savedProg && savedProg.answers ? Object.keys(savedProg.answers).length : 0;
         const avgText = stats.attempts > 0
           ? `متوسط أخطاء الطلاب: ${(stats.totalMistakesSum / stats.attempts).toFixed(1)} (${stats.attempts} محاولة مكتملة)`
@@ -970,7 +989,7 @@
 
         const startLabel = progCount > 0
           ? `استكمال المحاكي (${progCount}/110) ←`
-          : (lastAttempt ? 'إعادة المحاكي ←' : `ابدأ ${m.title} ←`);
+          : `ابدأ ${m.title} ←`;
 
         const card = document.createElement('div');
         card.className = 'bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between gap-4 hover:border-emerald-400 transition';
@@ -978,24 +997,33 @@
           <div class="space-y-2">
             <div class="flex items-center justify-between">
               <span class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70">${m.badge || `محاكي #${m.id}`}</span>
-              <span class="text-[11px] font-bold text-slate-400">110 أسئلة</span>
+              <span class="text-[11px] font-bold ${completed ? 'text-emerald-600' : 'text-slate-400'}">${completed ? 'مكتمل ✓' : '110 أسئلة'}</span>
             </div>
             <h3 class="text-lg font-black text-slate-900">${m.title}</h3>
             <p class="text-xs text-slate-500 leading-relaxed">${m.desc}</p>
             <p class="text-[11px] font-bold text-teal-700 bg-teal-50/70 px-2.5 py-1.5 rounded-xl">${avgText}</p>
           </div>
           <div class="space-y-2">
-            <button type="button" data-start-mock="${m.id}" class="w-full py-2.5 rounded-2xl text-sm font-extrabold text-white ${progCount > 0 ? 'bg-amber-600 hover:bg-amber-700' : 'bg-emerald-600 hover:bg-emerald-700'} shadow-sm transition cursor-pointer">
-              ${startLabel}
-            </button>
-            ${lastAttempt ? `
-              <button type="button" data-review-mock="${m.id}" class="w-full py-2 rounded-2xl text-xs font-extrabold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition cursor-pointer">
-                مراجعة المحاولة السابقة (${110 - lastAttempt.totalMistakes}/110) 🔍
+            ${completed ? `
+              <div class="w-full py-2 px-3 rounded-xl text-[11px] font-extrabold text-center text-slate-500 bg-slate-100 border border-slate-200">
+                🔒 تم إكمال المحاكي (يُسمح بمحاولة واحدة فقط)
+              </div>
+              ${lastAttempt ? `
+                <button type="button" data-review-mock="${m.id}" class="w-full py-2.5 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+                  عرض النتيجة ومراجعة الأخطاء (${110 - lastAttempt.totalMistakes}/110) 🔍
+                </button>
+              ` : ''}
+            ` : `
+              <button type="button" data-start-mock="${m.id}" class="w-full py-2.5 rounded-2xl text-sm font-extrabold text-white ${progCount > 0 ? 'bg-amber-600 hover:bg-amber-700' : 'bg-emerald-600 hover:bg-emerald-700'} shadow-sm transition cursor-pointer">
+                ${startLabel}
               </button>
-            ` : ''}
+            `}
           </div>
         `;
-        card.querySelector(`[data-start-mock="${m.id}"]`).addEventListener('click', () => loadAndStartMock(m));
+        const startBtn = card.querySelector(`[data-start-mock="${m.id}"]`);
+        if (startBtn) {
+          startBtn.addEventListener('click', () => loadAndStartMock(m));
+        }
         const reviewBtn = card.querySelector(`[data-review-mock="${m.id}"]`);
         if (reviewBtn) {
           reviewBtn.addEventListener('click', () => openSavedAttempt(m, lastAttempt));
@@ -1005,6 +1033,15 @@
     }
 
     async function loadAndStartMock(mockInfo) {
+      if (hasCompletedMock(mockInfo.id)) {
+        const last = getLastAttempt(mockInfo.id);
+        if (last) {
+          openSavedAttempt(mockInfo, last);
+        } else {
+          alert('لقد أكملت هذا المحاكي مسبقاً؛ يُسمح بمحاولة واحدة فقط لضمان دقة التوزيع.');
+        }
+        return;
+      }
       try {
         const mod = await import(mockInfo.file);
         examState.mockId = mockInfo.id;
