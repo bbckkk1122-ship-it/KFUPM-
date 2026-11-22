@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>منصة التحصيلي المبكر — حاسبة الدرجة + المحاكيات الإلكترونية | Nabthati</title>
+  <meta name="description" content="قدّر درجتك في التحصيلي المبكر بالانحراف المعياري، وجرّب محاكيات إلكترونية بـ 110 أسئلة مع مراجعة الأخطاء. تقدير تقريبي وليس نتيجة رسمية." />
+  <meta name="theme-color" content="#059669" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ar_SA" />
+  <meta property="og:title" content="منصة التحصيلي المبكر — حاسبة الدرجة + المحاكيات" />
+  <meta property="og:description" content="احسب درجتك المتوقعة في التحصيلي المبكر وجرّب المحاكيات الإلكترونية." />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23059669'/%3E%3Cpath d='M14 46V34h8v12zm14 0V22h8v24zm14 0V14h8v32z' fill='white'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
@@ -28,6 +36,7 @@
       background-repeat: repeat;
     }
     body { font-family: 'Tajawal', sans-serif; }
+    :focus-visible { outline: 3px solid #10b981; outline-offset: 2px; }
     .exam-font { font-family: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif; line-height: 1.9; letter-spacing: 0; }
     .katex { direction: ltr; unicode-bidi: isolate; font-size: 1.08em; }
     /* الوضع الليلي (Dark Mode) */
@@ -88,6 +97,21 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-emerald-200 selection:text-emerald-950">
   <div class="watermark-bg" aria-hidden="true"></div>
+  <noscript><div style="background:#fef3c7;color:#78350f;padding:12px 16px;text-align:center;font-weight:700">هذا الموقع يحتاج تفعيل JavaScript ليعمل.</div></noscript>
+  <!-- يظهر فقط إذا فشل تحميل ملفات الموقع (مثلاً ملف ناقص أو خاطئ في المستودع) -->
+  <div id="loadErrorBanner" role="alert" style="display:none;position:sticky;top:0;z-index:60;background:#fee2e2;color:#7f1d1d;padding:12px 16px;text-align:center;font-weight:700;font-size:14px;border-bottom:1px solid #fca5a5">
+    تعذّر تحميل أجزاء من الصفحة. حدّث الصفحة بقوة (Ctrl + F5)، وإن استمرت المشكلة فتواصل مع المطوّر.
+  </div>
+  <script>
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        if (!window.__nabthatiReady) {
+          var b = document.getElementById('loadErrorBanner');
+          if (b) b.style.display = 'block';
+        }
+      }, 3000);
+    });
+  </script>
 
   <!-- الشريط العلوي -->
   <header class="bg-white border-b border-slate-200/80 sticky top-0 z-30 backdrop-blur-md bg-white/90">
@@ -152,10 +176,11 @@
               التوقع المنطقي (إصابة 50% من الأسئلة المشكوك فيها)
             </div>
             <div class="flex items-baseline gap-3 pt-1">
-              <span id="heroTotalScore" class="text-5xl sm:text-6xl font-black tracking-tight">876</span>
+              <span id="heroTotalScore" aria-live="polite" class="text-5xl sm:text-6xl font-black tracking-tight">876</span>
               <span class="text-lg sm:text-xl font-bold text-emerald-100/90">من <span id="heroMaxCap">1000</span></span>
             </div>
             <p id="heroPercentileText" class="text-sm sm:text-base font-medium text-emerald-50/95 flex items-center gap-1.5"></p>
+            <p id="scenarioHint" class="text-xs text-emerald-100/80"></p>
           </div>
 
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 w-full lg:w-auto">
@@ -191,14 +216,14 @@
             <div class="space-y-2">
               <div class="flex items-center justify-between">
                 <label for="sciConfirmedRange" class="text-sm font-bold text-slate-700">الأخطاء المؤكدة</label>
-                <input id="sciConfirmedNum" type="number" min="0" max="88" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                <input id="sciConfirmedNum" aria-label="عدد الأخطاء المؤكدة في القسم العلمي" inputmode="numeric" type="number" min="0" max="88" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
               </div>
               <input id="sciConfirmedRange" type="range" min="0" max="88" value="0" class="w-full" />
             </div>
             <div class="space-y-2">
               <div class="flex items-center justify-between">
                 <label for="sciUncertainRange" class="text-sm font-bold text-slate-700">الأسئلة المشكوك فيها</label>
-                <input id="sciUncertainNum" type="number" min="0" max="88" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500" />
+                <input id="sciUncertainNum" aria-label="عدد الأسئلة المشكوك فيها في القسم العلمي" inputmode="numeric" type="number" min="0" max="88" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500" />
               </div>
               <input id="sciUncertainRange" type="range" min="0" max="88" value="0" class="w-full amber-thumb" />
             </div>
@@ -215,14 +240,14 @@
             <div class="space-y-2">
               <div class="flex items-center justify-between">
                 <label for="skillsConfirmedRange" class="text-sm font-bold text-slate-700">الأخطاء المؤكدة</label>
-                <input id="skillsConfirmedNum" type="number" min="0" max="22" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                <input id="skillsConfirmedNum" aria-label="عدد الأخطاء المؤكدة في قسم المهارات" inputmode="numeric" type="number" min="0" max="22" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
               </div>
               <input id="skillsConfirmedRange" type="range" min="0" max="22" value="0" class="w-full" />
             </div>
             <div class="space-y-2">
               <div class="flex items-center justify-between">
                 <label for="skillsUncertainRange" class="text-sm font-bold text-slate-700">الأسئلة المشكوك فيها</label>
-                <input id="skillsUncertainNum" type="number" min="0" max="22" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500" />
+                <input id="skillsUncertainNum" aria-label="عدد الأسئلة المشكوك فيها في قسم المهارات" inputmode="numeric" type="number" min="0" max="22" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500" />
               </div>
               <input id="skillsUncertainRange" type="range" min="0" max="22" value="0" class="w-full amber-thumb" />
             </div>
@@ -345,6 +370,9 @@
         <div class="mt-3 pt-3 border-t border-slate-100 space-y-2 leading-relaxed">
           <p><strong>• الانحراف المعياري:</strong> يقيس مدى تقارب درجات الطلاب؛ كلما كان صغيراً ("انحراف قوي") كان الطلاب متقاربين جداً حول المتوسط، فيُحدث كل سؤال زائد أو ناقص فرقاً أكبر في ترتيبك؛ وكلما كان كبيراً ("انحراف ضعيف") كانت الدرجات أكثر تشتتاً فيقلّ أثر السؤال الواحد.</p>
           <p><strong>• معيار (Z):</strong> يوضح كم تبعد درجتك عن متوسط بقية المختبرين (كلما زاد الرقم الموجب كنت ضمن نسبة أعلى من الطلاب).</p>
+          <p><strong>• هذه الحاسبة تقدير وليست نتيجة رسمية:</strong> تحوّل عدد أخطائك إلى درجة بافتراض أن درجات الطلاب تتوزع توزيعاً طبيعياً متوسطه 650 وكل انحراف معياري 100 درجة، وبوزن 75% للقسم العلمي و25% لقسم المهارات. هذه افتراضات الموقع وليست أرقاماً منشورة من «قياس».</p>
+          <p><strong>• الأسئلة المشكوك فيها:</strong> تظهر ثلاث حالات: المتفائل (كلها صح)، والمتوقع (نصفها صح)، وأسوأ احتمال (كلها خطأ).</p>
+          <p><strong>• الفرق بين الحاسبة والمحاكيات:</strong> الحاسبة تعتمد على متوسط أخطاء الطلاب الذي تحدده أنت، أما المحاكيات فتزن كل سؤال بصعوبته (نموذج 3PL-IRT)، لذا قد تختلف الدرجتان قليلاً لنفس عدد الأخطاء.</p>
         </div>
       </details>
     </div>
@@ -451,6 +479,7 @@
                 <span class="text-lg font-bold text-emerald-100">من 1000</span>
               </div>
               <p id="resModeDesc" class="text-xs sm:text-sm text-emerald-100"></p>
+              <p class="text-[11px] text-emerald-200/80">الورقة بلا أخطاء تُقدَّر بنحو 910 في هذا النظام، وليس 1000.</p>
               <div id="resCalibrationBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold border mt-1"></div>
               <p id="resDurationText" class="text-xs font-bold text-emerald-200/90"></p>
             </div>
@@ -535,25 +564,28 @@
       normalCDF,
       clamp,
       calculateScenario
-    } from './calc.js';
+    } from './calc.js?v=4';
     import {
       calculateIRTResult,
       getCalibrationStatus
-    } from './irt.js?v=3';
+    } from './irt.js?v=4';
 
     // اختياري: ضع هنا رابط Google Apps Script أو Firebase لحفظ متوسط أخطاء جميع الطلاب سحابياً عبر كل الأجهزة
+    const APP_VERSION = '4'; // ارفع الرقم عند تعديل أي ملف .js حتى لا يبقى المتصفح على نسخة قديمة
     const STATS_API_URL = 'https://script.google.com/macros/s/AKfycbw2UnUkxaZ4lYMmas_KM0_1bhIHFYw05NjpnyJOD6Do1s8WeU-hVXbFSLq9_O2GVxt0/exec';
 
     // ==================== التنقل بين الخانتين ====================
     // ==================== الوضع الليلي (Dark Mode) ====================
     const darkModeBtn = document.getElementById('darkModeBtn');
-    function applyDarkMode(isDark) {
+    function applyDarkMode(isDark, persist = true) {
       document.documentElement.classList.toggle('dark', isDark);
       if (darkModeBtn) darkModeBtn.textContent = isDark ? '☀️' : '🌙';
-      try { localStorage.setItem('nabthati_dark_mode', isDark ? '1' : '0'); } catch {}
+      if (persist) { try { localStorage.setItem('nabthati_dark_mode', isDark ? '1' : '0'); } catch {} }
     }
     try {
-      if (localStorage.getItem('nabthati_dark_mode') === '1') applyDarkMode(true);
+      const savedDark = localStorage.getItem('nabthati_dark_mode');
+      if (savedDark === '1') applyDarkMode(true);
+      else if (savedDark === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) applyDarkMode(true, false);
     } catch {}
     if (darkModeBtn) {
       darkModeBtn.addEventListener('click', () => {
@@ -588,6 +620,25 @@
 
     // ==================== منطق الحاسبة ====================
     const state = { ...DEFAULT_STATE };
+    const CALC_STATE_KEY = 'nabthati_calc_state_v1';
+    function loadCalcState() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(CALC_STATE_KEY) || 'null');
+        if (!raw || typeof raw !== 'object') return;
+        const num = (v, lo, hi, d) => (Number.isFinite(Number(v)) ? clamp(Math.round(Number(v)), lo, hi) : d);
+        state.sciConfirmed = num(raw.sciConfirmed, 0, TOTAL_SCI, 0);
+        state.sciUncertain = num(raw.sciUncertain, 0, TOTAL_SCI - state.sciConfirmed, 0);
+        state.skillsConfirmed = num(raw.skillsConfirmed, 0, TOTAL_SKILLS, 0);
+        state.skillsUncertain = num(raw.skillsUncertain, 0, TOTAL_SKILLS - state.skillsConfirmed, 0);
+        state.avgMistakes = num(raw.avgMistakes, 10, 50, DEFAULT_STATE.avgMistakes);
+        if (SD_CONFIG[raw.sdMode]) state.sdMode = raw.sdMode;
+        if (raw.maxCap === 950 || raw.maxCap === 1000) state.maxCap = raw.maxCap;
+      } catch {}
+    }
+    function saveCalcState() {
+      try { localStorage.setItem(CALC_STATE_KEY, JSON.stringify(state)); } catch {}
+    }
+    loadCalcState();
     const el = {
       sciConfirmedRange: document.getElementById('sciConfirmedRange'),
       sciConfirmedNum: document.getElementById('sciConfirmedNum'),
@@ -665,6 +716,7 @@
       el.skillsConfirmedRange.value = state.skillsConfirmed; el.skillsConfirmedNum.value = state.skillsConfirmed;
       el.skillsUncertainRange.value = state.skillsUncertain; el.skillsUncertainNum.value = state.skillsUncertain;
       el.avgMistakesRange.value = state.avgMistakes; el.avgMistakesVal.textContent = state.avgMistakes;
+      saveCalcState();
 
       el.sciRemainingBadge.textContent = `${TOTAL_SCI - state.sciConfirmed - state.sciUncertain} مؤكدة صح`;
       el.skillsRemainingBadge.textContent = `${TOTAL_SKILLS - state.skillsConfirmed - state.skillsUncertain} مؤكدة صح`;
@@ -679,6 +731,10 @@
       el.heroSciRaw.textContent = `${fmtNum(mid.userSciCorrect)} / ${TOTAL_SCI} صح`;
       el.heroSkillsScore.textContent = mid.skillsScore;
       el.heroSkillsRaw.textContent = `${fmtNum(mid.userSkillsCorrect)} / ${TOTAL_SKILLS} صح`;
+      const hint = document.getElementById('scenarioHint');
+      if (hint) hint.textContent = (state.sciUncertain + state.skillsUncertain === 0)
+        ? 'أضف الأسئلة المشكوك فيها لترى المدى بين أفضل احتمال وأسوأ احتمال.'
+        : '';
       el.heroZScore.textContent = `${mid.zWeighted >= 0 ? '+' : ''}${mid.zWeighted.toFixed(2)}σ`;
 
       const cdf = normalCDF(mid.zWeighted);
@@ -812,6 +868,11 @@
       } catch { return false; }
     }
     async function copyWithFeedback(btn, text, defaultLabel) {
+      // على الجوال نفتح قائمة المشاركة الأصلية (واتساب/تيليجرام...) وفي غيره ننسخ النص
+      if (navigator.share && window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
+        try { await navigator.share({ text }); return; }
+        catch (e) { if (e && e.name === 'AbortError') return; }
+      }
       const ok = await copyText(text);
       btn.textContent = ok ? 'تم النسخ! ✓' : 'تعذّر النسخ، انسخ يدوياً';
       setTimeout(() => { btn.textContent = defaultLabel; }, 2000);
@@ -1118,7 +1179,7 @@
         return;
       }
       try {
-        const mod = await import(mockInfo.file);
+        const mod = await import(`${mockInfo.file}?v=${APP_VERSION}`);
         examState.mockId = mockInfo.id;
         examState.meta = mod.MOCK_META || { id: mockInfo.id, title: mockInfo.title };
         examState.questions = Array.isArray(mod.QUESTIONS) ? mod.QUESTIONS : [];
@@ -1521,8 +1582,9 @@
     window.addEventListener('pagehide', saveProgress);
     document.addEventListener('visibilitychange', () => { if (document.hidden) saveProgress(); });
 
-    window.addEventListener('load', () => { updatePresetStyles(); updateSdStyles(); updateAll(); renderMocksGrid(); fetchGlobalStats(); });
-    updatePresetStyles(); updateSdStyles(); updateAll(); renderMocksGrid();
+    window.addEventListener('load', () => { updatePresetStyles(); updateSdStyles(); setCap(state.maxCap); renderMocksGrid(); fetchGlobalStats(); });
+    updatePresetStyles(); updateSdStyles(); setCap(state.maxCap); renderMocksGrid();
+    window.__nabthatiReady = true;
   </script>
 </body>
 </html>
