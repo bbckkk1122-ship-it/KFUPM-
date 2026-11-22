@@ -21,7 +21,8 @@ export const QUESTIONS = [
       "$4\\%$"
     ],
     "answer": 1,
-    "explanation": "الزيادة الكلية $= 2 + 3 + \\dfrac{2 \\times 3}{100} = 5.06\\%$."
+    "explanation": "الزيادة الكلية $= 2 + 3 + \\dfrac{2 \\times 3}{100} = 5.06\\%$.",
+    "pPrior": 0.64
   },
   {
     "id": 2,
@@ -35,7 +36,8 @@ export const QUESTIONS = [
       "أغلب من هم تحت مستوى خط الفقر من الأطفال وكبار السن"
     ],
     "answer": 3,
-    "explanation": "التفسير المنطقي الذي يجمع المعطيات هو أن معظم من هم تحت خط الفقر غير مؤهلين لسوق العمل (أطفال وكبار سن)."
+    "explanation": "التفسير المنطقي الذي يجمع المعطيات هو أن معظم من هم تحت خط الفقر غير مؤهلين لسوق العمل (أطفال وكبار سن).",
+    "pPrior": 0.76
   },
   {
     "id": 3,
@@ -49,7 +51,8 @@ export const QUESTIONS = [
       "IF"
     ],
     "answer": 2,
-    "explanation": "دالة SUM تُستخدم لحساب المجموع في Excel."
+    "explanation": "دالة SUM تُستخدم لحساب المجموع في Excel.",
+    "pPrior": 0.9
   },
   {
     "id": 4,
@@ -63,7 +66,8 @@ export const QUESTIONS = [
       "$100\\text{ km}$"
     ],
     "answer": 1,
-    "explanation": "السرعة المتوسطة $= \\dfrac{2 \\times 60 \\times 40}{60 + 40} = 48\\text{ km/h}$. المسافة ذهاباً وإياباً $= 48 \\times 5 = 240\\text{ km}$، إذن المسافة بين المدينتين $= 120\\text{ km}$."
+    "explanation": "السرعة المتوسطة $= \\dfrac{2 \\times 60 \\times 40}{60 + 40} = 48\\text{ km/h}$. المسافة ذهاباً وإياباً $= 48 \\times 5 = 240\\text{ km}$، إذن المسافة بين المدينتين $= 120\\text{ km}$.",
+    "pPrior": 0.48
   },
   {
     "id": 5,
@@ -77,7 +81,8 @@ export const QUESTIONS = [
       "$2\\text{ kg}$"
     ],
     "answer": 0,
-    "explanation": "قيمة الجزء $= 40 \\div 8 = 5\\text{ kg}$؛ إذن س $= 25\\text{ kg}$ وص $= 15\\text{ kg}$. لتتساويا عند $20\\text{ kg}$ ننقل $5\\text{ kg}$."
+    "explanation": "قيمة الجزء $= 40 \\div 8 = 5\\text{ kg}$؛ إذن س $= 25\\text{ kg}$ وص $= 15\\text{ kg}$. لتتساويا عند $20\\text{ kg}$ ننقل $5\\text{ kg}$.",
+    "pPrior": 0.68
   },
   {
     "id": 6,
@@ -91,7 +96,8 @@ export const QUESTIONS = [
       "$60$"
     ],
     "answer": 0,
-    "explanation": "النصف الأول ($360$ لتر) يستغرق $360 \\div 12 = 30$ دقيقة، والنصف الثاني بمعدل صافي $8$ لتر/د يستغرق $360 \\div 8 = 45$ دقيقة؛ المجموع $= 75$ دقيقة."
+    "explanation": "النصف الأول ($360$ لتر) يستغرق $360 \\div 12 = 30$ دقيقة، والنصف الثاني بمعدل صافي $8$ لتر/د يستغرق $360 \\div 8 = 45$ دقيقة؛ المجموع $= 75$ دقيقة.",
+    "pPrior": 0.46
   },
   {
     "id": 7,
@@ -105,7 +111,8 @@ export const QUESTIONS = [
       "$\\dfrac{3}{5}$"
     ],
     "answer": 0,
-    "explanation": "بطريقة الترجيح: $\\dfrac{74 - 70}{80 - 74} = \\dfrac{4}{6} = \\dfrac{2}{3}$."
+    "explanation": "بطريقة الترجيح: $\\dfrac{74 - 70}{80 - 74} = \\dfrac{4}{6} = \\dfrac{2}{3}$.",
+    "pPrior": 0.5
   },
   {
     "id": 8,
@@ -119,7 +126,8 @@ export const QUESTIONS = [
       "انخفض سعرها الأصلي بنسبة $8\\%$"
     ],
     "answer": 2,
-    "explanation": "نفرض السعر $100$: بعد زيادة $20\\%$ يصبح $120$، ثم بعد خصم $20\\%$ يصبح $120 \\times 0.8 = 96$؛ أي انخفض $4\\%$."
+    "explanation": "نفرض السعر $100$: بعد زيادة $20\\%$ يصبح $120$، ثم بعد خصم $20\\%$ يصبح $120 \\times 0.8 = 96$؛ أي انخفض $4\\%$.",
+    "pPrior": 0.66
   },
   {
     "id": 9,
@@ -133,7 +141,8 @@ export const QUESTIONS = [
       "تجاوز حجم البيانات المدخلة قدرة البرنامج"
     ],
     "answer": 2,
-    "explanation": "البرنامج أنجز الحسابات، لكن تفسير الدلالات وربط المخرجات بالواقع هو دور المحلل."
+    "explanation": "البرنامج أنجز الحسابات، لكن تفسير الدلالات وربط المخرجات بالواقع هو دور المحلل.",
+    "pPrior": 0.78
   },
   {
     "id": 10,
@@ -147,7 +156,8 @@ export const QUESTIONS = [
       "استبدال النسخة القديمة بالمعدلة وحذف الأصلية"
     ],
     "answer": 2,
-    "explanation": "النسخة الاحتياطية وسجل الإصدارات يضمنان حفظ الأصل وتتبع كل التعديلات بأمان."
+    "explanation": "النسخة الاحتياطية وسجل الإصدارات يضمنان حفظ الأصل وتتبع كل التعديلات بأمان.",
+    "pPrior": 0.82
   },
   {
     "id": 11,
@@ -161,7 +171,8 @@ export const QUESTIONS = [
       "موقع إلكتروني يضم قدراً كبيراً من المعلومات والتفاصيل"
     ],
     "answer": 1,
-    "explanation": "تنوع المصادر المستقلة والمنهجيات البحثية يعزز موثوقية الإثبات العلمي ويقلل التحيز."
+    "explanation": "تنوع المصادر المستقلة والمنهجيات البحثية يعزز موثوقية الإثبات العلمي ويقلل التحيز.",
+    "pPrior": 0.74
   },
   {
     "id": 12,
@@ -176,7 +187,8 @@ export const QUESTIONS = [
       "جميع الإجراءات نسبتها $40\\%$ أو أقل باستثناء إجراء واحد"
     ],
     "answer": 3,
-    "explanation": "من المخطط البياني، جميع الأعمدة تقع عند $40\\%$ أو أقل باستثناء إجراء واحد فقط وهو «العمل من المنزل» ($55\\%$)."
+    "explanation": "من المخطط البياني، جميع الأعمدة تقع عند $40\\%$ أو أقل باستثناء إجراء واحد فقط وهو «العمل من المنزل» ($55\\%$).",
+    "pPrior": 0.62
   },
   {
     "id": 13,
@@ -190,7 +202,8 @@ export const QUESTIONS = [
       "تقديم تبرير مكتوب لكل استنتاج"
     ],
     "answer": 0,
-    "explanation": "ذكر النسب المئوية دون حجم العينة يضلل القارئ حول حجم الظاهرة الحقيقي."
+    "explanation": "ذكر النسب المئوية دون حجم العينة يضلل القارئ حول حجم الظاهرة الحقيقي.",
+    "pPrior": 0.72
   },
   {
     "id": 14,
@@ -204,7 +217,8 @@ export const QUESTIONS = [
       "منح كل قسم حرية تطبيق النظام أو عدم تطبيقه"
     ],
     "answer": 2,
-    "explanation": "التجربة المضبوطة مع اتخاذ الاحتياطات وتقييم النتائج قبل التعميم هي القرار الأكثر توازناً وعقلانية."
+    "explanation": "التجربة المضبوطة مع اتخاذ الاحتياطات وتقييم النتائج قبل التعميم هي القرار الأكثر توازناً وعقلانية.",
+    "pPrior": 0.84
   },
   {
     "id": 15,
@@ -218,7 +232,8 @@ export const QUESTIONS = [
       "اعتماد متوسط نتائج الطريقتين مباشرة"
     ],
     "answer": 2,
-    "explanation": "يجب التحقق من أسباب التفاوت قبل اعتماد أي نتيجة لضمان دقة البيانات."
+    "explanation": "يجب التحقق من أسباب التفاوت قبل اعتماد أي نتيجة لضمان دقة البيانات.",
+    "pPrior": 0.8
   },
   {
     "id": 16,
@@ -232,7 +247,8 @@ export const QUESTIONS = [
       "توسيع نطاق نتائج فئة معينة لتشمل المجتمع كله"
     ],
     "answer": 3,
-    "explanation": "العينة غير ممثلة للمجتمع، فلا يصح تعميم نتائج فئة المراهقين على جميع الأعمار."
+    "explanation": "العينة غير ممثلة للمجتمع، فلا يصح تعميم نتائج فئة المراهقين على جميع الأعمار.",
+    "pPrior": 0.82
   },
   {
     "id": 17,
@@ -246,7 +262,8 @@ export const QUESTIONS = [
       "مقارنة منهجية الدراستين أولاً، ثم تعديل النتائج المتأثرة فقط، والإبقاء على النتائج المدعومة، مع توضيح نقاط الاختلاف وما لا يمكن الجزم به"
     ],
     "answer": 3,
-    "explanation": "الأمانة العلمية تقتضي مقارنة المنهجية وتوضيح أوجه الاختلاف بدقة دون حذف متسرع أو إخفاء."
+    "explanation": "الأمانة العلمية تقتضي مقارنة المنهجية وتوضيح أوجه الاختلاف بدقة دون حذف متسرع أو إخفاء.",
+    "pPrior": 0.58
   },
   {
     "id": 18,
@@ -260,7 +277,8 @@ export const QUESTIONS = [
       "إهمال المعلومات وإلغاء إقامة المهرجان في العام المقبل"
     ],
     "answer": 1,
-    "explanation": "تحليل المعطيات الثلاثة معاً يمنح صورة متكاملة للوصول إلى حل فعّال وشامل."
+    "explanation": "تحليل المعطيات الثلاثة معاً يمنح صورة متكاملة للوصول إلى حل فعّال وشامل.",
+    "pPrior": 0.78
   },
   {
     "id": 19,
@@ -274,7 +292,8 @@ export const QUESTIONS = [
       "تعزيز التركيز على الفرضيات الصحيحة"
     ],
     "answer": 0,
-    "explanation": "وفق تسريبات الفترة الأولى المعتمدة، الفائدة الأساسية هي جعل العرض أكثر وضوحاً."
+    "explanation": "وفق تسريبات الفترة الأولى المعتمدة، الفائدة الأساسية هي جعل العرض أكثر وضوحاً.",
+    "pPrior": 0.52
   },
   {
     "id": 20,
@@ -288,7 +307,8 @@ export const QUESTIONS = [
       "إيقاف التسليم مؤقتاً إلى حين تجاوز الأزمة واستعادة القدرة التشغيلية الكاملة"
     ],
     "answer": 0,
-    "explanation": "بما أن النص حدّد الهدف صراحةً بـ «الحفاظ على ثقة العملاء المهمين وأصحاب العقود طويلة الأمد»، فإن الإجراء الأنسب هو تقديم طلباتهم."
+    "explanation": "بما أن النص حدّد الهدف صراحةً بـ «الحفاظ على ثقة العملاء المهمين وأصحاب العقود طويلة الأمد»، فإن الإجراء الأنسب هو تقديم طلباتهم.",
+    "pPrior": 0.64
   },
   {
     "id": 21,
@@ -302,7 +322,8 @@ export const QUESTIONS = [
       "طلب نسخة من زميل سبق له الاطلاع على الملف"
     ],
     "answer": 2,
-    "explanation": "النسخ الاحتياطية وسجل الإصدارات هما الوسيلة الموثوقة لاستعادة أحدث نسخة سليمة."
+    "explanation": "النسخ الاحتياطية وسجل الإصدارات هما الوسيلة الموثوقة لاستعادة أحدث نسخة سليمة.",
+    "pPrior": 0.86
   },
   {
     "id": 22,
@@ -316,7 +337,8 @@ export const QUESTIONS = [
       "اهتمام القراء بحجته"
     ],
     "answer": 2,
-    "explanation": "غياب تنوع المصادر والأدلة يضعف مصداقية الحجة العلمية."
+    "explanation": "غياب تنوع المصادر والأدلة يضعف مصداقية الحجة العلمية.",
+    "pPrior": 0.74
   },
   {
     "id": 23,
@@ -330,7 +352,8 @@ export const QUESTIONS = [
       "$\\dfrac{x - 3}{4x - 12}$"
     ],
     "answer": 0,
-    "explanation": "نحلل المقام إلى $4(x-3)(x+3)(x-2)$ ثم نختصر $(x-2)(x-3)$ فيتبقى $\\dfrac{x - 3}{4(x + 3)}$."
+    "explanation": "نحلل المقام إلى $4(x-3)(x+3)(x-2)$ ثم نختصر $(x-2)(x-3)$ فيتبقى $\\dfrac{x - 3}{4(x + 3)}$.",
+    "pPrior": 0.66
   },
   {
     "id": 24,
@@ -344,7 +367,8 @@ export const QUESTIONS = [
       "السابع"
     ],
     "answer": 3,
-    "explanation": "نعوض $n = 7$: $\\dfrac{7^2 - 1}{7 + 5} = \\dfrac{48}{12} = 4$؛ إذن الحد السابع."
+    "explanation": "نعوض $n = 7$: $\\dfrac{7^2 - 1}{7 + 5} = \\dfrac{48}{12} = 4$؛ إذن الحد السابع.",
+    "pPrior": 0.74
   },
   {
     "id": 25,
@@ -358,7 +382,8 @@ export const QUESTIONS = [
       "$3$ عدد فردي"
     ],
     "answer": 1,
-    "explanation": "تكون $p \\to q$ خاطئة فقط عندما تكون $p$ صائبة و$q$ خاطئة، والعبارة الخاطئة هي «$3$ عدد زوجي»."
+    "explanation": "تكون $p \\to q$ خاطئة فقط عندما تكون $p$ صائبة و$q$ خاطئة، والعبارة الخاطئة هي «$3$ عدد زوجي».",
+    "pPrior": 0.78
   },
   {
     "id": 26,
@@ -372,7 +397,8 @@ export const QUESTIONS = [
       "$(1, -1)$"
     ],
     "answer": 1,
-    "explanation": "نقطة تقاطع القطرين هي منتصف القطر $HM$: $\\left(\\dfrac{-6+4}{2}, \\dfrac{-3+4}{2}\\right) = \\left(-1, \\dfrac{1}{2}\\right)$."
+    "explanation": "نقطة تقاطع القطرين هي منتصف القطر $HM$: $\\left(\\dfrac{-6+4}{2}, \\dfrac{-3+4}{2}\\right) = \\left(-1, \\dfrac{1}{2}\\right)$.",
+    "pPrior": 0.7
   },
   {
     "id": 27,
@@ -387,7 +413,8 @@ export const QUESTIONS = [
       "$f(x) = \\dfrac{2}{x + 2}$"
     ],
     "answer": 1,
-    "explanation": "خط التقارب الرأسي $x = 0$ وخط التقارب الأفقي $y = -2$؛ إذن المعادلة هي $f(x) = \\dfrac{2}{x} - 2$."
+    "explanation": "خط التقارب الرأسي $x = 0$ وخط التقارب الأفقي $y = -2$؛ إذن المعادلة هي $f(x) = \\dfrac{2}{x} - 2$.",
+    "pPrior": 0.54
   },
   {
     "id": 28,
@@ -401,7 +428,8 @@ export const QUESTIONS = [
       "$(2, 3)$"
     ],
     "answer": 1,
-    "explanation": "النقطة $(1, 1)$ تحقق جميع المتباينات الأربع."
+    "explanation": "النقطة $(1, 1)$ تحقق جميع المتباينات الأربع.",
+    "pPrior": 0.76
   },
   {
     "id": 29,
@@ -415,7 +443,8 @@ export const QUESTIONS = [
       "$\\sec\\theta$"
     ],
     "answer": 1,
-    "explanation": "$\\sin^2\\theta + \\cos^2\\theta = 1$، وبقسمتها على $\\tan\\theta$ ينتج $\\cot\\theta$."
+    "explanation": "$\\sin^2\\theta + \\cos^2\\theta = 1$، وبقسمتها على $\\tan\\theta$ ينتج $\\cot\\theta$.",
+    "pPrior": 0.74
   },
   {
     "id": 30,
@@ -429,7 +458,8 @@ export const QUESTIONS = [
       "$-\\dfrac{\\sqrt{2}}{2}$"
     ],
     "answer": 1,
-    "explanation": "$\\cos(480^\\circ - 360^\\circ) = \\cos 120^\\circ = -\\dfrac{1}{2}$."
+    "explanation": "$\\cos(480^\\circ - 360^\\circ) = \\cos 120^\\circ = -\\dfrac{1}{2}$.",
+    "pPrior": 0.62
   },
   {
     "id": 31,
@@ -443,7 +473,8 @@ export const QUESTIONS = [
       "$20$"
     ],
     "answer": 1,
-    "explanation": "الزاوية المحيطية القائمة تقابل قطر الدائرة، فيكون الوتر (أكبر ضلع) $= 10$."
+    "explanation": "الزاوية المحيطية القائمة تقابل قطر الدائرة، فيكون الوتر (أكبر ضلع) $= 10$.",
+    "pPrior": 0.76
   },
   {
     "id": 32,
@@ -458,7 +489,8 @@ export const QUESTIONS = [
       "$12$"
     ],
     "answer": 3,
-    "explanation": "من فيثاغورس في المثلث القائم $ABD$: $AD = \\sqrt{10^2 - 8^2} = 6$. وبما أن المثلث متطابق الضلعين فإن $AC = 2 \\times 6 = 12$."
+    "explanation": "من فيثاغورس في المثلث القائم $ABD$: $AD = \\sqrt{10^2 - 8^2} = 6$. وبما أن المثلث متطابق الضلعين فإن $AC = 2 \\times 6 = 12$.",
+    "pPrior": 0.72
   },
   {
     "id": 33,
@@ -472,7 +504,8 @@ export const QUESTIONS = [
       "$\\dfrac{1}{4}$"
     ],
     "answer": 0,
-    "explanation": "قطر المربع $= 12$ ومساحته $= \\dfrac{1}{2}(12)^2 = 72$، ومساحة الدائرة $= 36\\pi$؛ فالاحتمال $= \\dfrac{72}{36\\pi} = \\dfrac{2}{\\pi}$."
+    "explanation": "قطر المربع $= 12$ ومساحته $= \\dfrac{1}{2}(12)^2 = 72$، ومساحة الدائرة $= 36\\pi$؛ فالاحتمال $= \\dfrac{72}{36\\pi} = \\dfrac{2}{\\pi}$.",
+    "pPrior": 0.52
   },
   {
     "id": 34,
@@ -486,7 +519,8 @@ export const QUESTIONS = [
       "$2$"
     ],
     "answer": 1,
-    "explanation": "$x^2 = -4 \\implies x = \\pm\\sqrt{-4} = \\pm 2i$."
+    "explanation": "$x^2 = -4 \\implies x = \\pm\\sqrt{-4} = \\pm 2i$.",
+    "pPrior": 0.82
   },
   {
     "id": 35,
@@ -500,7 +534,8 @@ export const QUESTIONS = [
       "$-1$"
     ],
     "answer": 1,
-    "explanation": "$-3a + 10 = 1 \\implies a = 3$، و$-3b + 6 = 0 \\implies b = 2$؛ إذن $a + b = 5$."
+    "explanation": "$-3a + 10 = 1 \\implies a = 3$، و$-3b + 6 = 0 \\implies b = 2$؛ إذن $a + b = 5$.",
+    "pPrior": 0.56
   },
   {
     "id": 36,
@@ -514,7 +549,8 @@ export const QUESTIONS = [
       "$\\dfrac{3}{2}$"
     ],
     "answer": 0,
-    "explanation": "$S = \\dfrac{a_1}{1 - r} \\implies 9 = \\dfrac{6}{1 - r} \\implies r = \\dfrac{1}{3}$."
+    "explanation": "$S = \\dfrac{a_1}{1 - r} \\implies 9 = \\dfrac{6}{1 - r} \\implies r = \\dfrac{1}{3}$.",
+    "pPrior": 0.68
   },
   {
     "id": 37,
@@ -528,7 +564,8 @@ export const QUESTIONS = [
       "$f^{-1}(x) = x^2 + 2,\\; x \\ge 0$"
     ],
     "answer": 1,
-    "explanation": "$x = \\sqrt{y + 2} \\implies y = x^2 - 2$، ومجالها مدى الأصلية $x \\ge 0$."
+    "explanation": "$x = \\sqrt{y + 2} \\implies y = x^2 - 2$، ومجالها مدى الأصلية $x \\ge 0$.",
+    "pPrior": 0.6
   },
   {
     "id": 38,
@@ -542,7 +579,8 @@ export const QUESTIONS = [
       "$670$"
     ],
     "answer": 3,
-    "explanation": "$S_{20} = \\dfrac{20}{2}(5 + 62) = 10 \\times 67 = 670$."
+    "explanation": "$S_{20} = \\dfrac{20}{2}(5 + 62) = 10 \\times 67 = 670$.",
+    "pPrior": 0.72
   },
   {
     "id": 39,
@@ -557,7 +595,8 @@ export const QUESTIONS = [
       "$f(x) = \\begin{cases} -2x, & x > -1 \\\\ -1, & 1 \\le x < 3 \\\\ x - 1, & x < 3 \\end{cases}$"
     ],
     "answer": 0,
-    "explanation": "القطعة الوسطى ثابتة عند $y = -1$ على الفترة $[-1, 3]$ بدائرتين مغلقتين، وعند $x = -1$ الدائرة المفتوحة عند $y = 2$ (أي $-2x$)، وعند $x = 3$ الدائرة المفتوحة عند $y = 4$ (أي $x+1$)."
+    "explanation": "القطعة الوسطى ثابتة عند $y = -1$ على الفترة $[-1, 3]$ بدائرتين مغلقتين، وعند $x = -1$ الدائرة المفتوحة عند $y = 2$ (أي $-2x$)، وعند $x = 3$ الدائرة المفتوحة عند $y = 4$ (أي $x+1$).",
+    "pPrior": 0.54
   },
   {
     "id": 40,
@@ -572,7 +611,8 @@ export const QUESTIONS = [
       "$\\dfrac{4}{3}$"
     ],
     "answer": 2,
-    "explanation": "من التشابه: $\\dfrac{10}{12} = \\dfrac{x + 3}{2x + 3} \\implies 5(2x + 3) = 6(x + 3) \\implies 10x + 15 = 6x + 18 \\implies x = \\dfrac{3}{4}$."
+    "explanation": "من التشابه: $\\dfrac{10}{12} = \\dfrac{x + 3}{2x + 3} \\implies 5(2x + 3) = 6(x + 3) \\implies 10x + 15 = 6x + 18 \\implies x = \\dfrac{3}{4}$.",
+    "pPrior": 0.58
   },
   {
     "id": 41,
@@ -586,7 +626,8 @@ export const QUESTIONS = [
       "$2 + i,\\; 2 - i$"
     ],
     "answer": 2,
-    "explanation": "$x = \\dfrac{-4 \\pm \\sqrt{16 - 20}}{2} = -2 \\pm i$."
+    "explanation": "$x = \\dfrac{-4 \\pm \\sqrt{16 - 20}}{2} = -2 \\pm i$.",
+    "pPrior": 0.62
   },
   {
     "id": 42,
@@ -600,7 +641,8 @@ export const QUESTIONS = [
       "$-\\dfrac{4}{5}$"
     ],
     "answer": 1,
-    "explanation": "من ثلاثية فيثاغورس $(3, 4, 5)$ ولأنها زاوية حادة في الربع الأول فإن $\\cos\\theta = \\dfrac{4}{5}$."
+    "explanation": "من ثلاثية فيثاغورس $(3, 4, 5)$ ولأنها زاوية حادة في الربع الأول فإن $\\cos\\theta = \\dfrac{4}{5}$.",
+    "pPrior": 0.84
   },
   {
     "id": 43,
@@ -614,7 +656,8 @@ export const QUESTIONS = [
       "$0, 3, 4$"
     ],
     "answer": 3,
-    "explanation": "الأسس السالبة تنزل للمقام: $x(x - 3)^2(x - 4)^2 = 0 \\implies x = 0, 3, 4$."
+    "explanation": "الأسس السالبة تنزل للمقام: $x(x - 3)^2(x - 4)^2 = 0 \\implies x = 0, 3, 4$.",
+    "pPrior": 0.52
   },
   {
     "id": 44,
@@ -628,7 +671,8 @@ export const QUESTIONS = [
       "$4$"
     ],
     "answer": 3,
-    "explanation": "$(2\\cos x - 1)(\\cos x - 1) = 0 \\implies x \\in \\{0^\\circ, 60^\\circ, 300^\\circ, 360^\\circ\\}$، أي $4$ قيم."
+    "explanation": "$(2\\cos x - 1)(\\cos x - 1) = 0 \\implies x \\in \\{0^\\circ, 60^\\circ, 300^\\circ, 360^\\circ\\}$، أي $4$ قيم.",
+    "pPrior": 0.44
   },
   {
     "id": 45,
@@ -642,7 +686,8 @@ export const QUESTIONS = [
       "$2\\pi$"
     ],
     "answer": 3,
-    "explanation": "الدورة الكاملة $360^\\circ$ تعادل $2\\pi$ راديان."
+    "explanation": "الدورة الكاملة $360^\\circ$ تعادل $2\\pi$ راديان.",
+    "pPrior": 0.88
   },
   {
     "id": 46,
@@ -656,7 +701,8 @@ export const QUESTIONS = [
       "$-\\dfrac{\\sqrt{3}}{2}$"
     ],
     "answer": 0,
-    "explanation": "$\\cos(420^\\circ - 360^\\circ) = \\cos 60^\\circ = \\dfrac{1}{2}$."
+    "explanation": "$\\cos(420^\\circ - 360^\\circ) = \\cos 60^\\circ = \\dfrac{1}{2}$.",
+    "pPrior": 0.72
   },
   {
     "id": 47,
@@ -670,7 +716,8 @@ export const QUESTIONS = [
       "$-25$"
     ],
     "answer": 1,
-    "explanation": "$a = \\dfrac{v_f - v_i}{t} = \\dfrac{0 - 20}{5} = -4\\text{ m/s}^2$."
+    "explanation": "$a = \\dfrac{v_f - v_i}{t} = \\dfrac{0 - 20}{5} = -4\\text{ m/s}^2$.",
+    "pPrior": 0.82
   },
   {
     "id": 48,
@@ -684,7 +731,8 @@ export const QUESTIONS = [
       "التسارع الزاوي"
     ],
     "answer": 0,
-    "explanation": "التردد الزاوي هو عدد الدورات الكاملة في الثانية الواحدة."
+    "explanation": "التردد الزاوي هو عدد الدورات الكاملة في الثانية الواحدة.",
+    "pPrior": 0.78
   },
   {
     "id": 49,
@@ -698,7 +746,8 @@ export const QUESTIONS = [
       "السرعة الزاوية"
     ],
     "answer": 1,
-    "explanation": "السرعة المتوسطة (قياسية) $= \\dfrac{\\text{المسافة الكلية}}{\\text{الزمن الكلي}}$."
+    "explanation": "السرعة المتوسطة (قياسية) $= \\dfrac{\\text{المسافة الكلية}}{\\text{الزمن الكلي}}$.",
+    "pPrior": 0.84
   },
   {
     "id": 50,
@@ -712,7 +761,8 @@ export const QUESTIONS = [
       "$\\dfrac{3}{\\pi}$"
     ],
     "answer": 0,
-    "explanation": "الدورة الكاملة تعادل $2\\pi$ راديان."
+    "explanation": "الدورة الكاملة تعادل $2\\pi$ راديان.",
+    "pPrior": 0.88
   },
   {
     "id": 51,
@@ -726,7 +776,8 @@ export const QUESTIONS = [
       "إحدى قيمتي مركبتيه"
     ],
     "answer": 0,
-    "explanation": "المتجه الأصلي يساوي الجمع الاتجاهي لمركبتيه الأفقية والرأسية."
+    "explanation": "المتجه الأصلي يساوي الجمع الاتجاهي لمركبتيه الأفقية والرأسية.",
+    "pPrior": 0.8
   },
   {
     "id": 52,
@@ -740,7 +791,8 @@ export const QUESTIONS = [
       "$37.6\\text{ J}$"
     ],
     "answer": 0,
-    "explanation": "$Q = m C \\Delta T = 1.5 \\times 450 \\times (37 - 12) = 675 \\times 25 = 16875\\text{ J}$."
+    "explanation": "$Q = m C \\Delta T = 1.5 \\times 450 \\times (37 - 12) = 675 \\times 25 = 16875\\text{ J}$.",
+    "pPrior": 0.64
   },
   {
     "id": 53,
@@ -754,7 +806,8 @@ export const QUESTIONS = [
       "$80\\text{ J}$ خلال $1\\text{ s}$"
     ],
     "answer": 2,
-    "explanation": "$P = \\dfrac{W}{t} = \\dfrac{8\\text{ J}}{1\\text{ s}} = 8\\text{ W}$."
+    "explanation": "$P = \\dfrac{W}{t} = \\dfrac{8\\text{ J}}{1\\text{ s}} = 8\\text{ W}$.",
+    "pPrior": 0.78
   },
   {
     "id": 54,
@@ -769,7 +822,8 @@ export const QUESTIONS = [
       "$5\\text{ m}$"
     ],
     "answer": 3,
-    "explanation": "$A_y = A\\sin 30^\\circ = 10 \\times 0.5 = 5\\text{ m}$."
+    "explanation": "$A_y = A\\sin 30^\\circ = 10 \\times 0.5 = 5\\text{ m}$.",
+    "pPrior": 0.74
   },
   {
     "id": 55,
@@ -783,7 +837,8 @@ export const QUESTIONS = [
       "يمكن إيجاد الزخم النهائي بطرح الدفع من الزخم الابتدائي"
     ],
     "answer": 3,
-    "explanation": "الزخم النهائي يساوي الزخم الابتدائي «زائد» الدفع ($p_f = p_i + I$) وليس طرحه."
+    "explanation": "الزخم النهائي يساوي الزخم الابتدائي «زائد» الدفع ($p_f = p_i + I$) وليس طرحه.",
+    "pPrior": 0.66
   },
   {
     "id": 56,
@@ -797,7 +852,8 @@ export const QUESTIONS = [
       "$0.1$"
     ],
     "answer": 1,
-    "explanation": "$f_k = \\mu_k m g = 0.3 \\times 3 \\times 10 = 9\\text{ N}$."
+    "explanation": "$f_k = \\mu_k m g = 0.3 \\times 3 \\times 10 = 9\\text{ N}$.",
+    "pPrior": 0.76
   },
   {
     "id": 57,
@@ -812,7 +868,8 @@ export const QUESTIONS = [
       "$15\\text{ W}$"
     ],
     "answer": 3,
-    "explanation": "من فيثاغورس الارتفاع $h = \\sqrt{5^2 - 4^2} = 3\\text{ m}$. القدرة $P = \\dfrac{mgh}{t} = \\dfrac{30 \\times 10 \\times 3}{60} = 15\\text{ W}$."
+    "explanation": "من فيثاغورس الارتفاع $h = \\sqrt{5^2 - 4^2} = 3\\text{ m}$. القدرة $P = \\dfrac{mgh}{t} = \\dfrac{30 \\times 10 \\times 3}{60} = 15\\text{ W}$.",
+    "pPrior": 0.52
   },
   {
     "id": 58,
@@ -826,7 +883,8 @@ export const QUESTIONS = [
       "موجب ويُنقص الطاقة الحركية للنظام"
     ],
     "answer": 2,
-    "explanation": "الاحتكاك يعاكس الإزاحة فيكون شغله سالباً ويُنقص الطاقة الحركية للنظام."
+    "explanation": "الاحتكاك يعاكس الإزاحة فيكون شغله سالباً ويُنقص الطاقة الحركية للنظام.",
+    "pPrior": 0.78
   },
   {
     "id": 59,
@@ -840,7 +898,8 @@ export const QUESTIONS = [
       "$\\text{kg/(m}^3\\cdot\\text{s}^2)$"
     ],
     "answer": 1,
-    "explanation": "$\\dfrac{\\text{kg}}{\\text{m}^3} \\times \\dfrac{\\text{m}}{\\text{s}^2} \\times \\text{m} = \\dfrac{\\text{kg}}{\\text{m}\\cdot\\text{s}^2}$."
+    "explanation": "$\\dfrac{\\text{kg}}{\\text{m}^3} \\times \\dfrac{\\text{m}}{\\text{s}^2} \\times \\text{m} = \\dfrac{\\text{kg}}{\\text{m}\\cdot\\text{s}^2}$.",
+    "pPrior": 0.68
   },
   {
     "id": 60,
@@ -854,7 +913,8 @@ export const QUESTIONS = [
       "$\\text{m/s}^2$"
     ],
     "answer": 2,
-    "explanation": "$PE = mgh \\implies \\text{kg}\\cdot\\text{m}^2/\\text{s}^2$."
+    "explanation": "$PE = mgh \\implies \\text{kg}\\cdot\\text{m}^2/\\text{s}^2$.",
+    "pPrior": 0.74
   },
   {
     "id": 61,
@@ -868,7 +928,8 @@ export const QUESTIONS = [
       "الزمن لأنها تزيد من قوة التأثير"
     ],
     "answer": 0,
-    "explanation": "تزيد الوسائد الهوائية زمن التصادم فتقلل القوة المؤثرة على الراكب."
+    "explanation": "تزيد الوسائد الهوائية زمن التصادم فتقلل القوة المؤثرة على الراكب.",
+    "pPrior": 0.84
   },
   {
     "id": 62,
@@ -882,7 +943,8 @@ export const QUESTIONS = [
       "قوة كوريوليس الظاهرية"
     ],
     "answer": 3,
-    "explanation": "قوة كوريوليس الظاهرية تنشأ بسبب دوران الأرض."
+    "explanation": "قوة كوريوليس الظاهرية تنشأ بسبب دوران الأرض.",
+    "pPrior": 0.72
   },
   {
     "id": 63,
@@ -896,7 +958,8 @@ export const QUESTIONS = [
       "زادت المسافة بينهما إلى $2r$"
     ],
     "answer": 2,
-    "explanation": "بما أن $F \\propto \\dfrac{1}{r^2}$ فعند نقص المسافة للنصف تزداد القوة إلى $4$ أمثالها."
+    "explanation": "بما أن $F \\propto \\dfrac{1}{r^2}$ فعند نقص المسافة للنصف تزداد القوة إلى $4$ أمثالها.",
+    "pPrior": 0.68
   },
   {
     "id": 64,
@@ -910,7 +973,8 @@ export const QUESTIONS = [
       "يكتسب الجسم تسارعاً $1\\text{ m/s}^2$"
     ],
     "answer": 1,
-    "explanation": "قوة الاحتكاك $= 0.4 \\times 30 \\times 10 = 120\\text{ N}$؛ إذن المحصلة $= 125 - 120 = 5\\text{ N}$ باتجاه القوة المؤثرة."
+    "explanation": "قوة الاحتكاك $= 0.4 \\times 30 \\times 10 = 120\\text{ N}$؛ إذن المحصلة $= 125 - 120 = 5\\text{ N}$ باتجاه القوة المؤثرة.",
+    "pPrior": 0.58
   },
   {
     "id": 65,
@@ -925,7 +989,8 @@ export const QUESTIONS = [
       "$55^\\circ$"
     ],
     "answer": 1,
-    "explanation": "يكون $\\cos\\theta > \\sin\\theta$ عندما تكون $\\theta < 45^\\circ$، والخيار الصحيح هو $35^\\circ$."
+    "explanation": "يكون $\\cos\\theta > \\sin\\theta$ عندما تكون $\\theta < 45^\\circ$، والخيار الصحيح هو $35^\\circ$.",
+    "pPrior": 0.54
   },
   {
     "id": 66,
@@ -939,7 +1004,8 @@ export const QUESTIONS = [
       "المستعر الأعظم"
     ],
     "answer": 0,
-    "explanation": "الثقب الأسود له جاذبية هائلة تمنع حتى الضوء من الإفلات منه."
+    "explanation": "الثقب الأسود له جاذبية هائلة تمنع حتى الضوء من الإفلات منه.",
+    "pPrior": 0.86
   },
   {
     "id": 67,
@@ -953,7 +1019,8 @@ export const QUESTIONS = [
       "الجسمان يمتصان حرارة"
     ],
     "answer": 0,
-    "explanation": "$Q$ السالبة تعني بعث/فقد حرارة، و$Q$ الموجبة تعني امتصاص/اكتساب حرارة."
+    "explanation": "$Q$ السالبة تعني بعث/فقد حرارة، و$Q$ الموجبة تعني امتصاص/اكتساب حرارة.",
+    "pPrior": 0.78
   },
   {
     "id": 68,
@@ -968,7 +1035,8 @@ export const QUESTIONS = [
       "$10\\text{ m/s}$"
     ],
     "answer": 3,
-    "explanation": "من حفظ الطاقة: $v = \\sqrt{2gh} = \\sqrt{2 \\times 10 \\times 5} = \\sqrt{100} = 10\\text{ m/s}$."
+    "explanation": "من حفظ الطاقة: $v = \\sqrt{2gh} = \\sqrt{2 \\times 10 \\times 5} = \\sqrt{100} = 10\\text{ m/s}$.",
+    "pPrior": 0.5
   },
   {
     "id": 69,
@@ -982,7 +1050,8 @@ export const QUESTIONS = [
       "$3600\\text{ J}$"
     ],
     "answer": 3,
-    "explanation": "$v_f = 10 \\times 6 = 60\\text{ m/s}$؛ إذن $\\Delta KE = \\dfrac{1}{2}(2)(60)^2 = 3600\\text{ J}$."
+    "explanation": "$v_f = 10 \\times 6 = 60\\text{ m/s}$؛ إذن $\\Delta KE = \\dfrac{1}{2}(2)(60)^2 = 3600\\text{ J}$.",
+    "pPrior": 0.56
   },
   {
     "id": 70,
@@ -997,7 +1066,8 @@ export const QUESTIONS = [
     ],
     "answer": 2,
     "explanation": "عزم القوة العمودية لأعلى $= +30 \\times 2 = +60\\text{ N}\\cdot\\text{m}$، وعزم القوة الأفقية $15\\sqrt{3}\\text{ N}$ يساوي صفراً لأنها تمر بمحور الدوران، وعزم القوة المائلة بزاوية $30^\\circ$ لأسفل $= -30 \\times 2 \\times \\sin 30^\\circ = -30\\text{ N}\\cdot\\text{m}$. إذن العزم الكلي $= 60 + 0 - 30 = 30\\text{ N}\\cdot\\text{m}$.",
-    "svg": "<svg viewBox=\"0 0 320 175\" class=\"w-full max-w-sm mx-auto my-2 bg-white rounded-xl border border-slate-200 p-2\" dir=\"ltr\">\n  <!-- Vertical wall/bar at left -->\n  <rect x=\"42\" y=\"20\" width=\"10\" height=\"135\" rx=\"2\" fill=\"#cbd5e1\" stroke=\"#334155\" stroke-width=\"1.8\"/>\n  <!-- Horizontal rod (2 m) -->\n  <rect x=\"52\" y=\"84\" width=\"140\" height=\"8\" fill=\"#e2e8f0\" stroke=\"#334155\" stroke-width=\"1.8\"/>\n  <!-- Pivot circle at left end -->\n  <circle cx=\"47\" cy=\"88\" r=\"8\" fill=\"#ffffff\" stroke=\"#334155\" stroke-width=\"2\"/>\n  <circle cx=\"47\" cy=\"88\" r=\"3\" fill=\"#334155\"/>\n  <!-- Length indicator 2 m -->\n  <line x1=\"56\" y1=\"74\" x2=\"188\" y2=\"74\" stroke=\"#0f172a\" stroke-width=\"1.5\"/>\n  <polygon points=\"55,74 63,70 63,78\" fill=\"#0f172a\"/>\n  <polygon points=\"189,74 181,70 181,78\" fill=\"#0f172a\"/>\n  <text x=\"122\" y=\"67\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#0f172a\">2 m</text>\n  <!-- Force 1: 30 N Up (Blue) -->\n  <line x1=\"192\" y1=\"84\" x2=\"192\" y2=\"30\" stroke=\"#0284c7\" stroke-width=\"2.5\"/>\n  <polygon points=\"192,24 187,34 197,34\" fill=\"#0284c7\"/>\n  <text x=\"192\" y=\"18\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#0284c7\">30 N</text>\n  <!-- Force 2: 15√3 N Right (Amber) -->\n  <line x1=\"192\" y1=\"88\" x2=\"252\" y2=\"88\" stroke=\"#eab308\" stroke-width=\"2.5\"/>\n  <polygon points=\"258,88 248,83 248,93\" fill=\"#eab308\"/>\n  <text x=\"286\" y=\"93\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#ca8a04\">15√3 N</text>\n  <!-- Force 3: 30 N Down-Left at 30 deg (Red) -->\n  <line x1=\"192\" y1=\"92\" x2=\"144\" y2=\"122\" stroke=\"#dc2626\" stroke-width=\"2.5\"/>\n  <polygon points=\"139,125 149,124 144,116\" fill=\"#dc2626\"/>\n  <text x=\"148\" y=\"148\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#dc2626\">30 N</text>\n  <!-- 30 deg angle arc -->\n  <path d=\"M 164 92 A 28 28 0 0 0 169 106\" fill=\"none\" stroke=\"#334155\" stroke-width=\"1.5\"/>\n  <text x=\"148\" y=\"106\" font-size=\"12\" font-weight=\"bold\" fill=\"#0f172a\">30°</text>\n</svg>"
+    "svg": "<svg viewBox=\"0 0 320 175\" class=\"w-full max-w-sm mx-auto my-2 bg-white rounded-xl border border-slate-200 p-2\" dir=\"ltr\">\n  <!-- Vertical wall/bar at left -->\n  <rect x=\"42\" y=\"20\" width=\"10\" height=\"135\" rx=\"2\" fill=\"#cbd5e1\" stroke=\"#334155\" stroke-width=\"1.8\"/>\n  <!-- Horizontal rod (2 m) -->\n  <rect x=\"52\" y=\"84\" width=\"140\" height=\"8\" fill=\"#e2e8f0\" stroke=\"#334155\" stroke-width=\"1.8\"/>\n  <!-- Pivot circle at left end -->\n  <circle cx=\"47\" cy=\"88\" r=\"8\" fill=\"#ffffff\" stroke=\"#334155\" stroke-width=\"2\"/>\n  <circle cx=\"47\" cy=\"88\" r=\"3\" fill=\"#334155\"/>\n  <!-- Length indicator 2 m -->\n  <line x1=\"56\" y1=\"74\" x2=\"188\" y2=\"74\" stroke=\"#0f172a\" stroke-width=\"1.5\"/>\n  <polygon points=\"55,74 63,70 63,78\" fill=\"#0f172a\"/>\n  <polygon points=\"189,74 181,70 181,78\" fill=\"#0f172a\"/>\n  <text x=\"122\" y=\"67\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#0f172a\">2 m</text>\n  <!-- Force 1: 30 N Up (Blue) -->\n  <line x1=\"192\" y1=\"84\" x2=\"192\" y2=\"30\" stroke=\"#0284c7\" stroke-width=\"2.5\"/>\n  <polygon points=\"192,24 187,34 197,34\" fill=\"#0284c7\"/>\n  <text x=\"192\" y=\"18\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#0284c7\">30 N</text>\n  <!-- Force 2: 15√3 N Right (Amber) -->\n  <line x1=\"192\" y1=\"88\" x2=\"252\" y2=\"88\" stroke=\"#eab308\" stroke-width=\"2.5\"/>\n  <polygon points=\"258,88 248,83 248,93\" fill=\"#eab308\"/>\n  <text x=\"286\" y=\"93\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#ca8a04\">15√3 N</text>\n  <!-- Force 3: 30 N Down-Left at 30 deg (Red) -->\n  <line x1=\"192\" y1=\"92\" x2=\"144\" y2=\"122\" stroke=\"#dc2626\" stroke-width=\"2.5\"/>\n  <polygon points=\"139,125 149,124 144,116\" fill=\"#dc2626\"/>\n  <text x=\"148\" y=\"148\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#dc2626\">30 N</text>\n  <!-- 30 deg angle arc -->\n  <path d=\"M 164 92 A 28 28 0 0 0 169 106\" fill=\"none\" stroke=\"#334155\" stroke-width=\"1.5\"/>\n  <text x=\"148\" y=\"106\" font-size=\"12\" font-weight=\"bold\" fill=\"#0f172a\">30°</text>\n</svg>",
+    "pPrior": 0.42
   },
   {
     "id": 71,
@@ -1012,7 +1082,8 @@ export const QUESTIONS = [
       "$1,3,5$-ثنائي إيثيل بنزين"
     ],
     "answer": 1,
-    "explanation": "نبدأ الترقيم من مجموعة الإيثيل (أبجدياً بالإنجليزية Ethyl قبل Methyl) فيكون $1$-إيثيل-$3,5$-ثنائي ميثيل بنزين."
+    "explanation": "نبدأ الترقيم من مجموعة الإيثيل (أبجدياً بالإنجليزية Ethyl قبل Methyl) فيكون $1$-إيثيل-$3,5$-ثنائي ميثيل بنزين.",
+    "pPrior": 0.58
   },
   {
     "id": 72,
@@ -1026,7 +1097,8 @@ export const QUESTIONS = [
       "المجموعة $2$، الدورة $2$"
     ],
     "answer": 3,
-    "explanation": "توزيعه $1s^2 2s^2$؛ إذن يقع في الدورة $2$ والمجموعة $2$."
+    "explanation": "توزيعه $1s^2 2s^2$؛ إذن يقع في الدورة $2$ والمجموعة $2$.",
+    "pPrior": 0.82
   },
   {
     "id": 73,
@@ -1040,7 +1112,8 @@ export const QUESTIONS = [
       "$50\\%$"
     ],
     "answer": 3,
-    "explanation": "كتلة ذرتي الأكسجين $= 16\\text{ g}$؛ إذن الكربون $= 16\\text{ g}$ ونسبته $= \\dfrac{16}{32} \\times 100 = 50\\%$."
+    "explanation": "كتلة ذرتي الأكسجين $= 16\\text{ g}$؛ إذن الكربون $= 16\\text{ g}$ ونسبته $= \\dfrac{16}{32} \\times 100 = 50\\%$.",
+    "pPrior": 0.62
   },
   {
     "id": 74,
@@ -1054,7 +1127,8 @@ export const QUESTIONS = [
       "$_{37}\\text{Rb}$"
     ],
     "answer": 3,
-    "explanation": "تقل طاقة التأين كلما اتجهنا لأسفل المجموعة الواحدة، إذن الروبيديوم $_{37}\\text{Rb}$ هو الأقل."
+    "explanation": "تقل طاقة التأين كلما اتجهنا لأسفل المجموعة الواحدة، إذن الروبيديوم $_{37}\\text{Rb}$ هو الأقل.",
+    "pPrior": 0.74
   },
   {
     "id": 75,
@@ -1068,7 +1142,8 @@ export const QUESTIONS = [
       "فلوريد الهيدروجين"
     ],
     "answer": 0,
-    "explanation": "الميثان $\\text{CH}_4$ لا يحتوي على $\\text{N}$ أو $\\text{O}$ أو $\\text{F}$ مرتبطة بالهيدروجين."
+    "explanation": "الميثان $\\text{CH}_4$ لا يحتوي على $\\text{N}$ أو $\\text{O}$ أو $\\text{F}$ مرتبطة بالهيدروجين.",
+    "pPrior": 0.8
   },
   {
     "id": 76,
@@ -1082,7 +1157,8 @@ export const QUESTIONS = [
       "$3.01 \\times 10^{20}$"
     ],
     "answer": 2,
-    "explanation": "الكتلة المولية $= 100\\text{ g/mol}$، إذن المولات $= 0.5\\text{ mol}$، وعدد الجسيمات $= 0.5 \\times 6.02 \\times 10^{23} = 3.01 \\times 10^{23}$."
+    "explanation": "الكتلة المولية $= 100\\text{ g/mol}$، إذن المولات $= 0.5\\text{ mol}$، وعدد الجسيمات $= 0.5 \\times 6.02 \\times 10^{23} = 3.01 \\times 10^{23}$.",
+    "pPrior": 0.56
   },
   {
     "id": 77,
@@ -1096,7 +1172,8 @@ export const QUESTIONS = [
       "هيدروجين كهروسالبيته عالية"
     ],
     "answer": 0,
-    "explanation": "ترتبط بذرة أكسجين ذات كهروسالبية عالية في جزيء ماء مجاور."
+    "explanation": "ترتبط بذرة أكسجين ذات كهروسالبية عالية في جزيء ماء مجاور.",
+    "pPrior": 0.8
   },
   {
     "id": 78,
@@ -1110,7 +1187,8 @@ export const QUESTIONS = [
       "$K_{eq} > 1$"
     ],
     "answer": 3,
-    "explanation": "بما أن البسط (النواتج) أكبر من المقام (المتفاعلات) فإن $K_{eq} > 1$."
+    "explanation": "بما أن البسط (النواتج) أكبر من المقام (المتفاعلات) فإن $K_{eq} > 1$.",
+    "pPrior": 0.78
   },
   {
     "id": 79,
@@ -1124,7 +1202,8 @@ export const QUESTIONS = [
       "فلورو بيوتان"
     ],
     "answer": 3,
-    "explanation": "هاليد ألكيل من $4$ ذرات كربون (بيوتان) وذرة فلور (فلورو) $\\implies$ فلورو بيوتان."
+    "explanation": "هاليد ألكيل من $4$ ذرات كربون (بيوتان) وذرة فلور (فلورو) $\\implies$ فلورو بيوتان.",
+    "pPrior": 0.72
   },
   {
     "id": 80,
@@ -1138,7 +1217,8 @@ export const QUESTIONS = [
       "يكسب إلكترونين في $4s$ وإلكتروناً في $3d$"
     ],
     "answer": 2,
-    "explanation": "الفلزات الانتقالية تفقد من $4s$ أولاً ثم من $3d$."
+    "explanation": "الفلزات الانتقالية تفقد من $4s$ أولاً ثم من $3d$.",
+    "pPrior": 0.52
   },
   {
     "id": 81,
@@ -1152,7 +1232,8 @@ export const QUESTIONS = [
       "$\\text{CH}_4$"
     ],
     "answer": 3,
-    "explanation": "الميثان $\\text{CH}_4$ ألكان مشبع جميع روابطه أحادية (سيجما فقط)."
+    "explanation": "الميثان $\\text{CH}_4$ ألكان مشبع جميع روابطه أحادية (سيجما فقط).",
+    "pPrior": 0.8
   },
   {
     "id": 82,
@@ -1166,7 +1247,8 @@ export const QUESTIONS = [
       "$\\text{FeO}$"
     ],
     "answer": 1,
-    "explanation": "شحنة الحديد $+3$ والأكسجين $-2$، وبالتبادل تكون الصيغة $\\text{Fe}_2\\text{O}_3$."
+    "explanation": "شحنة الحديد $+3$ والأكسجين $-2$، وبالتبادل تكون الصيغة $\\text{Fe}_2\\text{O}_3$.",
+    "pPrior": 0.82
   },
   {
     "id": 83,
@@ -1180,7 +1262,8 @@ export const QUESTIONS = [
       "كيميائية"
     ],
     "answer": 2,
-    "explanation": "الكتلة تعتمد على كمية المادة لذا تُعد خاصية فيزيائية غير مميزة."
+    "explanation": "الكتلة تعتمد على كمية المادة لذا تُعد خاصية فيزيائية غير مميزة.",
+    "pPrior": 0.78
   },
   {
     "id": 84,
@@ -1194,7 +1277,8 @@ export const QUESTIONS = [
       "$\\text{Na}_2\\text{CO}_3 + 2\\text{HCl} \\to 2\\text{NaCl} + \\text{H}_2\\text{O} + \\text{CO}_2$"
     ],
     "answer": 3,
-    "explanation": "في المعادلة الرابعة تتساوى جميع الذرات في المتفاعلات والنواتج."
+    "explanation": "في المعادلة الرابعة تتساوى جميع الذرات في المتفاعلات والنواتج.",
+    "pPrior": 0.68
   },
   {
     "id": 85,
@@ -1208,7 +1292,8 @@ export const QUESTIONS = [
       "$\\text{Al}(\\text{SO}_4)_3$"
     ],
     "answer": 2,
-    "explanation": "نبادل الشحنات بين الأيونين فتصبح الصيغة $\\text{Al}_2(\\text{SO}_4)_3$."
+    "explanation": "نبادل الشحنات بين الأيونين فتصبح الصيغة $\\text{Al}_2(\\text{SO}_4)_3$.",
+    "pPrior": 0.8
   },
   {
     "id": 86,
@@ -1222,7 +1307,8 @@ export const QUESTIONS = [
       "$600\\text{ mL}$"
     ],
     "answer": 0,
-    "explanation": "من قانون بويل: $200 \\times 300 = 300 \\times V_2 \\implies V_2 = 200\\text{ mL}$."
+    "explanation": "من قانون بويل: $200 \\times 300 = 300 \\times V_2 \\implies V_2 = 200\\text{ mL}$.",
+    "pPrior": 0.74
   },
   {
     "id": 87,
@@ -1236,7 +1322,8 @@ export const QUESTIONS = [
       "$2[\\text{Mg}^{2+}][\\text{OH}^-]^2$"
     ],
     "answer": 2,
-    "explanation": "تُستبعد المادة الصلبة وتُرفع تراكيز الأيونات لأس يساوي معاملها: $[\\text{Mg}^{2+}][\\text{OH}^-]^2$."
+    "explanation": "تُستبعد المادة الصلبة وتُرفع تراكيز الأيونات لأس يساوي معاملها: $[\\text{Mg}^{2+}][\\text{OH}^-]^2$.",
+    "pPrior": 0.72
   },
   {
     "id": 88,
@@ -1250,7 +1337,8 @@ export const QUESTIONS = [
       "الكربوهيدرات"
     ],
     "answer": 1,
-    "explanation": "ينطبق عليه القانون العام للألكينات $\\text{C}_n\\text{H}_{2n}$."
+    "explanation": "ينطبق عليه القانون العام للألكينات $\\text{C}_n\\text{H}_{2n}$.",
+    "pPrior": 0.8
   },
   {
     "id": 89,
@@ -1264,7 +1352,8 @@ export const QUESTIONS = [
       "$3$-أيزوبروبيل-$5$-ميثيل هكسان"
     ],
     "answer": 2,
-    "explanation": "أطول سلسلة هبتان ($7$ كربون) ونرقّم بحيث نأخذ أصغر مجموع مع مراعاة الترتيب الأبجدي (إيثيل قبل ميثيل): $3$-إيثيل-$2,6$-ثنائي ميثيل هبتان."
+    "explanation": "أطول سلسلة هبتان ($7$ كربون) ونرقّم بحيث نأخذ أصغر مجموع مع مراعاة الترتيب الأبجدي (إيثيل قبل ميثيل): $3$-إيثيل-$2,6$-ثنائي ميثيل هبتان.",
+    "pPrior": 0.48
   },
   {
     "id": 90,
@@ -1278,7 +1367,8 @@ export const QUESTIONS = [
       "$16$"
     ],
     "answer": 0,
-    "explanation": "تُستبعد المادة الصلبة $\\text{X}_2$؛ إذن $K_{eq} = \\dfrac{4^2}{8} = \\dfrac{16}{8} = 2$."
+    "explanation": "تُستبعد المادة الصلبة $\\text{X}_2$؛ إذن $K_{eq} = \\dfrac{4^2}{8} = \\dfrac{16}{8} = 2$.",
+    "pPrior": 0.58
   },
   {
     "id": 91,
@@ -1292,7 +1382,8 @@ export const QUESTIONS = [
       "الإسكلرنشيمية"
     ],
     "answer": 1,
-    "explanation": "الخلايا الكولنشيمية تعطي النبات الدعامة والمرونة للانحناء دون انكسار."
+    "explanation": "الخلايا الكولنشيمية تعطي النبات الدعامة والمرونة للانحناء دون انكسار.",
+    "pPrior": 0.8
   },
   {
     "id": 92,
@@ -1306,7 +1397,8 @@ export const QUESTIONS = [
       "الانزلاقي"
     ],
     "answer": 0,
-    "explanation": "المفصل الرزي (كالركبة والمرفق) يتحرك في مستوى واحد مثل مفصل الباب."
+    "explanation": "المفصل الرزي (كالركبة والمرفق) يتحرك في مستوى واحد مثل مفصل الباب.",
+    "pPrior": 0.88
   },
   {
     "id": 93,
@@ -1321,7 +1413,8 @@ export const QUESTIONS = [
       "$8$ مجعد إلى $8$ غير مجعد"
     ],
     "answer": 0,
-    "explanation": "من مربع بانيت يظهر فرد واحد متنحٍ مجعد ($rr$) مقابل $3$ أفراد غير مجعدين ($RR, Rr, Rr$)."
+    "explanation": "من مربع بانيت يظهر فرد واحد متنحٍ مجعد ($rr$) مقابل $3$ أفراد غير مجعدين ($RR, Rr, Rr$).",
+    "pPrior": 0.74
   },
   {
     "id": 94,
@@ -1335,7 +1428,8 @@ export const QUESTIONS = [
       "تحتوي على بروتينات خاصة مضادة للتجمد"
     ],
     "answer": 3,
-    "explanation": "تنتج بعض الأسماك العظمية بروتينات خاصة مضادة للجليد في دمها."
+    "explanation": "تنتج بعض الأسماك العظمية بروتينات خاصة مضادة للجليد في دمها.",
+    "pPrior": 0.76
   },
   {
     "id": 95,
@@ -1349,7 +1443,8 @@ export const QUESTIONS = [
       "المنطقة الحيوية"
     ],
     "answer": 3,
-    "explanation": "التدرج من الأصغر للأكبر: جماعة $\\to$ مجتمع $\\to$ نظام بيئي $\\to$ منطقة حيوية."
+    "explanation": "التدرج من الأصغر للأكبر: جماعة $\\to$ مجتمع $\\to$ نظام بيئي $\\to$ منطقة حيوية.",
+    "pPrior": 0.72
   },
   {
     "id": 96,
@@ -1364,7 +1459,8 @@ export const QUESTIONS = [
       "يُفقد جزء من الطاقة عند انتقالها من مستوى غذائي إلى المستوى الذي يليه"
     ],
     "answer": 3,
-    "explanation": "في هرم الطاقة يُفقد نحو $90\\%$ من الطاقة على شكل حرارة عند الانتقال لكل مستوى أعلى."
+    "explanation": "في هرم الطاقة يُفقد نحو $90\\%$ من الطاقة على شكل حرارة عند الانتقال لكل مستوى أعلى.",
+    "pPrior": 0.82
   },
   {
     "id": 97,
@@ -1378,7 +1474,8 @@ export const QUESTIONS = [
       "انقسام الخلايا"
     ],
     "answer": 1,
-    "explanation": "نسيج الخشب ينقل الماء والأملاح المعدنية من الجذور إلى الأوراق."
+    "explanation": "نسيج الخشب ينقل الماء والأملاح المعدنية من الجذور إلى الأوراق.",
+    "pPrior": 0.86
   },
   {
     "id": 98,
@@ -1392,7 +1489,8 @@ export const QUESTIONS = [
       "سلوك إدراكي"
     ],
     "answer": 0,
-    "explanation": "ربط الاستجابة بنتيجة سلبية (الحرق) هو تعلم إجرائي شرطي."
+    "explanation": "ربط الاستجابة بنتيجة سلبية (الحرق) هو تعلم إجرائي شرطي.",
+    "pPrior": 0.66
   },
   {
     "id": 99,
@@ -1406,7 +1504,8 @@ export const QUESTIONS = [
       "الأهداب"
     ],
     "answer": 3,
-    "explanation": "البراميسيوم يمتلك أهداباً للحركة بينما الخلايا النباتية لا تحتوي على أهداب."
+    "explanation": "البراميسيوم يمتلك أهداباً للحركة بينما الخلايا النباتية لا تحتوي على أهداب.",
+    "pPrior": 0.8
   },
   {
     "id": 100,
@@ -1420,7 +1519,8 @@ export const QUESTIONS = [
       "الخلايا الجذعية"
     ],
     "answer": 0,
-    "explanation": "موت الخلايا المبرمج يزيل النسيج بين أصابع الجنين أثناء النمو."
+    "explanation": "موت الخلايا المبرمج يزيل النسيج بين أصابع الجنين أثناء النمو.",
+    "pPrior": 0.84
   },
   {
     "id": 101,
@@ -1434,7 +1534,8 @@ export const QUESTIONS = [
       "يبطئ نبض القلب"
     ],
     "answer": 0,
-    "explanation": "الجهاز السمبثاوي يوسّع القصبات الهوائية ويزيد معدل التنفس ونبض القلب في حالات التوتر والطوارئ."
+    "explanation": "الجهاز السمبثاوي يوسّع القصبات الهوائية ويزيد معدل التنفس ونبض القلب في حالات التوتر والطوارئ.",
+    "pPrior": 0.76
   },
   {
     "id": 102,
@@ -1449,7 +1550,8 @@ export const QUESTIONS = [
       "$4$"
     ],
     "answer": 3,
-    "explanation": "الرقم $4$ يشير إلى المحفظة التي تحمي البكتيريا من الجفاف والمضادات الحيوية."
+    "explanation": "الرقم $4$ يشير إلى المحفظة التي تحمي البكتيريا من الجفاف والمضادات الحيوية.",
+    "pPrior": 0.64
   },
   {
     "id": 103,
@@ -1463,7 +1565,8 @@ export const QUESTIONS = [
       "التيفوئيد"
     ],
     "answer": 0,
-    "explanation": "السيلان مرض بكتيري ينتقل عبر الجنس."
+    "explanation": "السيلان مرض بكتيري ينتقل عبر الجنس.",
+    "pPrior": 0.8
   },
   {
     "id": 104,
@@ -1478,7 +1581,8 @@ export const QUESTIONS = [
       "تفوق الجينات"
     ],
     "answer": 0,
-    "explanation": "ظهور صفة وسطية (الوردي) بين الأحمر والأبيض هو سيادة غير تامة (ناقصة)."
+    "explanation": "ظهور صفة وسطية (الوردي) بين الأحمر والأبيض هو سيادة غير تامة (ناقصة).",
+    "pPrior": 0.78
   },
   {
     "id": 105,
@@ -1492,7 +1596,8 @@ export const QUESTIONS = [
       "تقليل الشعور بالألم"
     ],
     "answer": 0,
-    "explanation": "ينتقل السيال العصبي بالوثب بين العقد مما يزيد سرعته بشكل كبير."
+    "explanation": "ينتقل السيال العصبي بالوثب بين العقد مما يزيد سرعته بشكل كبير.",
+    "pPrior": 0.82
   },
   {
     "id": 106,
@@ -1506,7 +1611,8 @@ export const QUESTIONS = [
       "$25\\%\\; YR$ و $25\\%\\; yR$"
     ],
     "answer": 1,
-    "explanation": "الحرف المكرر $R$ يُؤخذ مرة واحدة، فينتج مشيجان فقط هما $YR$ و $yR$ بنسبة $50\\%$ لكل منهما."
+    "explanation": "الحرف المكرر $R$ يُؤخذ مرة واحدة، فينتج مشيجان فقط هما $YR$ و $yR$ بنسبة $50\\%$ لكل منهما.",
+    "pPrior": 0.64
   },
   {
     "id": 107,
@@ -1520,7 +1626,8 @@ export const QUESTIONS = [
       "العصبي"
     ],
     "answer": 2,
-    "explanation": "النخاع الأحمر في العظام (الجهاز الهيكلي) ينتج خلايا الدم."
+    "explanation": "النخاع الأحمر في العظام (الجهاز الهيكلي) ينتج خلايا الدم.",
+    "pPrior": 0.84
   },
   {
     "id": 108,
@@ -1534,7 +1641,8 @@ export const QUESTIONS = [
       "الغلاف النووي"
     ],
     "answer": 2,
-    "explanation": "المريكزات (السنتريولات) توجد في الخلايا الحيوانية ولا توجد في النباتية."
+    "explanation": "المريكزات (السنتريولات) توجد في الخلايا الحيوانية ولا توجد في النباتية.",
+    "pPrior": 0.82
   },
   {
     "id": 109,
@@ -1548,7 +1656,8 @@ export const QUESTIONS = [
       "$100\\%$"
     ],
     "answer": 1,
-    "explanation": "الأبناء الذكور هم $X^H Y$ (سليم) و $X^h Y$ (مصاب)؛ إذن نسبة الإصابة بين الذكور $50\\%$."
+    "explanation": "الأبناء الذكور هم $X^H Y$ (سليم) و $X^h Y$ (مصاب)؛ إذن نسبة الإصابة بين الذكور $50\\%$.",
+    "pPrior": 0.58
   },
   {
     "id": 110,
@@ -1563,6 +1672,7 @@ export const QUESTIONS = [
       "نوع معيشتها"
     ],
     "answer": 3,
-    "explanation": "سبب قلة تنوع الفطريات الاقترانية هو نوع معيشتها المحدود مقارنة ببقية الفطريات."
+    "explanation": "سبب قلة تنوع الفطريات الاقترانية هو نوع معيشتها المحدود مقارنة ببقية الفطريات.",
+    "pPrior": 0.68
   }
 ];

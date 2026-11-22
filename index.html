@@ -451,6 +451,7 @@
                 <span class="text-lg font-bold text-emerald-100">من 1000</span>
               </div>
               <p id="resModeDesc" class="text-xs sm:text-sm text-emerald-100"></p>
+              <div id="resCalibrationBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold border mt-1"></div>
               <p id="resDurationText" class="text-xs font-bold text-emerald-200/90"></p>
             </div>
 
@@ -479,12 +480,12 @@
           <h3 class="text-base font-extrabold text-slate-900">اختر معيار توقع الدرجة:</h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button id="scoreModeDefaultBtn" type="button" class="p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50 text-right transition cursor-pointer">
-              <div class="text-sm font-extrabold text-emerald-900">1. المعيار الافتراضي (الثابت)</div>
-              <div class="text-xs text-emerald-700 mt-1">انحراف معياري متوسط + متوسط أخطاء الطلاب 25 خطأ</div>
+              <div class="text-sm font-extrabold text-emerald-900">1. معيار قياس المعاير (3PL-IRT) 🎯</div>
+              <div class="text-xs text-emerald-700 mt-1">ترجيح ذكي حسب صعوبة كل سؤال + حماية ضد تحيّز العينة (الأدق لمحاكاة الاختبار الحقيقي)</div>
             </button>
             <button id="scoreModeStudentsBtn" type="button" class="p-4 rounded-2xl border border-slate-200 bg-slate-50 text-right hover:border-emerald-400 transition cursor-pointer">
-              <div class="text-sm font-extrabold text-slate-900">2. بناءً على حل الطلاب في هذا المحاكي</div>
-              <div id="studentsStatsSummary" class="text-xs text-slate-500 mt-1">يُحسب من متوسط أخطاء الطلاب الذين أكملوا المحاكي بالكامل</div>
+              <div class="text-sm font-extrabold text-slate-900">2. مقارنة مباشرة بطلاب الموقع (3PL-IRT)</div>
+              <div id="studentsStatsSummary" class="text-xs text-slate-500 mt-1">يُحسب مباشرةً من أداء الطلاب الذين أكملوا هذا المحاكي بالكامل</div>
             </button>
           </div>
           <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100">
@@ -516,7 +517,7 @@
   <footer class="mt-auto border-t border-slate-200 bg-white">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-5 text-center space-y-1">
       <p class="text-xs text-slate-400 font-bold pt-2">
-        تطوير وحقوق © 2026 — Nabthaty •
+        تطوير وحقوق © 2026 — Nabthati •
         <a href="https://t.me/mqwwsk" target="_blank" class="text-emerald-600 hover:underline">@mqwwsk</a>
       </p>
       <p class="text-xs sm:text-sm text-slate-500 font-medium">
@@ -535,9 +536,13 @@
       clamp,
       calculateScenario
     } from './calc.js';
+    import {
+      calculateIRTResult,
+      getCalibrationStatus
+    } from './irt.js';
 
     // اختياري: ضع هنا رابط Google Apps Script أو Firebase لحفظ متوسط أخطاء جميع الطلاب سحابياً عبر كل الأجهزة
-    const STATS_API_URL = 'https://script.google.com/macros/s/AKfycbw2UnUkxaZ4lYMmas_KM0_1bhIHFYw05NjpnyJOD6Do1s8WeU-hVXbFSLq9_O2GVxt0/exec';
+    const STATS_API_URL = '';
 
     // ==================== التنقل بين الخانتين ====================
     // ==================== الوضع الليلي (Dark Mode) ====================
@@ -948,26 +953,41 @@
       try { localStorage.setItem(`nabthati_mock_completed_${mockId}`, '1'); } catch {}
     }
 
-    async function saveCompletedAttempt(mockId, totalMistakes, sciMistakes, skillsMistakes) {
+    async function saveCompletedAttempt(mockId, totalMistakes, sciMistakes, skillsMistakes, answersBitstring) {
       // منع تكرار التسجيل أو الإرسال أكثر من مرة لنفس المحاكي
       if (hasCompletedMock(mockId)) {
         return getEffectiveMockStats(mockId);
       }
       markMockCompleted(mockId);
 
-      // 1. حفظ محلي فوري
+      // 1. حفظ محلي فوري (بما في ذلك إحصائيات كل سؤال على حدة)
       const localStats = getLocalMockStats(mockId);
       localStats.attempts += 1;
       localStats.totalMistakesSum += totalMistakes;
+      if (answersBitstring && answersBitstring.length > 0) {
+        if (!Array.isArray(localStats.qCorrect) || localStats.qCorrect.length !== answersBitstring.length) {
+          localStats.qCorrect = Array(answersBitstring.length).fill(0);
+        }
+        for (let i = 0; i < answersBitstring.length; i++) {
+          if (answersBitstring[i] === '1') localStats.qCorrect[i] += 1;
+        }
+      }
       try { localStorage.setItem(`nabthati_mock_stats_${mockId}`, JSON.stringify(localStats)); } catch {}
 
-      // 2. إرسال لقاعدة بيانات Google Sheets (بصيغة text/plain لتفادي مشاكل CORS) ثم تحديث المتوسط العام
+      // 2. إرسال لقاعدة بيانات Google Sheets (بصيغة text/plain لتفادي مشاكل CORS) مع خريطة إجابات الـ 110 أسئلة
       if (STATS_API_URL) {
         try {
           await fetch(STATS_API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ mockId: String(mockId), totalMistakes, sciMistakes, skillsMistakes, ts: Date.now() })
+            body: JSON.stringify({
+              mockId: String(mockId),
+              totalMistakes,
+              sciMistakes,
+              skillsMistakes,
+              answersBitstring: answersBitstring || '',
+              ts: Date.now()
+            })
           });
           await fetchGlobalStats();
         } catch {}
@@ -1207,26 +1227,42 @@
       let sciMistakes = 0, skillsMistakes = 0;
       const bySubject = {};
       const wrongItems = [];
+      let bits = '';
+      const questionsSlim = [];
 
       examState.questions.forEach((q, idx) => {
         if (!bySubject[q.subject]) bySubject[q.subject] = { correct: 0, total: 0 };
         bySubject[q.subject].total++;
         const userAns = examState.answers[idx];
-        if (userAns === q.answer) {
+        const isRight = userAns === q.answer;
+        bits += isRight ? '1' : '0';
+        questionsSlim.push({ id: q.id, section: q.section, pPrior: q.pPrior });
+        if (isRight) {
           bySubject[q.subject].correct++;
         } else {
           if (q.section === 'skills') skillsMistakes++;
           else sciMistakes++;
-          wrongItems.push({ num: idx + 1, q, userAns });
+          wrongItems.push({ num: idx + 1, idx, q, userAns });
         }
       });
 
       const totalMistakes = sciMistakes + skillsMistakes;
-      const stats = await saveCompletedAttempt(examState.mockId, totalMistakes, sciMistakes, skillsMistakes);
+      const stats = await saveCompletedAttempt(examState.mockId, totalMistakes, sciMistakes, skillsMistakes, bits);
 
       stopExamTimer();
       clearProgress(examState.mockId);
-      const resultPayload = { sciMistakes, skillsMistakes, totalMistakes, bySubject, wrongItems, stats, meta: examState.meta, durationSeconds: examState.elapsedSeconds };
+      const resultPayload = {
+        sciMistakes,
+        skillsMistakes,
+        totalMistakes,
+        bySubject,
+        wrongItems,
+        answersBitstring: bits,
+        questionsSlim,
+        stats,
+        meta: examState.meta,
+        durationSeconds: examState.elapsedSeconds
+      };
       saveLastAttempt(examState.mockId, resultPayload);
       examState.lastResult = resultPayload;
       examState.scoreMode = 'default';
@@ -1252,18 +1288,31 @@
 
     function renderMockResult() {
       const r = examState.lastResult;
-      const avgFromStudents = r.stats.attempts > 0 ? (r.stats.totalMistakesSum / r.stats.attempts) : 25;
-      const usedAvgMistakes = examState.scoreMode === 'students' ? clamp(avgFromStudents, 5, 60) : 25;
+      const liveStats = getEffectiveMockStats(examState.mockId);
+      r.stats = liveStats;
+      const attempts = liveStats.attempts || 0;
+      const avgFromStudents = attempts > 0 ? (liveStats.totalMistakesSum / attempts) : 32;
 
-      const calcRes = calculateScenario({
-        skillsConfirmed: r.skillsMistakes,
-        skillsUncertain: 0,
-        sciConfirmed: r.sciMistakes,
-        sciUncertain: 0,
-        avgMistakes: usedAvgMistakes,
-        sdMode: 'medium',
-        maxCap: 1000
-      }, 0);
+      let calcRes;
+      let itemDiagnostics = null;
+
+      if (r.answersBitstring && Array.isArray(r.questionsSlim) && r.questionsSlim.length > 0) {
+        const irtMode = examState.scoreMode === 'students' ? 'students' : 'qiyas';
+        calcRes = calculateIRTResult(r.questionsSlim, r.answersBitstring, liveStats, irtMode);
+        itemDiagnostics = calcRes.itemDiagnostics;
+      } else {
+        // توافق تلقائي مع المحاولات القديمة المحفوظة قبل تفعيل نظام 3PL-IRT
+        const usedAvgMistakes = examState.scoreMode === 'students' ? clamp(avgFromStudents, 5, 60) : 32;
+        calcRes = calculateScenario({
+          skillsConfirmed: r.skillsMistakes,
+          skillsUncertain: 0,
+          sciConfirmed: r.sciMistakes,
+          sciUncertain: 0,
+          avgMistakes: usedAvgMistakes,
+          sdMode: 'medium',
+          maxCap: 1000
+        }, 0);
+      }
 
       document.getElementById('resMockTitle').textContent = `نتيجة ${examState.meta.title}`;
       document.getElementById('resPredictedScore').textContent = calcRes.totalScore;
@@ -1275,15 +1324,22 @@
       document.getElementById('resZScore').textContent = `${calcRes.zWeighted >= 0 ? '+' : ''}${calcRes.zWeighted.toFixed(2)}σ`;
 
       document.getElementById('resModeDesc').textContent = examState.scoreMode === 'default'
-        ? 'محسوبة وفق المعيار الافتراضي: انحراف متوسط + متوسط أخطاء الطلاب 25 خطأ.'
-        : `محسوبة بناءً على حل الطلاب في هذا المحاكي: متوسط الأخطاء الفعلي ${avgFromStudents.toFixed(1)} خطأ (من ${r.stats.attempts} محاولة مكتملة).`;
+        ? 'محسوبة بنظام 3PL-IRT (EAP): ترجيح كل سؤال حسب صعوبته الفعلية مع حماية ضد تحيّز العينة.'
+        : `مقارنة مباشرة بطلاب الموقع (3PL-IRT): متوسط الأخطاء الفعلي ${avgFromStudents.toFixed(1)} خطأ (من ${attempts} محاولة مكتملة).`;
+
+      const calBadge = document.getElementById('resCalibrationBadge');
+      if (calBadge) {
+        const calStatus = getCalibrationStatus(attempts);
+        calBadge.textContent = `📊 ${calStatus.label}`;
+        calBadge.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold bg-white/15 text-emerald-50 border border-white/20 mt-1';
+      }
 
       const durEl = document.getElementById('resDurationText');
       if (durEl) {
         durEl.textContent = r.durationSeconds ? `⏱ الوقت المستغرق: ${formatTime(r.durationSeconds)}` : '';
       }
       document.getElementById('studentsStatsSummary').textContent =
-        `متوسط أخطاء الطلاب المسجّل: ${avgFromStudents.toFixed(1)} خطأ (عدد المحاولات المكتملة: ${r.stats.attempts})`;
+        `متوسط أخطاء الطلاب المسجّل: ${avgFromStudents.toFixed(1)} خطأ (عدد المحاولات المكتملة: ${attempts})`;
 
       const defBtn = document.getElementById('scoreModeDefaultBtn');
       const stuBtn = document.getElementById('scoreModeStudentsBtn');
@@ -1337,8 +1393,17 @@
           const div = document.createElement('div');
           div.className = 'p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-sm';
           div.innerHTML = `
-            <div class="flex items-center justify-between text-xs font-extrabold">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-extrabold">
               <span class="text-emerald-700">سؤال #${item.num} • ${item.q.subject}</span>
+              ${(() => {
+                const qIdx = typeof item.idx === 'number' ? item.idx : (item.num - 1);
+                const diag = itemDiagnostics && itemDiagnostics[qIdx];
+                if (!diag) return '';
+                return `<div class="flex flex-wrap items-center gap-1.5">
+                  <span class="px-2 py-0.5 rounded-lg bg-slate-100 text-slate-600 text-[11px] font-bold">أجاب عنه صح: ${diag.pctCorrect}%</span>
+                  <span class="px-2 py-0.5 rounded-lg border text-[11px] font-extrabold ${diag.impactColor}">تأثير الخطأ: ${diag.impactLevel} (~ -${diag.pointsLost} درجة)</span>
+                </div>`;
+              })()}
             </div>
             ${item.q.svg ? `<div class="my-2">${item.q.svg}</div>` : ''}
             <p class="font-extrabold text-slate-900">${formatMathText(item.q.question)}</p>
