@@ -529,11 +529,17 @@
     const fmtNum = (n) => Number.isInteger(n) ? n.toString() : n.toFixed(1);
     function formatMathText(str) {
       if (!str) return '';
-      return String(str).replace(/(\(?-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?\)?|[A-Za-z0-9_+\-=^/×÷±²³⁰¹⁴⁵⁶⁷⁸⁹]+(?:\s+[A-Za-z0-9_+\-=^/×÷±²³⁰¹⁴⁵⁶⁷⁸⁹]+){0,2})/g, (match) => {
-        if (/[A-Za-z0-9]/.test(match) && (/[(),+\-=^/×÷±]/.test(match) || /\d/.test(match))) {
-          return `<bdi dir="ltr" class="px-0.5 font-semibold">${match}</bdi>`;
+      return String(str).replace(/[^\u0600-\u06FF«»]+/g, (chunk) => {
+        const leadMatch = chunk.match(/^[\s:؛،؟.!]+/);
+        const lead = leadMatch ? leadMatch[0] : '';
+        const rest = chunk.slice(lead.length);
+        const trailMatch = rest.match(/[\s:؛،؟.!]+$/);
+        const trail = trailMatch ? trailMatch[0] : '';
+        const core = trail ? rest.slice(0, -trail.length) : rest;
+        if (core && /[A-Za-z0-9]/.test(core)) {
+          return `${lead}<bdi dir="ltr" style="unicode-bidi: isolate;" class="font-semibold">${core}</bdi>${trail}`;
         }
-        return match;
+        return chunk;
       });
     }
 
