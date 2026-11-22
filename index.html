@@ -152,7 +152,7 @@
               التوقع المنطقي (إصابة 50% من الأسئلة المشكوك فيها)
             </div>
             <div class="flex items-baseline gap-3 pt-1">
-              <span id="heroTotalScore" class="text-5xl sm:text-6xl font-black tracking-tight">880</span>
+              <span id="heroTotalScore" class="text-5xl sm:text-6xl font-black tracking-tight">876</span>
               <span class="text-lg sm:text-xl font-bold text-emerald-100/90">من <span id="heroMaxCap">1000</span></span>
             </div>
             <p id="heroPercentileText" class="text-sm sm:text-base font-medium text-emerald-50/95 flex items-center gap-1.5"></p>
@@ -343,7 +343,7 @@
       <details class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200/80 text-sm text-slate-600 cursor-pointer">
         <summary class="font-extrabold text-slate-800 select-none">كيف تعمل الحاسبة؟ وما معنى الانحراف المعياري و (Z)؟</summary>
         <div class="mt-3 pt-3 border-t border-slate-100 space-y-2 leading-relaxed">
-          <p><strong>• الانحراف المعياري:</strong> يقيس مدى تقارب درجات الطلاب؛ كلما كان "قوياً" يعني أن أغلب الطلاب متقاربون جداً حول المتوسط، فتفرق معك كل إجابة صح بشكل أكبر.</p>
+          <p><strong>• الانحراف المعياري:</strong> يقيس مدى تقارب درجات الطلاب؛ كلما كان صغيراً ("انحراف قوي") كان الطلاب متقاربين جداً حول المتوسط، فيُحدث كل سؤال زائد أو ناقص فرقاً أكبر في ترتيبك؛ وكلما كان كبيراً ("انحراف ضعيف") كانت الدرجات أكثر تشتتاً فيقلّ أثر السؤال الواحد.</p>
           <p><strong>• معيار (Z):</strong> يوضح كم تبعد درجتك عن متوسط بقية المختبرين (كلما زاد الرقم الموجب كنت ضمن نسبة أعلى من الطلاب).</p>
         </div>
       </details>
@@ -480,11 +480,11 @@
           <h3 class="text-base font-extrabold text-slate-900">اختر معيار توقع الدرجة:</h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button id="scoreModeDefaultBtn" type="button" class="p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50 text-right transition cursor-pointer">
-              <div class="text-sm font-extrabold text-emerald-900">1. معيار قياس المعاير (3PL-IRT) 🎯</div>
-              <div class="text-xs text-emerald-700 mt-1">ترجيح ذكي حسب صعوبة كل سؤال + حماية ضد تحيّز العينة (الأدق لمحاكاة الاختبار الحقيقي)</div>
+              <div class="text-sm font-extrabold text-emerald-900">1. معيار قياس (3PL-IRT) 🎯</div>
+              <div class="text-xs text-emerald-700 mt-1">ترجيح كل سؤال حسب صعوبته المقدّرة + حماية ضد تحيّز العينة (تقدير تقريبي لمحاكاة الاختبار الحقيقي)</div>
             </button>
             <button id="scoreModeStudentsBtn" type="button" class="p-4 rounded-2xl border border-slate-200 bg-slate-50 text-right hover:border-emerald-400 transition cursor-pointer">
-              <div class="text-sm font-extrabold text-slate-900">2. مقارنة مباشرة بطلاب الموقع (3PL-IRT)</div>
+              <div class="text-sm font-extrabold text-slate-900">2. مقارنة مباشرة بطلاب الموقع (معايرة من نتائجهم)</div>
               <div id="studentsStatsSummary" class="text-xs text-slate-500 mt-1">يُحسب مباشرةً من أداء الطلاب الذين أكملوا هذا المحاكي بالكامل</div>
             </button>
           </div>
@@ -630,7 +630,8 @@
       if (!str) return '';
       // تقسيم النص لحماية معادلات KaTeX ($...$) من أي تعديل
       return String(str).split(/(\$\$[\s\S]+?\$\$|\$[^$]+?\$)/g).map((part) => {
-        if (part.startsWith('$') && part.endsWith('$')) return part;
+        // داخل معادلات KaTeX نُهرِّب "<" كي لا يفسّرها المتصفح كوسم HTML (مثل $a<b$)
+        if (part.startsWith('$') && part.endsWith('$')) return part.replace(/</g, '&lt;');
         return part.replace(/[^\u0600-\u06FF«»]+/g, (chunk) => {
           const leadMatch = chunk.match(/^[\s:؛،؟.!]+/);
           const lead = leadMatch ? leadMatch[0] : '';
@@ -797,11 +798,30 @@
     el.cap950Btn.addEventListener('click', () => setCap(950));
     el.resetBtn.addEventListener('click', () => { Object.assign(state, DEFAULT_STATE); updatePresetStyles(); updateSdStyles(); setCap(DEFAULT_STATE.maxCap); });
 
+    // نسخ النص مع بديل قديم عند رفض الإذن أو عدم توفر clipboard (مثلاً خارج HTTPS)
+    async function copyText(text) {
+      try { await navigator.clipboard.writeText(text); return true; } catch {}
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly', '');
+        ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+        document.body.appendChild(ta); ta.select();
+        const ok = document.execCommand('copy');
+        ta.remove();
+        return ok;
+      } catch { return false; }
+    }
+    async function copyWithFeedback(btn, text, defaultLabel) {
+      const ok = await copyText(text);
+      btn.textContent = ok ? 'تم النسخ! ✓' : 'تعذّر النسخ، انسخ يدوياً';
+      setTimeout(() => { btn.textContent = defaultLabel; }, 2000);
+    }
+
     const shareBtn = document.getElementById('shareBtn');
     if (shareBtn) {
       shareBtn.addEventListener('click', () => {
         const text = `توقعي في التحصيلي المبكر: ${el.heroTotalScore.textContent} من ${el.heroMaxCap.textContent} 🎯\n\nجرب الحاسبة والمحاكيات من هنا:\n${window.location.href}`;
-        navigator.clipboard.writeText(text).then(() => { shareBtn.textContent = 'تم النسخ! ✓'; setTimeout(() => { shareBtn.textContent = 'نسخ نتيجتي'; }, 2000); });
+        copyWithFeedback(shareBtn, text, 'نسخ نتيجتي');
       });
     }
 
@@ -855,10 +875,13 @@
       stopExamTimer();
       const disp = document.getElementById('examTimerDisplay');
       if (disp) disp.textContent = formatTime(examState.elapsedSeconds);
+      // الوقت يُحسب من الساعة الفعلية (وليس بعدّ الثواني) كي لا يتأخر عند تبديل التبويب أو خمول المتصفح
+      const startedAt = Date.now() - examState.elapsedSeconds * 1000;
+      let lastSavedAt = examState.elapsedSeconds;
       examState.timerInterval = setInterval(() => {
-        examState.elapsedSeconds++;
+        examState.elapsedSeconds = Math.floor((Date.now() - startedAt) / 1000);
         if (disp) disp.textContent = formatTime(examState.elapsedSeconds);
-        if (examState.elapsedSeconds % 5 === 0) saveProgress();
+        if (examState.elapsedSeconds - lastSavedAt >= 5) { lastSavedAt = examState.elapsedSeconds; saveProgress(); }
       }, 1000);
     }
 
@@ -877,7 +900,8 @@
     }
 
     function saveProgress() {
-      if (!examState.mockId) return;
+      // لا يُحفظ التقدم إلا أثناء اختبار جارٍ (حتى لا يُعاد حفظه بعد التسليم)
+      if (!examState.mockId || !examState.timerInterval) return;
       try {
         localStorage.setItem(`nabthati_mock_progress_${examState.mockId}`, JSON.stringify({
           answers: examState.answers,
@@ -893,6 +917,29 @@
     }
 
     let globalStatsCache = {};
+
+    // طلب شبكة بمهلة زمنية حتى لا يعلق التسليم إذا تأخر الخادم
+    function fetchWithTimeout(url, opts = {}, ms = 8000) {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), ms);
+      return fetch(url, { ...opts, signal: ctrl.signal }).finally(() => clearTimeout(t));
+    }
+
+    // تنقية الإحصائيات القادمة من الخادم: أرقام صالحة فقط، ومجموع أخطاء ممكن (0..110 لكل محاولة)
+    function sanitizeGlobalStats(data) {
+      const out = {};
+      if (!data || typeof data !== 'object') return out;
+      for (const [k, v] of Object.entries(data)) {
+        if (!v || typeof v !== 'object') continue;
+        const attempts = Number(v.attempts);
+        const sum = Number(v.totalMistakesSum);
+        if (!Number.isFinite(attempts) || !Number.isFinite(sum) || attempts < 0 || sum < 0 || sum > attempts * 110) continue;
+        const clean = { ...v, attempts, totalMistakesSum: sum };
+        if (Array.isArray(v.qCorrect)) clean.qCorrect = v.qCorrect.map((n) => Math.max(0, Number(n) || 0));
+        out[String(k)] = clean;
+      }
+      return out;
+    }
 
     function getLocalMockStats(mockId) {
       try {
@@ -912,11 +959,11 @@
     async function fetchGlobalStats() {
       if (!STATS_API_URL) return;
       try {
-        const res = await fetch(STATS_API_URL);
+        const res = await fetchWithTimeout(STATS_API_URL);
         if (!res.ok) return;
         const data = await res.json();
         if (data && typeof data === 'object') {
-          globalStatsCache = data;
+          globalStatsCache = sanitizeGlobalStats(data);
           renderMocksGrid();
           if (examState.lastResult && !mockResultView.classList.contains('hidden')) {
             examState.lastResult.stats = getEffectiveMockStats(examState.mockId);
@@ -935,10 +982,12 @@
       }
     }
 
+    // تُرجع true إذا تم الحفظ فعلاً (قد يفشل عند امتلاء التخزين أو في التصفح الخاص)
     function saveLastAttempt(mockId, payload) {
       try {
         localStorage.setItem(`nabthati_mock_last_${mockId}`, JSON.stringify(payload));
-      } catch {}
+        return true;
+      } catch { return false; }
     }
 
     function hasCompletedMock(mockId) {
@@ -953,10 +1002,16 @@
       try { localStorage.setItem(`nabthati_mock_completed_${mockId}`, '1'); } catch {}
     }
 
-    async function saveCompletedAttempt(mockId, totalMistakes, sciMistakes, skillsMistakes, answersBitstring) {
+    // تُرجع { stats, saved }. تُحفظ المحاولة محلياً أولاً ثم تُعلَّم مكتملة، وبعدها فقط تُرسل للشبكة،
+    // كي لا يُقفل المحاكي بلا نتيجة إذا فشل الحفظ أو أُغلقت الصفحة أثناء الإرسال.
+    async function saveCompletedAttempt(mockId, totalMistakes, sciMistakes, skillsMistakes, answersBitstring, payload) {
       // منع تكرار التسجيل أو الإرسال أكثر من مرة لنفس المحاكي
       if (hasCompletedMock(mockId)) {
-        return getEffectiveMockStats(mockId);
+        return { stats: getEffectiveMockStats(mockId), saved: true };
+      }
+      if (!saveLastAttempt(mockId, payload)) {
+        // تعذّر الحفظ على الجهاز: تُعرض النتيجة فقط، ولا تُحتسب المحاولة ولا تُقفل
+        return { stats: getEffectiveMockStats(mockId), saved: false };
       }
       markMockCompleted(mockId);
 
@@ -977,7 +1032,7 @@
       // 2. إرسال لقاعدة بيانات Google Sheets (بصيغة text/plain لتفادي مشاكل CORS) مع خريطة إجابات الـ 110 أسئلة
       if (STATS_API_URL) {
         try {
-          await fetch(STATS_API_URL, {
+          await fetchWithTimeout(STATS_API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify({
@@ -992,7 +1047,7 @@
           await fetchGlobalStats();
         } catch {}
       }
-      return getEffectiveMockStats(mockId);
+      return { stats: getEffectiveMockStats(mockId), saved: true };
     }
 
     function renderMocksGrid() {
@@ -1066,7 +1121,11 @@
         const mod = await import(mockInfo.file);
         examState.mockId = mockInfo.id;
         examState.meta = mod.MOCK_META || { id: mockInfo.id, title: mockInfo.title };
-        examState.questions = mod.QUESTIONS || [];
+        examState.questions = Array.isArray(mod.QUESTIONS) ? mod.QUESTIONS : [];
+        if (examState.questions.length === 0) {
+          alert(`ملف ${mockInfo.title} لا يحتوي على أسئلة (QUESTIONS فارغة أو غير موجودة).`);
+          return;
+        }
         const savedProg = getSavedProgress(mockInfo.id);
         if (savedProg && savedProg.answers) {
           examState.answers = savedProg.answers;
@@ -1089,7 +1148,11 @@
         startExamTimer();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (err) {
-        alert(`ملف ${mockInfo.title} (${mockInfo.file}) غير مرفوع في المستودع بعد. ارفع الملف ثم أعد المحاولة!`);
+        console.error('Failed to load mock', mockInfo.file, err);
+        const missing = err && /fetch|import|load|404|Failed/i.test(String(err.message || err));
+        alert(missing
+          ? `تعذّر تحميل ${mockInfo.title} (${mockInfo.file}). تأكد أن الملف مرفوع في المستودع ومن اتصالك بالإنترنت ثم أعد المحاولة.`
+          : `حدث خطأ أثناء تشغيل ${mockInfo.title}. افتح وحدة التحكم (Console) لمعرفة التفاصيل.`);
       }
     }
 
@@ -1209,7 +1272,9 @@
       renderMocksGrid();
     });
 
+    let submitting = false;
     document.getElementById('submitMockBtn').addEventListener('click', async () => {
+      if (submitting) return;
       const total = examState.questions.length;
       const unanswered = [];
       for (let i = 0; i < total; i++) {
@@ -1247,10 +1312,15 @@
       });
 
       const totalMistakes = sciMistakes + skillsMistakes;
-      const stats = await saveCompletedAttempt(examState.mockId, totalMistakes, sciMistakes, skillsMistakes, bits);
 
+      // نوقف المؤقت أولاً حتى لا يستمر العدّ أثناء انتظار الشبكة، ونمنع الضغط المزدوج
       stopExamTimer();
-      clearProgress(examState.mockId);
+      submitting = true;
+      const submitBtn = document.getElementById('submitMockBtn');
+      const submitLabel = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'جارٍ حفظ النتيجة…';
+
       const resultPayload = {
         sciMistakes,
         skillsMistakes,
@@ -1259,11 +1329,21 @@
         wrongItems,
         answersBitstring: bits,
         questionsSlim,
-        stats,
         meta: examState.meta,
         durationSeconds: examState.elapsedSeconds
       };
-      saveLastAttempt(examState.mockId, resultPayload);
+
+      let outcome;
+      try {
+        outcome = await saveCompletedAttempt(examState.mockId, totalMistakes, sciMistakes, skillsMistakes, bits, resultPayload);
+      } finally {
+        submitting = false;
+        submitBtn.disabled = false;
+        submitBtn.textContent = submitLabel;
+      }
+      resultPayload.stats = outcome.stats;
+      if (outcome.saved) clearProgress(examState.mockId);
+      else alert('تعذّر حفظ المحاولة على هذا الجهاز (التخزين ممتلئ أو التصفح الخاص). ستظهر لك النتيجة الآن، لكنها لن تُحتسب ضمن إحصائيات الطلاب ولن تبقى بعد إغلاق الصفحة.');
       examState.lastResult = resultPayload;
       examState.scoreMode = 'default';
       examState.mistakeFilter = 'الكل';
@@ -1400,7 +1480,7 @@
                 const diag = itemDiagnostics && itemDiagnostics[qIdx];
                 if (!diag) return '';
                 return `<div class="flex flex-wrap items-center gap-1.5">
-                  <span class="px-2 py-0.5 rounded-lg bg-slate-100 text-slate-600 text-[11px] font-bold">أجاب عنه صح: ${diag.pctCorrect}%</span>
+                  <span class="px-2 py-0.5 rounded-lg bg-slate-100 text-slate-600 text-[11px] font-bold">${attempts >= 5 ? 'أجاب عنه صح' : 'نسبة الحل المقدّرة'}: ${diag.pctCorrect}%</span>
                   <span class="px-2 py-0.5 rounded-lg border text-[11px] font-extrabold ${diag.impactColor}">تأثير الخطأ: ${diag.impactLevel} (~ -${diag.pointsLost} درجة)</span>
                 </div>`;
               })()}
@@ -1428,10 +1508,7 @@
         const subjectsLine = Object.entries(r.bySubject).map(([s, d]) => `${s}: ${d.correct}/${d.total}`).join(' | ');
         const durLine = r.durationSeconds ? `\n⏱ الوقت: ${formatTime(r.durationSeconds)}` : '';
         const text = `نتيجتي في ${examState.meta.title} (التحصيلي المبكر):\n🎯 الدرجة المتوقعة: ${score} من 1000\n✅ الإجابات الصحيحة: ${110 - r.totalMistakes} / 110\n📊 ${subjectsLine}${durLine}\n\nجرّب المحاكيات من هنا:\n${window.location.href}`;
-        navigator.clipboard.writeText(text).then(() => {
-          shareMockResBtn.textContent = 'تم النسخ! ✓';
-          setTimeout(() => { shareMockResBtn.textContent = 'نسخ نتيجتي في المحاكي 📋'; }, 2000);
-        });
+        copyWithFeedback(shareMockResBtn, text, 'نسخ نتيجتي في المحاكي 📋');
       });
     }
     document.getElementById('backToMocksBtn').addEventListener('click', () => {
@@ -1439,6 +1516,10 @@
       mocksListView.classList.remove('hidden');
       renderMocksGrid();
     });
+
+    // حفظ التقدم عند إغلاق الصفحة أو إخفائها أثناء الاختبار
+    window.addEventListener('pagehide', saveProgress);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) saveProgress(); });
 
     window.addEventListener('load', () => { updatePresetStyles(); updateSdStyles(); updateAll(); renderMocksGrid(); fetchGlobalStats(); });
     updatePresetStyles(); updateSdStyles(); updateAll(); renderMocksGrid();
