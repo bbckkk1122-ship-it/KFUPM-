@@ -1,236 +1,207 @@
-// محرك التصحيح المعياري الصرف: 3PL-IRT (Warm's WLE) على التوزيع الطبيعي المعياري N(0, 1)
-// المقياس القياسي المعتمد: الدرجة = 650 + 100 × theta (بدون تضخيم اصطناعي للسقف)
+import { test, describe } from 'node:test';
+import assert from 'node:assert/strict';
+import { calculateIRTResult, calibrateItems, getCalibrationStatus } from './irt.js';
 
-const D_CONST = 1.702;         // ثابت التحويل بين الدالة اللوجستية والمنحنى الطبيعي
-const A_DISC = 0.65;           // معامل التمييز القياسي (يعطي تشتتاً طبيعياً ~16 خطأ لـ 110 أسئلة)
-const C_GUESS = 0.25;          // معامل التخمين (4 خيارات)
-const PRIOR_WEIGHT_K = 20;     // وزن التقدير المبدئي في المزج البايزي (Empirical Bayes)
-const SCALE_MEAN = 650;        // المتوسط المعياري على مقياس 1000
-const SCALE_SD = 100;          // الانحراف المعياري القياسي للمقياس (كل 1σ = 100 درجة)
+// Synthetic 110-question mock: 22 skills + 88 science, pPrior spread 0.45..0.90 (deterministic).
+const QUESTIONS = Array.from({ length: 110 }, (_, i) => ({
+  id: `q${i + 1}`,
+  section: i < 22 ? 'skills' : 'sci',
+  pPrior: 0.45 + 0.45 * ((i * 37) % 110) / 109
+}));
+const noPrior = QUESTIONS.map(({ id, section }) => ({ id, section })); // like mock1/2/3
 
-function clamp(val, min, max) {
-  return Math.max(min, Math.min(max, val));
-}
+const bitsWithWrong = (wrong, n = 110) => {
+  const b = Array(n).fill('1');
+  wrong.forEach((i) => { b[i] = '0'; });
+  return b.join('');
+};
+const total = (wrong, stats = null, mode = 'qiyas', qs = QUESTIONS) =>
+  calculateIRTResult(qs, bitsWithWrong(wrong), stats, mode).totalScore;
 
-function logit(p) {
-  const pc = clamp(p, 0.01, 0.99);
-  return Math.log(pc / (1 - pc));
-}
+// tiny deterministic RNG
+const makeRng = (seed) => () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 2 ** 32);
 
-function sigmoid(x) {
-  return 1 / (1 + Math.exp(-clamp(x, -30, 30)));
-}
-
-/**
- * تقريب دالة الخطأ erf لحساب التوزيع الطبيعي التراكمي Phi بدقة عالية
- */
-function normalCDF(z) {
-  const sign = z < 0 ? -1 : 1;
-  const x = Math.abs(z) / Math.SQRT2;
-  const t = 1 / (1 + 0.3275911 * x);
-  const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x);
-  return 0.5 * (1 + sign * y);
-}
-
-function inverseNormalCDF(p) {
-  let lo = -4.0;
-  let hi = 4.0;
-  for (let i = 0; i < 40; i++) {
-    const mid = 0.5 * (lo + hi);
-    if (normalCDF(mid) < p) lo = mid;
-    else hi = mid;
-  }
-  return 0.5 * (lo + hi);
-}
-
-/**
- * تحويل نسبة الحل الصحيح (p) إلى معامل الصعوبة الحقيقي (b) على توزيع N(0, 1)
- * باستخدام العلاقة الدقيقة: E[Phi(a*(theta - b))] = Phi(-a*b / sqrt(1 + a^2)) = p*
- */
-function pToB(p) {
-  const pStar = clamp((p - C_GUESS) / (1 - C_GUESS), 0.04, 0.96);
-  const zP = inverseNormalCDF(pStar);
-  return (-zP * Math.sqrt(1 + A_DISC * A_DISC)) / A_DISC;
-}
-
-/**
- * تقدير قدرة الطالب (theta_hat) باستخدام مقدّر Warm's WLE غير المتحيّز (1989)
- */
-function estimateThetaWLE(itemsWithResp) {
-  if (!itemsWithResp || itemsWithResp.length === 0) return 0;
-
-  let uSum = 0;
-  for (let i = 0; i < itemsWithResp.length; i++) uSum += itemsWithResp[i].u;
-  if (uSum === itemsWithResp.length) return 2.6;   // سقف معياري للدرجة الكاملة (910)
-  if (uSum === 0) return -3.5;
-
-  const wleScore = (th) => {
-    let s = 0;
-    let info = 0;
-    let jTerm = 0;
-    for (let i = 0; i < itemsWithResp.length; i++) {
-      const { u, b } = itemsWithResp[i];
-      const z = clamp(D_CONST * A_DISC * (th - b), -30, 30);
-      const q = 1 / (1 + Math.exp(-z));
-      const p = C_GUESS + (1 - C_GUESS) * q;
-      const p1 = D_CONST * A_DISC * (1 - C_GUESS) * q * (1 - q);
-      const p2 = D_CONST * A_DISC * p1 * (1 - 2 * q);
-      const denom = p * (1 - p);
-      if (denom < 1e-9) continue;
-      s += (u - p) * (p1 / denom);
-      info += (p1 * p1) / denom;
-      jTerm += (p1 * p2) / denom;
-    }
-    const biasCorr = info > 1e-9 ? jTerm / (2 * info) : 0;
-    return s + biasCorr;
-  };
-
-  let lo = -4.0;
-  let hi = 4.0;
-  for (let iter = 0; iter < 38; iter++) {
-    const mid = 0.5 * (lo + hi);
-    if (wleScore(mid) > 0) lo = mid;
-    else hi = mid;
-  }
-  return 0.5 * (lo + hi);
-}
-
-/**
- * التحويل المعياري المباشر من القدرة (theta) إلى الدرجة (200 - 1000)
- */
-function scoreFromTheta(theta) {
-  return clamp(Math.round(SCALE_MEAN + SCALE_SD * theta), 200, 1000);
-}
-
-/**
- * معايرة صعوبة كل سؤال بدمج التقدير المبدئي مع بيانات الطلاب الفعلية (Empirical Bayes)
- */
-export function calibrateItems(questions, globalStats, mode = 'qiyas') {
-  const attempts = (globalStats && Number(globalStats.attempts)) || 0;
-  const qCorrect = (globalStats && Array.isArray(globalStats.qCorrect)) ? globalStats.qCorrect : null;
-
-  const rawEmp = questions.map((q, idx) => {
-    const pPrior = typeof q.pPrior === 'number' ? clamp(q.pPrior, 0.30, 0.94) : 0.70;
-    let pEmp = pPrior;
-    if (attempts > 0 && qCorrect && typeof qCorrect[idx] === 'number') {
-      const c = clamp(qCorrect[idx], 0, attempts);
-      pEmp = (PRIOR_WEIGHT_K * pPrior + c) / (PRIOR_WEIGHT_K + attempts);
-    }
-    return {
-      idx,
-      id: q.id,
-      section: q.section,
-      pPrior,
-      pEmp: clamp(pEmp, 0.28, 0.96)
-    };
+describe('score scale anchors', () => {
+  test('perfect paper = 910 for both sections and total', () => {
+    const r = calculateIRTResult(QUESTIONS, bitsWithWrong([]), null);
+    assert.equal(r.sciScore, 910);
+    assert.equal(r.skillsScore, 910);
+    assert.equal(r.totalScore, 910);
+    assert.equal(r.thSci, 2.6);
   });
 
-  // في وضع 'qiyas'، نعيد توسيط متوسط الـ logit إلى معيار الاختبار الحقيقي لمنع تحيّز العينة
-  let shift = 0;
-  if (mode === 'qiyas' && attempts > 0 && qCorrect) {
-    const meanLogitEmp = rawEmp.reduce((s, it) => s + logit(it.pEmp), 0) / rawEmp.length;
-    const meanLogitPrior = rawEmp.reduce((s, it) => s + logit(it.pPrior), 0) / rawEmp.length;
-    shift = meanLogitEmp - meanLogitPrior;
-  }
-
-  return rawEmp.map((it) => {
-    const pCal = mode === 'qiyas' ? clamp(sigmoid(logit(it.pEmp) - shift), 0.28, 0.96) : it.pEmp;
-    return {
-      ...it,
-      pCal,
-      b: pToB(pCal)
-    };
+  test('all wrong = 300', () => {
+    const r = calculateIRTResult(QUESTIONS, bitsWithWrong([...Array(110).keys()]), null);
+    assert.equal(r.totalScore, 300);
   });
-}
 
-/**
- * حالة المعايرة بناءً على حجم العينة في Google Sheets
- */
-export function getCalibrationStatus(attempts) {
-  const n = Number(attempts) || 0;
-  if (n < 5) {
-    return {
-      label: `معايرة مبدئية ذكية (العينة الحالية: ${n} مختبرين)`,
-      badgeClass: 'bg-amber-50 text-amber-800 border-amber-200'
-    };
-  }
-  if (n < 25) {
-    return {
-      label: `معايرة هجينة متنامية (العينة الحالية: ${n} مختبراً)`,
-      badgeClass: 'bg-teal-50 text-teal-800 border-teal-200'
-    };
-  }
-  return {
-    label: `معايرة عالية الدقة بناءً على أداء الطلاب (${n} مختبراً)`,
-    badgeClass: 'bg-emerald-50 text-emerald-800 border-emerald-200'
-  };
-}
+  test('a total is always the 75/25 blend of the rounded section scores', () => {
+    const r = calculateIRTResult(QUESTIONS, bitsWithWrong([0, 5, 30, 31, 70, 100]), null);
+    assert.equal(r.totalScore, Math.round(0.75 * r.sciScore + 0.25 * r.skillsScore));
+  });
 
-/**
- * الحساب الكامل لنتيجة المحاكي بنظام 3PL-IRT (Warm's WLE) على المقياس القياسي الصرف (650 + 100θ)
- */
-export function calculateIRTResult(questions, answersBitstring, globalStats, mode = 'qiyas') {
-  const calItems = calibrateItems(questions, globalStats, mode);
-  const sciItems = calItems.filter((it) => it.section !== 'skills');
-  const skillsItems = calItems.filter((it) => it.section === 'skills');
-
-  const getU = (idx) => (answersBitstring && answersBitstring[idx] === '1') ? 1 : 0;
-
-  const sciResp = sciItems.map((it) => ({ u: getU(it.idx), b: it.b }));
-  const skillsResp = skillsItems.map((it) => ({ u: getU(it.idx), b: it.b }));
-
-  const thSci = estimateThetaWLE(sciResp);
-  const thSkills = estimateThetaWLE(skillsResp);
-
-  const sciScore = scoreFromTheta(thSci);
-  const skillsScore = scoreFromTheta(thSkills);
-  const totalScore = Math.round(0.75 * sciScore + 0.25 * skillsScore);
-  const zWeighted = 0.75 * thSci + 0.25 * thSkills;
-
-  // حساب تأثير كل سؤال أخطأ فيه الطالب بدقة (كم درجة خسرها بسبب هذا السؤال تحديداً)
-  const itemDiagnostics = {};
-  for (let i = 0; i < calItems.length; i++) {
-    const it = calItems[i];
-    const u = getU(it.idx);
-    const pctCorrect = Math.round(it.pEmp * 100);
-    let impactLevel = 'متوسط';
-    let impactColor = 'bg-amber-50 text-amber-800 border-amber-200';
-    if (it.pCal >= 0.76) {
-      impactLevel = 'مرتفع';
-      impactColor = 'bg-rose-50 text-rose-700 border-rose-200';
-    } else if (it.pCal <= 0.56) {
-      impactLevel = 'منخفض';
-      impactColor = 'bg-emerald-50 text-emerald-800 border-emerald-200';
+  test('scores always stay within 200..1000', () => {
+    const rng = makeRng(7);
+    for (let t = 0; t < 30; t++) {
+      const wrong = [...Array(110).keys()].filter(() => rng() < rng());
+      const r = calculateIRTResult(QUESTIONS, bitsWithWrong(wrong), null);
+      for (const s of [r.totalScore, r.sciScore, r.skillsScore]) assert.ok(s >= 200 && s <= 1000, `score ${s}`);
     }
+  });
+});
 
-    let pointsLost = 0;
-    if (u === 0) {
-      if (it.section === 'skills') {
-        const modResp = skillsResp.map((r, k) => (skillsItems[k].idx === it.idx ? { ...r, u: 1 } : r));
-        const newS = scoreFromTheta(estimateThetaWLE(modResp));
-        pointsLost = Math.max(1, Math.round(0.25 * (newS - skillsScore)));
-      } else {
-        const modResp = sciResp.map((r, k) => (sciItems[k].idx === it.idx ? { ...r, u: 1 } : r));
-        const newS = scoreFromTheta(estimateThetaWLE(modResp));
-        pointsLost = Math.max(1, Math.round(0.75 * (newS - sciScore)));
+describe('monotonicity (a wrong answer must never RAISE the score)', () => {
+  test('no single mistake outscores a perfect paper', () => {
+    const perfect = total([]);
+    for (let i = 0; i < 110; i++) {
+      const s = total([i]);
+      assert.ok(s <= perfect, `one mistake on Q${i + 1} scored ${s} > perfect ${perfect}`);
+    }
+  });
+
+  test('no paper with a single correct answer scores below the all-wrong paper', () => {
+    const allWrong = [...Array(110).keys()];
+    const floor = total(allWrong);
+    for (let i = 0; i < 110; i += 5) {
+      const s = total(allWrong.filter((x) => x !== i));
+      assert.ok(s >= floor, `only Q${i + 1} correct scored ${s} < all-wrong ${floor}`);
+    }
+  });
+
+  test('adding mistakes one at a time never increases the score (random orders)', () => {
+    const rng = makeRng(2024);
+    for (let t = 0; t < 4; t++) {
+      const order = [...Array(110).keys()].sort(() => rng() - 0.5);
+      // check the top end (1..8 mistakes), the middle, and the bottom end (102..110 mistakes)
+      const steps = [0, 1, 2, 3, 4, 5, 6, 8, 20, 40, 55, 70, 90, 102, 105, 107, 108, 109, 110];
+      let prev = Infinity;
+      for (const k of steps) {
+        const s = total(order.slice(0, k));
+        assert.ok(s <= prev, `trial ${t}: going to ${k} mistakes raised the score ${prev} -> ${s}`);
+        prev = s;
       }
     }
+  });
+});
 
-    itemDiagnostics[it.idx] = {
-      pctCorrect,
-      impactLevel,
-      impactColor,
-      pointsLost
+describe('item difficulty weighting', () => {
+  test('missing an easy question costs at least as much as missing a hard one (same section)', () => {
+    const sci = calibrateItems(QUESTIONS, null).filter((x) => x.section === 'sci').sort((a, b) => a.pCal - b.pCal);
+    const hard = sci[0].idx;
+    const easy = sci[sci.length - 1].idx;
+    assert.ok(sci[0].b > sci[sci.length - 1].b);
+    assert.ok(total([easy]) <= total([hard]));
+  });
+
+  test('without pPrior every question counts the same (documents the mock1/2/3 situation)', () => {
+    const cal = calibrateItems(noPrior, null);
+    assert.equal(new Set(cal.map((c) => c.b.toFixed(9))).size, 1);
+    assert.ok(cal.every((c) => c.pPrior === 0.7));
+    // Two mistakes in the same section are interchangeable
+    assert.equal(total([30, 31], null, 'qiyas', noPrior), total([60, 90], null, 'qiyas', noPrior));
+  });
+});
+
+describe('calibrateItems', () => {
+  test('pPrior is clamped to 0.30..0.94 and b decreases as the question gets easier', () => {
+    const qs = [0.01, 0.5, 0.99].map((p, i) => ({ id: i, section: 'sci', pPrior: p }));
+    const [lo, mid, hi] = calibrateItems(qs, null);
+    assert.equal(lo.pPrior, 0.3);
+    assert.equal(hi.pPrior, 0.94);
+    assert.ok(lo.b > mid.b && mid.b > hi.b);
+  });
+
+  test('null / empty stats give the prior back', () => {
+    for (const stats of [null, undefined, {}, { attempts: 0, qCorrect: [] }]) {
+      const cal = calibrateItems(QUESTIONS, stats, 'students');
+      cal.forEach((c) => assert.ok(Math.abs(c.pEmp - Math.min(0.96, Math.max(0.28, c.pPrior))) < 1e-12));
+    }
+  });
+
+  test('student data moves difficulty toward what students actually did, with prior smoothing (K=20)', () => {
+    const attempts = 20;
+    const stats = { attempts, qCorrect: QUESTIONS.map(() => 20) }; // everybody got everything right
+    const [first] = calibrateItems(QUESTIONS, stats, 'students');
+    const expected = (20 * first.pPrior + 20) / 40;
+    assert.ok(Math.abs(first.pEmp - Math.min(0.96, expected)) < 1e-12);
+  });
+
+  test('qCorrect larger than attempts is clamped; wrong-length qCorrect does not crash', () => {
+    const cal = calibrateItems(QUESTIONS, { attempts: 5, qCorrect: [999] }, 'students');
+    assert.ok(cal[0].pEmp <= 0.96);
+    assert.equal(cal.length, 110);
+    assert.doesNotThrow(() => calibrateItems(QUESTIONS, { attempts: 5, qCorrect: [1, 2, 3] }, 'qiyas'));
+  });
+
+  test("'qiyas' mode re-centres sample bias; 'students' mode does not", () => {
+    const stats = { attempts: 200, qCorrect: QUESTIONS.map(() => 190) }; // a very strong sample
+    const meanB = (mode) => {
+      const c = calibrateItems(QUESTIONS, stats, mode);
+      return c.reduce((s, x) => s + x.b, 0) / c.length;
     };
-  }
+    const prior = calibrateItems(QUESTIONS, null, 'qiyas');
+    const meanPrior = prior.reduce((s, x) => s + x.b, 0) / prior.length;
+    assert.ok(meanB('students') < meanPrior - 0.3, 'students mode should see the test as much easier');
+    assert.ok(Math.abs(meanB('qiyas') - meanPrior) < 0.25, 'qiyas mode should stay close to the prior difficulty');
+  });
 
-  return {
-    totalScore,
-    sciScore,
-    skillsScore,
-    zWeighted,
-    thSci,
-    thSkills,
-    itemDiagnostics
-  };
-}
+  test('same answers score lower in students mode when the sample found the test easy', () => {
+    const stats = { attempts: 200, qCorrect: QUESTIONS.map(() => 190) };
+    const wrong = [3, 9, 27, 40, 41, 77, 80];
+    assert.ok(total(wrong, stats, 'students') < total(wrong, stats, 'qiyas'));
+  });
+});
+
+describe('calibration over a simulated cohort', () => {
+  test('students of average ability (theta = 0) score about 650 on average', () => {
+    const cal = calibrateItems(QUESTIONS, null);
+    const rng = makeRng(99);
+    const D = 1.702, a = 0.65, c = 0.25;
+    let sum = 0;
+    const N = 120;
+    for (let s = 0; s < N; s++) {
+      const wrong = [];
+      cal.forEach((it, i) => {
+        const q = 1 / (1 + Math.exp(-D * a * (0 - it.b)));
+        if (rng() >= c + (1 - c) * q) wrong.push(i);
+      });
+      sum += total(wrong);
+    }
+    const mean = sum / N;
+    assert.ok(Math.abs(mean - 650) < 25, `mean score ${mean.toFixed(1)} should be near 650`);
+  });
+});
+
+describe('itemDiagnostics', () => {
+  test('wrong answers lose >= 1 point, correct answers lose 0, and every question has an entry', () => {
+    const wrong = [2, 25, 60];
+    const r = calculateIRTResult(QUESTIONS, bitsWithWrong(wrong), null);
+    assert.equal(Object.keys(r.itemDiagnostics).length, 110);
+    for (let i = 0; i < 110; i++) {
+      const d = r.itemDiagnostics[i];
+      if (wrong.includes(i)) assert.ok(d.pointsLost >= 1);
+      else assert.equal(d.pointsLost, 0);
+      assert.ok(['مرتفع', 'متوسط', 'منخفض'].includes(d.impactLevel));
+    }
+  });
+
+  test('missing or short bitstrings are treated as wrong, not as a crash', () => {
+    assert.doesNotThrow(() => calculateIRTResult(QUESTIONS, '', null));
+    assert.doesNotThrow(() => calculateIRTResult(QUESTIONS, null, null));
+    assert.equal(calculateIRTResult(QUESTIONS, '', null).totalScore, 300);
+  });
+});
+
+describe('getCalibrationStatus', () => {
+  test('thresholds at 5 and 25 attempts', () => {
+    assert.match(getCalibrationStatus(0).label, /مبدئية/);
+    assert.match(getCalibrationStatus(4).label, /مبدئية/);
+    assert.match(getCalibrationStatus(5).label, /هجينة/);
+    assert.match(getCalibrationStatus(24).label, /هجينة/);
+    assert.match(getCalibrationStatus(25).label, /عالية الدقة/);
+  });
+  test('junk input is treated as zero attempts', () => {
+    assert.match(getCalibrationStatus(undefined).label, /مبدئية/);
+    assert.match(getCalibrationStatus('abc').label, /مبدئية/);
+  });
+});
