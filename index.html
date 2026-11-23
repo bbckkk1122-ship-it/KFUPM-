@@ -284,9 +284,9 @@
             <div class="space-y-2">
               <span class="text-xs font-bold text-slate-500 block">مستوى صعوبة الاختبار (تقدير متوسط أخطاء الطلاب)</span>
               <div class="grid grid-cols-3 gap-2">
-                <button type="button" data-preset="20" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">سهل (~20)</button>
-                <button type="button" data-preset="28" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">متوسط (~28)</button>
-                <button type="button" data-preset="38" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">صعب (~38)</button>
+                <button type="button" data-preset="22" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">سهل (~22)</button>
+                <button type="button" data-preset="25" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">متوسط (~25)</button>
+                <button type="button" data-preset="29" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">صعب (~29)</button>
               </div>
               <button type="button" id="siteAvgPresetBtn" class="hidden w-full py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-teal-200 bg-teal-50 text-teal-700 hover:border-teal-500 transition cursor-pointer items-center justify-center gap-1.5">
                 <span>📊</span>
@@ -298,14 +298,15 @@
                 <label for="avgMistakesRange" class="text-sm font-bold text-slate-700">متوسط أخطاء الطلاب في الاختبار</label>
                 <span class="text-sm font-extrabold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-xl border border-teal-200/70"><span id="avgMistakesVal">25</span> خطأ</span>
               </div>
-              <input id="avgMistakesRange" type="range" min="10" max="50" value="25" class="w-full teal-thumb" />
+              <input id="avgMistakesRange" type="range" min="22" max="29" value="25" class="w-full teal-thumb" />
             </div>
             <div class="space-y-2">
               <span class="text-sm font-bold text-slate-700 block">قوة الانحراف المعياري</span>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <button type="button" data-sd="weak" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-50 text-slate-700 transition text-center">انحراف ضعيف</button>
-                <button type="button" data-sd="medium" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition text-center">انحراف متوسط</button>
-                <button type="button" data-sd="strong" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-50 text-slate-700 transition text-center">انحراف قوي</button>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <button type="button" data-sd="weak" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-50 text-slate-700 transition text-center cursor-pointer">انحراف ضعيف</button>
+                <button type="button" data-sd="medium" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition text-center cursor-pointer">انحراف متوسط</button>
+                <button type="button" data-sd="strong" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-50 text-slate-700 transition text-center cursor-pointer">انحراف قوي</button>
+                <button type="button" data-sd="mock" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-50 text-slate-700 transition text-center cursor-pointer">انحراف المحاكي 📊</button>
               </div>
             </div>
             <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-3">
@@ -667,7 +668,13 @@
     }
 
     // ==================== منطق الحاسبة ====================
-    const state = { ...DEFAULT_STATE };
+    const AVG_MIN = 22;
+    const AVG_MAX = 29;
+    const AVG_DEFAULT = 25;
+    // الانحراف المعياري الفعلي لطلاب محاكي الفترة الأولى (العلمي 10.77 | المهارات 2.41)
+    const MOCK_SD = { sci: 10.77, skills: 2.41, visualSpread: 1.0 };
+
+    const state = { ...DEFAULT_STATE, avgMistakes: AVG_DEFAULT };
     const CALC_STATE_KEY = 'nabthati_calc_state_v1';
     function loadCalcState() {
       try {
@@ -678,10 +685,28 @@
         state.sciUncertain = num(raw.sciUncertain, 0, TOTAL_SCI - state.sciConfirmed, 0);
         state.skillsConfirmed = num(raw.skillsConfirmed, 0, TOTAL_SKILLS, 0);
         state.skillsUncertain = num(raw.skillsUncertain, 0, TOTAL_SKILLS - state.skillsConfirmed, 0);
-        state.avgMistakes = num(raw.avgMistakes, 10, 50, DEFAULT_STATE.avgMistakes);
-        if (SD_CONFIG[raw.sdMode]) state.sdMode = raw.sdMode;
+        state.avgMistakes = num(raw.avgMistakes, AVG_MIN, AVG_MAX, AVG_DEFAULT);
+        if (SD_CONFIG[raw.sdMode] || raw.sdMode === 'mock') state.sdMode = raw.sdMode;
         if (raw.maxCap === 950 || raw.maxCap === 1000) state.maxCap = raw.maxCap;
       } catch {}
+    }
+
+    function computeCalcScenario(st, uncertainWeight) {
+      if (st.sdMode !== 'mock') return calculateScenario(st, uncertainWeight);
+      const userSciMistakes = st.sciConfirmed + st.sciUncertain * uncertainWeight;
+      const userSkillsMistakes = st.skillsConfirmed + st.skillsUncertain * uncertainWeight;
+      const userSciCorrect = TOTAL_SCI - userSciMistakes;
+      const userSkillsCorrect = TOTAL_SKILLS - userSkillsMistakes;
+      const totalCorrect = userSciCorrect + userSkillsCorrect;
+      const meanSciCorrect = TOTAL_SCI - (st.avgMistakes * (TOTAL_SCI / 110));
+      const meanSkillsCorrect = TOTAL_SKILLS - (st.avgMistakes * (TOTAL_SKILLS / 110));
+      const zSci = (userSciCorrect - meanSciCorrect) / MOCK_SD.sci;
+      const zSkills = (userSkillsCorrect - meanSkillsCorrect) / MOCK_SD.skills;
+      const zWeighted = 0.75 * zSci + 0.25 * zSkills;
+      const sciScore = clamp(Math.round(650 + 100 * zSci), 0, st.maxCap);
+      const skillsScore = clamp(Math.round(650 + 100 * zSkills), 0, st.maxCap);
+      const totalScore = clamp(Math.round(0.75 * sciScore + 0.25 * skillsScore), 0, st.maxCap);
+      return { totalScore, sciScore, skillsScore, userSciCorrect, userSkillsCorrect, totalCorrect, zWeighted };
     }
     function saveCalcState() {
       try { localStorage.setItem(CALC_STATE_KEY, JSON.stringify(state)); } catch {}
@@ -763,15 +788,16 @@
       el.sciUncertainRange.value = state.sciUncertain; el.sciUncertainNum.value = state.sciUncertain;
       el.skillsConfirmedRange.value = state.skillsConfirmed; el.skillsConfirmedNum.value = state.skillsConfirmed;
       el.skillsUncertainRange.value = state.skillsUncertain; el.skillsUncertainNum.value = state.skillsUncertain;
+      state.avgMistakes = clamp(parseInt(state.avgMistakes, 10) || AVG_DEFAULT, AVG_MIN, AVG_MAX);
       el.avgMistakesRange.value = state.avgMistakes; el.avgMistakesVal.textContent = state.avgMistakes;
       saveCalcState();
 
       el.sciRemainingBadge.textContent = `${TOTAL_SCI - state.sciConfirmed - state.sciUncertain} مؤكدة صح`;
       el.skillsRemainingBadge.textContent = `${TOTAL_SKILLS - state.skillsConfirmed - state.skillsUncertain} مؤكدة صح`;
 
-      const opt = calculateScenario(state, 0);
-      const mid = calculateScenario(state, 0.5);
-      const worst = calculateScenario(state, 1);
+      const opt = computeCalcScenario(state, 0);
+      const mid = computeCalcScenario(state, 0.5);
+      const worst = computeCalcScenario(state, 1);
 
       el.heroTotalScore.textContent = mid.totalScore;
       el.heroMaxCap.textContent = state.maxCap;
@@ -818,7 +844,7 @@
       const padLeft = 28, padRight = 28, padTop = 44, padBottom = 38;
       const plotW = width - padLeft - padRight, plotH = height - padTop - padBottom, baseY = height - padBottom;
       const minX = -3.8, maxX = 3.8;
-      const spread = (SD_CONFIG[state.sdMode] || SD_CONFIG.medium).visualSpread;
+      const spread = state.sdMode === 'mock' ? MOCK_SD.visualSpread : (SD_CONFIG[state.sdMode] || SD_CONFIG.medium).visualSpread;
       const xToPx = (x) => padLeft + ((x - minX) / (maxX - minX)) * plotW;
       const pdf = (x) => Math.exp(-0.5 * Math.pow(x / spread, 2)) / spread;
       const maxPdf = pdf(0);
@@ -888,7 +914,7 @@
         return;
       }
       const rawAvg = stats.totalMistakesSum / stats.attempts;
-      const clampedAvg = clamp(Math.round(rawAvg), 10, 50);
+      const clampedAvg = clamp(Math.round(rawAvg), AVG_MIN, AVG_MAX);
       siteAvgPresetBtn.dataset.liveAvg = String(clampedAvg);
       siteAvgPresetText.textContent = `متوسط طلاب المحاكي الفعلي (~${rawAvg.toFixed(1)} خطأ • ${stats.attempts} محاولة)`;
       siteAvgPresetBtn.classList.remove('hidden');
@@ -908,7 +934,7 @@
       siteAvgPresetBtn.addEventListener('click', () => {
         const val = parseInt(siteAvgPresetBtn.dataset.liveAvg, 10);
         if (!Number.isFinite(val)) return;
-        state.avgMistakes = clamp(val, 10, 50);
+        state.avgMistakes = clamp(val, AVG_MIN, AVG_MAX);
         updatePresetStyles();
         updateAll();
       });
@@ -941,7 +967,7 @@
     }
     el.cap1000Btn.addEventListener('click', () => setCap(1000));
     el.cap950Btn.addEventListener('click', () => setCap(950));
-    el.resetBtn.addEventListener('click', () => { Object.assign(state, DEFAULT_STATE); updatePresetStyles(); updateSdStyles(); setCap(DEFAULT_STATE.maxCap); });
+    el.resetBtn.addEventListener('click', () => { Object.assign(state, DEFAULT_STATE, { avgMistakes: AVG_DEFAULT }); updatePresetStyles(); updateSdStyles(); setCap(DEFAULT_STATE.maxCap); });
 
     // نسخ النص مع بديل قديم عند رفض الإذن أو عدم توفر clipboard (مثلاً خارج HTTPS)
     async function copyText(text) {
