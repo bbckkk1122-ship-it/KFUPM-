@@ -401,7 +401,7 @@
           </p>
         </div>
 
-        <div id="mocksGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        <div id="mocksGrid" class="grid grid-cols-1 max-w-md gap-4"></div>
       </div>
 
       <!-- 2. شاشة أداء المحاكي -->
@@ -895,7 +895,7 @@
       });
     }
 
-    // ==================== منطق المحاكيات الإلكترونية (3 محاكيات) ====================
+    // ==================== منطق المحاكي الإلكتروني ====================
     const MOCKS_CATALOG = [
       {
         id: 'f1',
@@ -903,14 +903,7 @@
         title: 'محاكي الفترة الأولى',
         file: './mock_f1.js',
         desc: '110 أسئلة (22 مهارات • 24 رياضيات • 24 فيزياء • 20 كيمياء • 20 أحياء)'
-      },
-      ...Array.from({ length: 3 }, (_, i) => ({
-        id: i + 1,
-        badge: `محاكي #${i + 1}`,
-        title: `المحاكي رقم ${i + 1}`,
-        file: `./mock${i + 1}.js`,
-        desc: '110 أسئلة (22 مهارات • 24 رياضيات • 24 فيزياء • 20 كيمياء • 20 أحياء)'
-      }))
+      }
     ];
 
     const mocksListView = document.getElementById('mocksListView');
