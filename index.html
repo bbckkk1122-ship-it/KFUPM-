@@ -288,7 +288,7 @@
                 <button type="button" data-preset="28" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">متوسط (~28)</button>
                 <button type="button" data-preset="38" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">صعب (~38)</button>
               </div>
-              <button type="button" id="siteAvgPresetBtn" class="hidden w-full py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-teal-200 bg-teal-50 text-teal-700 hover:border-teal-500 transition cursor-pointer flex items-center justify-center gap-1.5">
+              <button type="button" id="siteAvgPresetBtn" class="hidden w-full py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-teal-200 bg-teal-50 text-teal-700 hover:border-teal-500 transition cursor-pointer items-center justify-center gap-1.5">
                 <span>📊</span>
                 <span id="siteAvgPresetText">متوسط طلاب المحاكي</span>
               </button>
@@ -627,13 +627,22 @@
     const mocksSection = document.getElementById('mocksSection');
     const calcHeaderActions = document.getElementById('calcHeaderActions');
 
-    function switchTab(tab) {
+    function trackEvent(eventName, params = {}) {
+      try {
+        if (typeof window.gtag === 'function') window.gtag('event', eventName, params);
+      } catch {}
+    }
+
+    function switchTab(tab, updateHash = true) {
       if (tab === 'calc') {
         calcSection.classList.remove('hidden');
         mocksSection.classList.add('hidden');
         calcHeaderActions.classList.remove('hidden');
         tabCalcBtn.className = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-emerald-700 shadow-sm transition flex items-center justify-center gap-2';
         tabMocksBtn.className = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2';
+        if (updateHash && window.location.hash === '#mock') {
+          try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch {}
+        }
         updateAll();
       } else {
         calcSection.classList.add('hidden');
@@ -641,6 +650,10 @@
         calcHeaderActions.classList.add('hidden');
         tabMocksBtn.className = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-emerald-700 shadow-sm transition flex items-center justify-center gap-2';
         tabCalcBtn.className = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2';
+        if (updateHash && window.location.hash !== '#mock') {
+          try { history.replaceState(null, '', '#mock'); } catch {}
+        }
+        trackEvent('open_mocks');
       }
     }
     tabCalcBtn.addEventListener('click', () => switchTab('calc'));
@@ -870,6 +883,7 @@
       const stats = typeof getEffectiveMockStats === 'function' ? getEffectiveMockStats('f1') : null;
       if (!stats || !stats.attempts || stats.attempts <= 0) {
         siteAvgPresetBtn.classList.add('hidden');
+        siteAvgPresetBtn.classList.remove('flex');
         delete siteAvgPresetBtn.dataset.liveAvg;
         return;
       }
@@ -878,6 +892,7 @@
       siteAvgPresetBtn.dataset.liveAvg = String(clampedAvg);
       siteAvgPresetText.textContent = `متوسط طلاب المحاكي الفعلي (~${rawAvg.toFixed(1)} خطأ • ${stats.attempts} محاولة)`;
       siteAvgPresetBtn.classList.remove('hidden');
+      siteAvgPresetBtn.classList.add('flex');
 
       const active = state.avgMistakes === clampedAvg;
       siteAvgPresetBtn.classList.toggle('bg-teal-600', active);
@@ -1323,6 +1338,7 @@
         buildNavGrid();
         renderExamQuestion();
         startExamTimer();
+        trackEvent('start_mock', { mock_id: String(mockInfo.id) });
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (err) {
         console.error('Failed to load mock', mockInfo.file, err);
@@ -1524,6 +1540,7 @@
       examState.lastResult = resultPayload;
       examState.scoreMode = 'default';
       examState.mistakeFilter = 'الكل';
+      trackEvent('submit_mock', { mock_id: String(examState.mockId), total_mistakes: totalMistakes });
       renderMockResult();
       mockExamView.classList.add('hidden');
       mockResultView.classList.remove('hidden');
@@ -1705,9 +1722,49 @@
         if (!calcSection.classList.contains('hidden')) updateAll();
       }, 120);
     });
+    // اختصارات الكيبورد داخل المحاكي (الأسهم للتنقل والأرقام 1-4 للاختيار)
+    document.addEventListener('keydown', (e) => {
+      if (mockExamView.classList.contains('hidden')) return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+      if (e.key === 'ArrowLeft') {
+        if (examState.currentIdx < examState.questions.length - 1) {
+          e.preventDefault();
+          examState.currentIdx++;
+          saveProgress();
+          renderExamQuestion();
+        }
+      } else if (e.key === 'ArrowRight') {
+        if (examState.currentIdx > 0) {
+          e.preventDefault();
+          examState.currentIdx--;
+          saveProgress();
+          renderExamQuestion();
+        }
+      } else if (e.key >= '1' && e.key <= '4') {
+        const optIdx = parseInt(e.key, 10) - 1;
+        const q = examState.questions[examState.currentIdx];
+        if (q && Array.isArray(q.options) && optIdx < q.options.length) {
+          e.preventDefault();
+          examState.answers[examState.currentIdx] = optIdx;
+          saveProgress();
+          renderExamQuestion();
+        }
+      }
+    });
+
+    function applyHashRoute() {
+      const h = (window.location.hash || '').toLowerCase();
+      if (h === '#mock' || h === '#mocks') {
+        switchTab('mocks', false);
+      }
+    }
+    window.addEventListener('hashchange', applyHashRoute);
     window.addEventListener('online', () => { flushPendingPosts(); fetchGlobalStats(); });
-    window.addEventListener('load', () => { updatePresetStyles(); updateSdStyles(); setCap(state.maxCap); renderMocksGrid(); flushPendingPosts(); fetchGlobalStats(); });
-    updatePresetStyles(); updateSdStyles(); setCap(state.maxCap); renderMocksGrid();
+    window.addEventListener('load', () => { updatePresetStyles(); updateSdStyles(); setCap(state.maxCap); renderMocksGrid(); applyHashRoute(); flushPendingPosts(); fetchGlobalStats(); });
+    updatePresetStyles(); updateSdStyles(); setCap(state.maxCap); renderMocksGrid(); applyHashRoute();
     window.__nabthatiReady = true;
   </script>
 </body>
