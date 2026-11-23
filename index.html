@@ -389,7 +389,7 @@
     <!-- ==================== الخانة الثانية: المحاكيات الإلكترونية ==================== -->
     <div id="mocksSection" class="hidden space-y-6">
 
-      <!-- 1. قائمة المحاكيات الثلاثة -->
+      <!-- 1. قائمة المحاكي الإلكتروني -->
       <div id="mocksListView" class="space-y-6">
         <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80">
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70 mb-2">
@@ -556,7 +556,7 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-5 text-center space-y-1">
       <p class="text-xs text-slate-400 font-bold pt-2">
         تطوير وحقوق © 2026 — Nabthati •
-        <a href="https://t.me/mqwwsk" target="_blank" class="text-emerald-600 hover:underline">@mqwwsk</a>
+        <a href="https://t.me/mqwwsk" target="_blank" rel="noopener noreferrer" class="text-emerald-600 hover:underline">@mqwwsk</a>
       </p>
       <p class="text-xs sm:text-sm text-slate-500 font-medium">
         تنويه: هذه المنصة تقدم <strong class="text-slate-700">تقديراً إحصائياً وتدريبياً</strong> ولا تمثل نتيجة رسمية صادرة من هيئة تقويم التعليم والتدريب (قياس).
@@ -599,6 +599,7 @@
     if (darkModeBtn) {
       darkModeBtn.addEventListener('click', () => {
         applyDarkMode(!document.documentElement.classList.contains('dark'));
+        if (typeof updateAll === 'function' && !calcSection.classList.contains('hidden')) updateAll();
       });
     }
 
@@ -688,18 +689,18 @@
     const fmtNum = (n) => Number.isInteger(n) ? n.toString() : n.toFixed(1);
     function formatMathText(str) {
       if (!str) return '';
-      // تقسيم النص لحماية معادلات KaTeX ($...$) من أي تعديل
+      // تقسيم النص لحماية معادلات KaTeX ($...$) من أي تعديل، مع تهريب < و > لحماية النص من التفسير كـ HTML
       return String(str).split(/(\$\$[\s\S]+?\$\$|\$[^$]+?\$)/g).map((part) => {
-        // داخل معادلات KaTeX نُهرِّب "<" كي لا يفسّرها المتصفح كوسم HTML (مثل $a<b$)
-        if (part.startsWith('$') && part.endsWith('$')) return part.replace(/</g, '&lt;');
-        return part.replace(/[^\u0600-\u06FF«»]+/g, (chunk) => {
+        if (part.startsWith('$') && part.endsWith('$')) return part.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const safePart = part.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return safePart.replace(/[^\u0600-\u06FF«»]+/g, (chunk) => {
           const leadMatch = chunk.match(/^[\s:؛،؟.!]+/);
           const lead = leadMatch ? leadMatch[0] : '';
           const rest = chunk.slice(lead.length);
           const trailMatch = rest.match(/[\s:؛،؟.!]+$/);
           const trail = trailMatch ? trailMatch[0] : '';
           const core = trail ? rest.slice(0, -trail.length) : rest;
-          if (core && /[A-Za-z0-9]/.test(core)) {
+          if (core && /[A-Za-z0-9]/.test(core) && !/^&(?:amp|lt|gt);$/.test(core)) {
             return `${lead}<bdi dir="ltr" style="unicode-bidi: isolate;" class="font-semibold">${core}</bdi>${trail}`;
           }
           return chunk;
@@ -800,13 +801,14 @@
       for (let i = 0; i <= 200; i++) { const x = minX + (i / 200) * (maxX - minX); const px = xToPx(x), py = yToPx(pdf(x)); if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py); }
       ctx.strokeStyle = '#0d9488'; ctx.lineWidth = 2.8; ctx.stroke();
 
+      const isDark = document.documentElement.classList.contains('dark');
       ctx.beginPath(); ctx.moveTo(padLeft, baseY); ctx.lineTo(width - padRight, baseY);
-      ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.strokeStyle = isDark ? '#475569' : '#cbd5e1'; ctx.lineWidth = 1.5; ctx.stroke();
 
       const meanPxX = xToPx(0);
       ctx.save(); ctx.beginPath(); ctx.setLineDash([5, 5]); ctx.moveTo(meanPxX, yToPx(pdf(0))); ctx.lineTo(meanPxX, baseY);
-      ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1.5; ctx.stroke(); ctx.restore();
-      ctx.fillStyle = '#64748b'; ctx.font = '700 11px Tajawal, sans-serif'; ctx.textAlign = 'center'; ctx.fillText('متوسط الطلاب (0σ)', meanPxX, baseY + 20);
+      ctx.strokeStyle = isDark ? '#64748b' : '#94a3b8'; ctx.lineWidth = 1.5; ctx.stroke(); ctx.restore();
+      ctx.fillStyle = isDark ? '#94a3b8' : '#64748b'; ctx.font = '700 11px Tajawal, sans-serif'; ctx.textAlign = 'center'; ctx.fillText('متوسط الطلاب (0σ)', meanPxX, baseY + 20);
 
       const userPxY = yToPx(pdf(userVisualX));
       ctx.beginPath(); ctx.moveTo(userPxX, userPxY); ctx.lineTo(userPxX, baseY); ctx.strokeStyle = '#059669'; ctx.lineWidth = 2.5; ctx.stroke();
@@ -1092,25 +1094,73 @@
       }
       try { localStorage.setItem(`nabthati_mock_stats_${mockId}`, JSON.stringify(localStats)); } catch {}
 
-      // 2. إرسال لقاعدة بيانات Google Sheets (بصيغة text/plain لتفادي مشاكل CORS) مع خريطة إجابات الـ 110 أسئلة
+      // 2. إرسال لقاعدة بيانات Google Sheets (مع الوقت المستغرق + إعادة إرسال تلقائية عند ضعف الإنترنت)
       if (STATS_API_URL) {
-        try {
-          await fetchWithTimeout(STATS_API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({
-              mockId: String(mockId),
-              totalMistakes,
-              sciMistakes,
-              skillsMistakes,
-              answersBitstring: answersBitstring || '',
-              ts: Date.now()
-            })
-          });
+        const postBody = {
+          mockId: String(mockId),
+          totalMistakes,
+          sciMistakes,
+          skillsMistakes,
+          answersBitstring: answersBitstring || '',
+          durationSeconds: Number.isFinite(payload && payload.durationSeconds) ? Math.round(payload.durationSeconds) : null,
+          ts: Date.now()
+        };
+        const sent = await postAttemptToServer(postBody);
+        if (sent) {
           await fetchGlobalStats();
-        } catch {}
+        } else {
+          queuePendingPost(postBody);
+        }
       }
       return { stats: getEffectiveMockStats(mockId), saved: true };
+    }
+
+    const PENDING_POSTS_KEY = 'nabthati_pending_posts_v1';
+
+    async function postAttemptToServer(postBody) {
+      if (!STATS_API_URL) return false;
+      try {
+        const res = await fetchWithTimeout(STATS_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(postBody)
+        }, 12000);
+        return res && res.ok;
+      } catch {
+        return false;
+      }
+    }
+
+    function queuePendingPost(postBody) {
+      try {
+        const list = JSON.parse(localStorage.getItem(PENDING_POSTS_KEY) || '[]');
+        const filtered = Array.isArray(list) ? list.filter((it) => it && it.mockId !== postBody.mockId) : [];
+        filtered.push(postBody);
+        localStorage.setItem(PENDING_POSTS_KEY, JSON.stringify(filtered));
+      } catch {}
+    }
+
+    async function flushPendingPosts() {
+      if (!STATS_API_URL) return;
+      let list;
+      try {
+        list = JSON.parse(localStorage.getItem(PENDING_POSTS_KEY) || '[]');
+      } catch { return; }
+      if (!Array.isArray(list) || list.length === 0) return;
+
+      const remaining = [];
+      let anySent = false;
+      for (const item of list) {
+        if (!item || !item.mockId) continue;
+        const ok = await postAttemptToServer(item);
+        if (ok) anySent = true;
+        else remaining.push(item);
+      }
+      try {
+        if (remaining.length === 0) localStorage.removeItem(PENDING_POSTS_KEY);
+        else localStorage.setItem(PENDING_POSTS_KEY, JSON.stringify(remaining));
+      } catch {}
+      if (anySent) await fetchGlobalStats();
     }
 
     function renderMocksGrid() {
@@ -1584,7 +1634,15 @@
     window.addEventListener('pagehide', saveProgress);
     document.addEventListener('visibilitychange', () => { if (document.hidden) saveProgress(); });
 
-    window.addEventListener('load', () => { updatePresetStyles(); updateSdStyles(); setCap(state.maxCap); renderMocksGrid(); fetchGlobalStats(); });
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (!calcSection.classList.contains('hidden')) updateAll();
+      }, 120);
+    });
+    window.addEventListener('online', () => { flushPendingPosts(); fetchGlobalStats(); });
+    window.addEventListener('load', () => { updatePresetStyles(); updateSdStyles(); setCap(state.maxCap); renderMocksGrid(); flushPendingPosts(); fetchGlobalStats(); });
     updatePresetStyles(); updateSdStyles(); setCap(state.maxCap); renderMocksGrid();
     window.__nabthatiReady = true;
   </script>
