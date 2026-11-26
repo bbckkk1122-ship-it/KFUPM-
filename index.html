@@ -68,7 +68,9 @@
     html.dark .bg-rose-50 { background-color: rgba(136, 19, 55, 0.35) !important; color: #fda4af !important; }
     /* الحفاظ على وضوح الرسومات والجداول في الوضع الليلي */
     html.dark #examQuestionSvg svg,
-    html.dark #mistakesReviewList svg {
+    html.dark #mistakesReviewList svg,
+    html.dark #physicsQuestionSvg svg,
+    html.dark #physicsReviewList svg {
       background-color: #ffffff !important;
       border-color: #475569 !important;
     }
@@ -169,6 +171,10 @@
         <button id="tabMocksBtn" type="button" class="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2">
           <span>📝</span>
           المحاكيات الإلكترونية
+        </button>
+        <button id="tabPhysicsBtn" type="button" class="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2">
+          <span>⚡</span>
+          دروس الفيزياء
         </button>
       </div>
     </div>
@@ -577,6 +583,99 @@
       </div>
 
     </div>
+
+    <!-- ==================== الخانة الثالثة: دروس الفيزياء ==================== -->
+    <div id="physicsSection" class="hidden space-y-6">
+
+      <!-- 1. قائمة دروس الفيزياء -->
+      <div id="physicsListView" class="space-y-6">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70 mb-2">
+            ⚡ تدريب مخصّص حسب الدروس (تصحيح وشرح فوري)
+          </span>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900">دروس الفيزياء — تدريب تفاعلي</h2>
+          <p class="text-sm text-slate-500 mt-1">
+            اختر الدرس وتدرّب على مسائل التحصيلي برسومات رسمية واضحة مع <strong>تصحيح فوري وشرح لكل سؤال</strong> فور اختيارك للإجابة. يمكنك إعادة التدريب في أي وقت.
+          </p>
+        </div>
+
+        <div id="physicsLessonsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </div>
+
+      <!-- 2. شاشة التدريب على الدرس -->
+      <div id="physicsQuizView" class="hidden max-w-4xl mx-auto space-y-5">
+        <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-slate-200/80 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 id="physicsLessonTitle" class="text-base sm:text-lg font-black text-slate-900">الدرس</h3>
+            <p id="physicsProgressCounter" class="text-xs font-bold text-emerald-700">سؤال 1 من 10</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="physicsLiveScore" class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200/70 text-xs font-extrabold">الصح: 0 / 0</span>
+            <button id="exitPhysicsBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
+              ← قائمة الدروس
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80 space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span id="physicsTopicBadge" class="px-3 py-1 rounded-xl bg-teal-50 text-teal-700 text-xs font-extrabold border border-teal-200/70">الموضوع</span>
+            <span id="physicsQNumber" class="text-xs font-extrabold text-slate-500">سؤال 1 من 10</span>
+          </div>
+
+          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div id="physicsProgressBar" class="h-full bg-emerald-600 rounded-full transition-all duration-200" style="width: 10%"></div>
+          </div>
+
+          <div id="physicsQuestionSvg" class="hidden"></div>
+          <h3 id="physicsQuestionText" class="exam-font text-base sm:text-lg font-semibold text-slate-900"></h3>
+
+          <div id="physicsOptionsList" class="exam-font space-y-3"></div>
+
+          <div id="physicsFeedbackBox" class="hidden rounded-2xl p-4 border space-y-1.5 text-xs sm:text-sm"></div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
+            <button id="physicsPrevBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
+              → السابق
+            </button>
+            <button id="physicsNextBtn" type="button" class="px-7 py-2.5 rounded-xl text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+              التالي ←
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. شاشة نتيجة الدرس -->
+      <div id="physicsResultView" class="hidden max-w-4xl mx-auto space-y-6">
+        <div class="rounded-3xl bg-gradient-to-l from-emerald-800 via-emerald-700 to-teal-700 text-white p-6 sm:p-8 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+          <div class="space-y-1.5">
+            <span id="physicsResBadge" class="inline-flex px-3 py-1 rounded-full bg-white/15 text-xs font-extrabold">أنهيت الدرس!</span>
+            <h3 id="physicsResTitle" class="text-2xl sm:text-3xl font-black">نتيجة الدرس</h3>
+            <p id="physicsResSubtitle" class="text-xs sm:text-sm text-emerald-100"></p>
+          </div>
+          <div class="bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl px-6 py-4 text-center shrink-0">
+            <div class="text-xs text-emerald-100 font-bold">درجتك في الدرس</div>
+            <div id="physicsResScore" class="text-4xl font-black mt-1">0 / 10</div>
+            <div id="physicsResPercent" class="text-xs font-extrabold text-emerald-200 mt-0.5">0%</div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <button id="retryPhysicsLessonBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+            إعادة التدريب على الدرس 🔄
+          </button>
+          <button id="backToPhysicsListBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-extrabold bg-slate-900 text-white hover:bg-slate-800 transition cursor-pointer">
+            العودة لقائمة الدروس
+          </button>
+        </div>
+
+        <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-4">
+          <h3 class="text-base sm:text-lg font-extrabold text-slate-900">مراجعة الأسئلة والأخطاء</h3>
+          <div id="physicsReviewList" class="exam-font space-y-3"></div>
+        </div>
+      </div>
+
+    </div>
   </main>
 
   <!-- قسم قائمة المساهمين -->
@@ -639,7 +738,7 @@
     } from './irt.js?v=4';
 
     // اختياري: ضع هنا رابط Google Apps Script أو Firebase لحفظ متوسط أخطاء جميع الطلاب سحابياً عبر كل الأجهزة
-    const APP_VERSION = '4'; // ارفع الرقم عند تعديل أي ملف .js حتى لا يبقى المتصفح على نسخة قديمة
+    const APP_VERSION = '5'; // ارفع الرقم عند تعديل أي ملف .js حتى لا يبقى المتصفح على نسخة قديمة
     const STATS_API_URL = 'https://script.google.com/macros/s/AKfycbw2UnUkxaZ4lYMmas_KM0_1bhIHFYw05NjpnyJOD6Do1s8WeU-hVXbFSLq9_O2GVxt0/exec';
 
     // ==================== التنقل بين الخانتين ====================
@@ -664,8 +763,10 @@
 
     const tabCalcBtn = document.getElementById('tabCalcBtn');
     const tabMocksBtn = document.getElementById('tabMocksBtn');
+    const tabPhysicsBtn = document.getElementById('tabPhysicsBtn');
     const calcSection = document.getElementById('calcSection');
     const mocksSection = document.getElementById('mocksSection');
+    const physicsSection = document.getElementById('physicsSection');
     const calcHeaderActions = document.getElementById('calcHeaderActions');
 
     function trackEvent(eventName, params = {}) {
@@ -674,31 +775,40 @@
       } catch {}
     }
 
+    const TAB_ACTIVE_CLS = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-emerald-700 shadow-sm transition flex items-center justify-center gap-2';
+    const TAB_INACTIVE_CLS = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2';
+
     function switchTab(tab, updateHash = true) {
+      calcSection.classList.toggle('hidden', tab !== 'calc');
+      mocksSection.classList.toggle('hidden', tab !== 'mocks');
+      physicsSection.classList.toggle('hidden', tab !== 'physics');
+      calcHeaderActions.classList.toggle('hidden', tab !== 'calc');
+
+      tabCalcBtn.className = tab === 'calc' ? TAB_ACTIVE_CLS : TAB_INACTIVE_CLS;
+      tabMocksBtn.className = tab === 'mocks' ? TAB_ACTIVE_CLS : TAB_INACTIVE_CLS;
+      tabPhysicsBtn.className = tab === 'physics' ? TAB_ACTIVE_CLS : TAB_INACTIVE_CLS;
+
       if (tab === 'calc') {
-        calcSection.classList.remove('hidden');
-        mocksSection.classList.add('hidden');
-        calcHeaderActions.classList.remove('hidden');
-        tabCalcBtn.className = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-emerald-700 shadow-sm transition flex items-center justify-center gap-2';
-        tabMocksBtn.className = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2';
-        if (updateHash && window.location.hash === '#mock') {
+        if (updateHash && (window.location.hash === '#mock' || window.location.hash === '#physics')) {
           try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch {}
         }
         updateAll();
-      } else {
-        calcSection.classList.add('hidden');
-        mocksSection.classList.remove('hidden');
-        calcHeaderActions.classList.add('hidden');
-        tabMocksBtn.className = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-emerald-700 shadow-sm transition flex items-center justify-center gap-2';
-        tabCalcBtn.className = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2';
+      } else if (tab === 'mocks') {
         if (updateHash && window.location.hash !== '#mock') {
           try { history.replaceState(null, '', '#mock'); } catch {}
         }
         trackEvent('open_mocks');
+      } else if (tab === 'physics') {
+        if (updateHash && window.location.hash !== '#physics') {
+          try { history.replaceState(null, '', '#physics'); } catch {}
+        }
+        loadPhysicsLessons();
+        trackEvent('open_physics_lessons');
       }
     }
     tabCalcBtn.addEventListener('click', () => switchTab('calc'));
     tabMocksBtn.addEventListener('click', () => switchTab('mocks'));
+    tabPhysicsBtn.addEventListener('click', () => switchTab('physics'));
     const goToMockFromCalcBtn = document.getElementById('goToMockFromCalcBtn');
     if (goToMockFromCalcBtn) {
       goToMockFromCalcBtn.addEventListener('click', () => {
@@ -1821,10 +1931,282 @@
       }
     });
 
+    // ==================== منطق دروس الفيزياء ====================
+    const physicsListView = document.getElementById('physicsListView');
+    const physicsQuizView = document.getElementById('physicsQuizView');
+    const physicsResultView = document.getElementById('physicsResultView');
+    const physicsLessonsGrid = document.getElementById('physicsLessonsGrid');
+
+    const physicsState = {
+      lessons: null,
+      loading: false,
+      activeLesson: null,
+      currentIdx: 0,
+      answers: {} // { qIdx: selectedOptionIdx }
+    };
+
+    function getPhysicsBest(lessonId) {
+      try {
+        const raw = localStorage.getItem(`nabthati_physics_best_${lessonId}`);
+        return raw ? JSON.parse(raw) : null;
+      } catch { return null; }
+    }
+
+    function savePhysicsBest(lessonId, correct, total) {
+      try {
+        const prev = getPhysicsBest(lessonId);
+        if (!prev || correct >= prev.correct) {
+          localStorage.setItem(`nabthati_physics_best_${lessonId}`, JSON.stringify({ correct, total }));
+        }
+      } catch {}
+    }
+
+    async function loadPhysicsLessons() {
+      if (physicsState.lessons) {
+        renderPhysicsLessonsGrid();
+        return;
+      }
+      if (physicsState.loading) return;
+      physicsState.loading = true;
+      physicsLessonsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-slate-500 bg-white rounded-3xl border border-slate-200/80">جارٍ تحميل دروس الفيزياء…</div>';
+      try {
+        const mod = await import(`./physics_lessons.js?v=${APP_VERSION}`);
+        physicsState.lessons = Array.isArray(mod.PHYSICS_LESSONS) ? mod.PHYSICS_LESSONS : [];
+        renderPhysicsLessonsGrid();
+      } catch (err) {
+        console.error('Failed to load physics_lessons.js', err);
+        physicsLessonsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-rose-700 bg-rose-50 rounded-3xl border border-rose-200">تعذّر تحميل ملف دروس الفيزياء (physics_lessons.js). تأكد من رفعه في نفس المجلد مع index.html ثم حدّث الصفحة.</div>';
+      } finally {
+        physicsState.loading = false;
+      }
+    }
+
+    function renderPhysicsLessonsGrid() {
+      if (!physicsState.lessons) return;
+      physicsLessonsGrid.innerHTML = '';
+      if (physicsState.lessons.length === 0) {
+        physicsLessonsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-slate-500 bg-white rounded-3xl border border-slate-200/80">لا توجد دروس متاحة حالياً.</div>';
+        return;
+      }
+
+      physicsState.lessons.forEach((lesson) => {
+        const total = Array.isArray(lesson.questions) ? lesson.questions.length : 0;
+        const best = getPhysicsBest(lesson.id);
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between gap-4 hover:border-emerald-400 transition';
+        card.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70">${lesson.badge || `درس #${lesson.order || ''}`}</span>
+              <span class="text-[11px] font-bold text-slate-400">${total} سؤالاً</span>
+            </div>
+            <h3 class="text-lg font-black text-slate-900">${lesson.title}</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">${lesson.subtitle || ''}</p>
+            ${best ? `<p class="text-[11px] font-extrabold text-teal-700 bg-teal-50/70 px-2.5 py-1.5 rounded-xl">أفضل نتيجة محفوظة: ${best.correct} / ${best.total} (${Math.round((best.correct / best.total) * 100)}%)</p>` : ''}
+          </div>
+          <button type="button" class="w-full py-2.5 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+            ${best ? 'إعادة التدريب على الدرس ←' : 'ابدأ التدريب ←'}
+          </button>
+        `;
+        card.querySelector('button').addEventListener('click', () => startPhysicsLesson(lesson));
+        physicsLessonsGrid.appendChild(card);
+      });
+    }
+
+    function startPhysicsLesson(lesson) {
+      physicsState.activeLesson = lesson;
+      physicsState.currentIdx = 0;
+      physicsState.answers = {};
+      document.getElementById('physicsLessonTitle').textContent = lesson.title;
+      physicsListView.classList.add('hidden');
+      physicsResultView.classList.add('hidden');
+      physicsQuizView.classList.remove('hidden');
+      renderPhysicsQuestion();
+      trackEvent('start_physics_lesson', { lesson_id: String(lesson.id) });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderPhysicsQuestion() {
+      const lesson = physicsState.activeLesson;
+      if (!lesson) return;
+      const questions = lesson.questions;
+      const total = questions.length;
+      const idx = physicsState.currentIdx;
+      const q = questions[idx];
+      const chosen = physicsState.answers[idx];
+      const isAnswered = chosen !== undefined;
+
+      // حساب عدد الإجابات الصحيحة حتى الآن
+      let answeredCount = 0, correctCount = 0;
+      for (const [k, v] of Object.entries(physicsState.answers)) {
+        answeredCount++;
+        if (questions[Number(k)] && v === questions[Number(k)].answer) correctCount++;
+      }
+
+      document.getElementById('physicsProgressCounter').textContent = `تم حل ${answeredCount} من ${total} سؤالاً`;
+      document.getElementById('physicsLiveScore').textContent = `الصح: ${correctCount} / ${answeredCount}`;
+      document.getElementById('physicsTopicBadge').textContent = q.topic || lesson.title;
+      document.getElementById('physicsQNumber').textContent = `سؤال ${idx + 1} من ${total}`;
+      document.getElementById('physicsProgressBar').style.width = `${((idx + 1) / total) * 100}%`;
+
+      const svgBox = document.getElementById('physicsQuestionSvg');
+      if (q.svg) {
+        svgBox.innerHTML = q.svg;
+        svgBox.classList.remove('hidden');
+      } else {
+        svgBox.innerHTML = '';
+        svgBox.classList.add('hidden');
+      }
+
+      document.getElementById('physicsQuestionText').innerHTML = formatMathText(q.question);
+
+      const list = document.getElementById('physicsOptionsList');
+      list.innerHTML = '';
+      const letters = ['أ', 'ب', 'ج', 'د'];
+
+      q.options.forEach((opt, optIdx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        let cls = 'w-full text-right p-4 rounded-2xl border border-slate-200 bg-slate-50/70 hover:border-emerald-400 hover:bg-emerald-50/30 font-bold text-slate-800 transition flex items-center gap-3 cursor-pointer';
+        let badgeCls = 'bg-white border border-slate-200 text-slate-600';
+
+        if (isAnswered) {
+          if (optIdx === q.answer) {
+            cls = 'w-full text-right p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50 font-extrabold text-emerald-900 transition flex items-center gap-3';
+            badgeCls = 'bg-emerald-600 text-white';
+          } else if (optIdx === chosen && chosen !== q.answer) {
+            cls = 'w-full text-right p-4 rounded-2xl border-2 border-rose-500 bg-rose-50 font-extrabold text-rose-800 transition flex items-center gap-3';
+            badgeCls = 'bg-rose-600 text-white';
+          } else {
+            cls = 'w-full text-right p-4 rounded-2xl border border-slate-200 bg-slate-50/50 font-bold text-slate-400 opacity-75 flex items-center gap-3';
+          }
+        }
+
+        btn.className = cls;
+        btn.disabled = isAnswered;
+        btn.innerHTML = `<span class="w-7 h-7 rounded-lg ${badgeCls} text-xs font-extrabold flex items-center justify-center shrink-0">${letters[optIdx]}</span><span>${formatMathText(opt)}</span>`;
+        if (!isAnswered) {
+          btn.addEventListener('click', () => {
+            physicsState.answers[idx] = optIdx;
+            renderPhysicsQuestion();
+          });
+        }
+        list.appendChild(btn);
+      });
+
+      const fb = document.getElementById('physicsFeedbackBox');
+      if (isAnswered) {
+        const isRight = chosen === q.answer;
+        fb.className = isRight
+          ? 'rounded-2xl p-4 border border-emerald-300 bg-emerald-50 text-emerald-900 space-y-1.5 text-xs sm:text-sm'
+          : 'rounded-2xl p-4 border border-rose-300 bg-rose-50 text-rose-900 space-y-1.5 text-xs sm:text-sm';
+        fb.innerHTML = `
+          <div class="font-extrabold">${isRight ? '✅ إجابة صحيحة! أحسنت' : '❌ إجابة غير صحيحة'}</div>
+          <div class="text-slate-700 font-medium leading-relaxed">💡 ${formatMathText(q.explanation)}</div>
+        `;
+      } else {
+        fb.className = 'hidden';
+        fb.innerHTML = '';
+      }
+
+      const prevBtn = document.getElementById('physicsPrevBtn');
+      const nextBtn = document.getElementById('physicsNextBtn');
+      prevBtn.disabled = idx === 0;
+      prevBtn.classList.toggle('opacity-40', idx === 0);
+      nextBtn.textContent = idx === total - 1 ? 'إنهاء الدرس وعرض النتيجة 🎯' : 'التالي ←';
+
+      renderKaTeXIn(physicsQuizView);
+    }
+
+    function showPhysicsResult() {
+      const lesson = physicsState.activeLesson;
+      if (!lesson) return;
+      const questions = lesson.questions;
+      const total = questions.length;
+      let correct = 0;
+      const wrongs = [];
+      questions.forEach((q, i) => {
+        const ans = physicsState.answers[i];
+        if (ans === q.answer) correct++;
+        else wrongs.push({ num: i + 1, q, userAns: ans });
+      });
+
+      const pct = Math.round((correct / total) * 100);
+      savePhysicsBest(lesson.id, correct, total);
+
+      document.getElementById('physicsResBadge').textContent = lesson.badge || 'الدرس';
+      document.getElementById('physicsResTitle').textContent = lesson.title;
+      document.getElementById('physicsResSubtitle').textContent =
+        pct >= 90 ? 'مستوى ممتاز جداً! أتقنت أفكار هذا الدرس.' :
+        pct >= 70 ? 'أداء جيد جداً — راجع الأخطاء بالأسفل لتثبيت القوانين.' :
+        'بداية جيدة — راجع شرح الأخطاء وأعد التدريب لرفع إتقانك.';
+      document.getElementById('physicsResScore').textContent = `${correct} / ${total}`;
+      document.getElementById('physicsResPercent').textContent = `${pct}%`;
+
+      const reviewList = document.getElementById('physicsReviewList');
+      reviewList.innerHTML = '';
+      if (wrongs.length === 0) {
+        reviewList.innerHTML = '<div class="p-4 rounded-2xl bg-emerald-50 text-emerald-800 font-extrabold text-sm">ما شاء الله! أجبت على جميع أسئلة الدرس بشكل صحيح 🎉</div>';
+      } else {
+        wrongs.forEach((item) => {
+          const div = document.createElement('div');
+          div.className = 'p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-sm';
+          const userAnsText = item.userAns !== undefined ? formatMathText(item.q.options[item.userAns]) : 'لم يتم اختيار إجابة';
+          div.innerHTML = `
+            <div class="text-xs font-extrabold text-emerald-700">سؤال #${item.num} • ${item.q.topic || ''}</div>
+            ${item.q.svg ? `<div class="my-2">${item.q.svg}</div>` : ''}
+            <p class="font-extrabold text-slate-900">${formatMathText(item.q.question)}</p>
+            <p class="text-xs font-bold text-rose-700">إجابتك: ${userAnsText}</p>
+            <p class="text-xs font-extrabold text-emerald-700">الإجابة الصحيحة: ${formatMathText(item.q.options[item.q.answer])}</p>
+            <p class="text-xs text-slate-600 bg-white p-2.5 rounded-xl border border-slate-100">💡 ${formatMathText(item.q.explanation)}</p>
+          `;
+          reviewList.appendChild(div);
+        });
+      }
+
+      physicsQuizView.classList.add('hidden');
+      physicsResultView.classList.remove('hidden');
+      renderKaTeXIn(reviewList);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.getElementById('physicsPrevBtn').addEventListener('click', () => {
+      if (physicsState.currentIdx > 0) {
+        physicsState.currentIdx--;
+        renderPhysicsQuestion();
+      }
+    });
+    document.getElementById('physicsNextBtn').addEventListener('click', () => {
+      const lesson = physicsState.activeLesson;
+      if (!lesson) return;
+      if (physicsState.currentIdx < lesson.questions.length - 1) {
+        physicsState.currentIdx++;
+        renderPhysicsQuestion();
+      } else {
+        showPhysicsResult();
+      }
+    });
+    document.getElementById('exitPhysicsBtn').addEventListener('click', () => {
+      physicsQuizView.classList.add('hidden');
+      physicsResultView.classList.add('hidden');
+      physicsListView.classList.remove('hidden');
+      renderPhysicsLessonsGrid();
+    });
+    document.getElementById('retryPhysicsLessonBtn').addEventListener('click', () => {
+      if (physicsState.activeLesson) startPhysicsLesson(physicsState.activeLesson);
+    });
+    document.getElementById('backToPhysicsListBtn').addEventListener('click', () => {
+      physicsResultView.classList.add('hidden');
+      physicsListView.classList.remove('hidden');
+      renderPhysicsLessonsGrid();
+    });
+
     function applyHashRoute() {
       const h = (window.location.hash || '').toLowerCase();
       if (h === '#mock' || h === '#mocks') {
         switchTab('mocks', false);
+      } else if (h === '#physics') {
+        switchTab('physics', false);
       }
     }
     window.addEventListener('hashchange', applyHashRoute);
