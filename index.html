@@ -189,7 +189,7 @@
         <div class="flex items-start sm:items-center gap-3">
           <span class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-base shrink-0 shadow-sm">🎯</span>
           <div class="space-y-0.5">
-            <p class="text-xs sm:text-sm font-extrabold text-emerald-900">تبي توقع أدق من الحاسبة؟ جرّب محاكي الفترة الأولى (3PL-IRT)</p>
+            <p class="text-xs sm:text-sm font-extrabold text-emerald-900">تبي توقع أدق من الحاسبة؟ جرّب محاكي الفترة الأولى</p>
             <p class="text-[11px] sm:text-xs font-medium text-emerald-800">الحاسبة تعطي تقديراً عاماً، أما المحاكي فيزن كل سؤال حسب صعوبته الفعلية بين الطلاب.</p>
           </div>
         </div>
@@ -410,7 +410,7 @@
           <p><strong>• معيار (Z):</strong> يوضح كم تبعد درجتك عن متوسط بقية المختبرين (كلما زاد الرقم الموجب كنت ضمن نسبة أعلى من الطلاب).</p>
           <p><strong>• هذه الحاسبة تقدير وليست نتيجة رسمية:</strong> تحوّل عدد أخطائك إلى درجة بافتراض أن درجات الطلاب تتوزع توزيعاً طبيعياً متوسطه 650 وكل انحراف معياري 100 درجة، وبوزن 75% للقسم العلمي و25% لقسم المهارات. هذه افتراضات الموقع وليست أرقاماً منشورة من «قياس».</p>
           <p><strong>• الأسئلة المشكوك فيها:</strong> تظهر ثلاث حالات: المتفائل (كلها صح)، والمتوقع (نصفها صح)، وأسوأ احتمال (كلها خطأ).</p>
-          <p><strong>• الفرق بين الحاسبة والمحاكيات:</strong> الحاسبة تعتمد على متوسط أخطاء الطلاب الذي تحدده أنت، أما المحاكيات فتزن كل سؤال بصعوبته (نموذج 3PL-IRT)، لذا قد تختلف الدرجتان قليلاً لنفس عدد الأخطاء.</p>
+          <p><strong>• الفرق بين الحاسبة والمحاكيات:</strong> الحاسبة تعتمد على متوسط أخطاء الطلاب الذي تحدده أنت، أما المحاكيات فتزن كل سؤال حسب صعوبته الفعلية، لذا قد تختلف الدرجتان قليلاً لنفس عدد الأخطاء.</p>
         </div>
       </details>
     </div>
@@ -547,7 +547,7 @@
           <h3 class="text-base font-extrabold text-slate-900">اختر معيار توقع الدرجة:</h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button id="scoreModeDefaultBtn" type="button" class="p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50 text-right transition cursor-pointer">
-              <div class="text-sm font-extrabold text-emerald-900">1. معيار قياس (3PL-IRT) 🎯</div>
+              <div class="text-sm font-extrabold text-emerald-900">1. معيار قياس التقديري 🎯</div>
               <div class="text-xs text-emerald-700 mt-1">ترجيح كل سؤال حسب صعوبته المقدّرة + حماية ضد تحيّز العينة (تقدير تقريبي لمحاكاة الاختبار الحقيقي)</div>
             </button>
             <button id="scoreModeStudentsBtn" type="button" class="p-4 rounded-2xl border border-slate-200 bg-slate-50 text-right hover:border-emerald-400 transition cursor-pointer">
@@ -1751,7 +1751,7 @@
         calcRes = calculateIRTResult(r.questionsSlim, r.answersBitstring, liveStats, irtMode);
         itemDiagnostics = calcRes.itemDiagnostics;
       } else {
-        // توافق تلقائي مع المحاولات القديمة المحفوظة قبل تفعيل نظام 3PL-IRT
+        // توافق تلقائي مع المحاولات القديمة المحفوظة قبل التحديث
         const usedAvgMistakes = examState.scoreMode === 'students' ? clamp(avgFromStudents, 5, 60) : 32;
         calcRes = calculateScenario({
           skillsConfirmed: r.skillsMistakes,
@@ -1774,8 +1774,8 @@
       document.getElementById('resZScore').textContent = `${calcRes.zWeighted >= 0 ? '+' : ''}${calcRes.zWeighted.toFixed(2)}σ`;
 
       document.getElementById('resModeDesc').textContent = examState.scoreMode === 'default'
-        ? 'محسوبة بنظام 3PL-IRT (WLE): ترجيح كل سؤال حسب صعوبته الفعلية مع حماية ضد تحيّز العينة.'
-        : `مقارنة مباشرة بطلاب الموقع (3PL-IRT): متوسط الأخطاء الفعلي ${avgFromStudents.toFixed(1)} خطأ (من ${attempts} محاولة مكتملة).`;
+        ? 'محسوبة وفق معيار التقييم الذكي: ترجيح كل سؤال حسب صعوبته الفعلية مع موازنة العينة.'
+        : `مقارنة مباشرة بطلاب الموقع: متوسط الأخطاء الفعلي ${avgFromStudents.toFixed(1)} خطأ (من ${attempts} محاولة مكتملة).`;
 
       const calBadge = document.getElementById('resCalibrationBadge');
       if (calBadge) {
