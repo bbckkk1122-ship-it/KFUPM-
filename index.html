@@ -12,7 +12,7 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>منصة التحصيلي المبكر — حاسبة الدرجة + المحاكيات الإلكترونية | Nabthati</title>
+  <title>منصة التحصيلي المبكر — الحاسبة + المحاكيات + دروس الفيزياء | Nabthati</title>
   <meta name="description" content="قدّر درجتك في التحصيلي المبكر بالانحراف المعياري، وجرّب محاكيات إلكترونية بـ 110 أسئلة مع مراجعة الأخطاء. تقدير تقريبي وليس نتيجة رسمية." />
   <meta name="theme-color" content="#059669" />
   <meta property="og:type" content="website" />
@@ -135,7 +135,7 @@
         </div>
         <div>
           <h1 class="text-lg sm:text-xl font-extrabold text-slate-900 leading-tight">منصة التحصيلي المبكر</h1>
-          <p class="text-xs sm:text-sm text-slate-500 font-medium">حاسبة الدرجة بالانحراف المعياري + المحاكيات الإلكترونية</p>
+          <p class="text-xs sm:text-sm text-slate-500 font-medium">حاسبة الدرجة + المحاكيات الإلكترونية + دروس الفيزياء</p>
         </div>
       </div>
 
@@ -430,7 +430,7 @@
           </p>
         </div>
 
-        <div id="mocksGrid" class="grid grid-cols-1 max-w-md gap-4"></div>
+        <div id="mocksGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
       </div>
 
       <!-- 2. شاشة أداء المحاكي -->
@@ -572,6 +572,20 @@
           </div>
         </div>
 
+        <!-- توجيه ذكي لدروس الفيزياء عند وجود أخطاء في الفيزياء -->
+        <div id="physicsWeaknessCta" class="hidden rounded-3xl bg-emerald-50 border border-emerald-200/80 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+          <div class="flex items-start sm:items-center gap-3">
+            <span class="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-lg shrink-0 shadow-sm">⚡</span>
+            <div class="space-y-0.5">
+              <p id="physicsWeaknessTitle" class="text-sm sm:text-base font-extrabold text-emerald-900">تقدر ترفع درجتك في الفيزياء بسرعة!</p>
+              <p id="physicsWeaknessDesc" class="text-xs text-emerald-800 font-medium">تدرّب على مسائل الفيزياء المخصّصة حسب الدروس مع شرح فوري ورسومات رسمية.</p>
+            </div>
+          </div>
+          <button id="goToPhysicsFromResultBtn" type="button" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition shrink-0 cursor-pointer">
+            تدرّب على دروس الفيزياء ←
+          </button>
+        </div>
+
         <!-- مراجعة الأخطاء -->
         <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-4">
           <div class="flex flex-wrap items-center justify-between gap-3">
@@ -627,6 +641,9 @@
             <div id="physicsProgressBar" class="h-full bg-emerald-600 rounded-full transition-all duration-200" style="width: 10%"></div>
           </div>
 
+          <!-- شريط أرقام أسئلة الدرس -->
+          <div id="physicsNavStrip" class="flex flex-wrap gap-1.5"></div>
+
           <div id="physicsQuestionSvg" class="hidden"></div>
           <h3 id="physicsQuestionText" class="exam-font text-base sm:text-lg font-semibold text-slate-900"></h3>
 
@@ -661,6 +678,9 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
+          <button id="sharePhysicsResBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-extrabold bg-teal-700 text-white hover:bg-teal-800 shadow-sm transition cursor-pointer">
+            نسخ نتيجتي في الدرس 📋
+          </button>
           <button id="retryPhysicsLessonBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition cursor-pointer">
             إعادة التدريب على الدرس 🔄
           </button>
@@ -738,7 +758,9 @@
     } from './irt.js?v=4';
 
     // اختياري: ضع هنا رابط Google Apps Script أو Firebase لحفظ متوسط أخطاء جميع الطلاب سحابياً عبر كل الأجهزة
-    const APP_VERSION = '5'; // ارفع الرقم عند تعديل أي ملف .js حتى لا يبقى المتصفح على نسخة قديمة
+    const APP_VERSION = '6'; // ارفع الرقم عند تعديل أي ملف .js حتى لا يبقى المتصفح على نسخة قديمة
+    const MIN_VALID_DURATION_SECONDS = 600; // أقل من 10 دقائق: تُعرض النتيجة للطالب دون إرسالها لجدول المعايرة
+    const F2_GOAL_ATTEMPTS = 300; // هدف عدد المختبرين لإطلاق محاكي الفترة الثانية
     const STATS_API_URL = 'https://script.google.com/macros/s/AKfycbw2UnUkxaZ4lYMmas_KM0_1bhIHFYw05NjpnyJOD6Do1s8WeU-hVXbFSLq9_O2GVxt0/exec';
 
     // ==================== التنقل بين الخانتين ====================
@@ -1335,36 +1357,42 @@
       }
       markMockCompleted(mockId);
 
-      // 1. حفظ محلي فوري (بما في ذلك إحصائيات كل سؤال على حدة)
-      const localStats = getLocalMockStats(mockId);
-      localStats.attempts += 1;
-      localStats.totalMistakesSum += totalMistakes;
-      if (answersBitstring && answersBitstring.length > 0) {
-        if (!Array.isArray(localStats.qCorrect) || localStats.qCorrect.length !== answersBitstring.length) {
-          localStats.qCorrect = Array(answersBitstring.length).fill(0);
-        }
-        for (let i = 0; i < answersBitstring.length; i++) {
-          if (answersBitstring[i] === '1') localStats.qCorrect[i] += 1;
-        }
-      }
-      try { localStorage.setItem(`nabthati_mock_stats_${mockId}`, JSON.stringify(localStats)); } catch {}
+      // فلتر تلقائي: إذا كان وقت الحل أقل من 10 دقائق، تُعرض النتيجة للطالب وتُحفظ له محلياً دون إرسالها لجدول المعايرة
+      const durSec = Number.isFinite(payload && payload.durationSeconds) ? Math.round(payload.durationSeconds) : null;
+      const isTooFast = durSec !== null && durSec < MIN_VALID_DURATION_SECONDS;
 
-      // 2. إرسال لقاعدة بيانات Google Sheets (مع الوقت المستغرق + إعادة إرسال تلقائية عند ضعف الإنترنت)
-      if (STATS_API_URL) {
-        const postBody = {
-          mockId: String(mockId),
-          totalMistakes,
-          sciMistakes,
-          skillsMistakes,
-          answersBitstring: answersBitstring || '',
-          durationSeconds: Number.isFinite(payload && payload.durationSeconds) ? Math.round(payload.durationSeconds) : null,
-          ts: Date.now()
-        };
-        const sent = await postAttemptToServer(postBody);
-        if (sent) {
-          await fetchGlobalStats();
-        } else {
-          queuePendingPost(postBody);
+      if (!isTooFast) {
+        // 1. حفظ محلي فوري (بما في ذلك إحصائيات كل سؤال على حدة)
+        const localStats = getLocalMockStats(mockId);
+        localStats.attempts += 1;
+        localStats.totalMistakesSum += totalMistakes;
+        if (answersBitstring && answersBitstring.length > 0) {
+          if (!Array.isArray(localStats.qCorrect) || localStats.qCorrect.length !== answersBitstring.length) {
+            localStats.qCorrect = Array(answersBitstring.length).fill(0);
+          }
+          for (let i = 0; i < answersBitstring.length; i++) {
+            if (answersBitstring[i] === '1') localStats.qCorrect[i] += 1;
+          }
+        }
+        try { localStorage.setItem(`nabthati_mock_stats_${mockId}`, JSON.stringify(localStats)); } catch {}
+
+        // 2. إرسال لقاعدة بيانات Google Sheets (مع الوقت المستغرق + إعادة إرسال تلقائية عند ضعف الإنترنت)
+        if (STATS_API_URL) {
+          const postBody = {
+            mockId: String(mockId),
+            totalMistakes,
+            sciMistakes,
+            skillsMistakes,
+            answersBitstring: answersBitstring || '',
+            durationSeconds: durSec,
+            ts: Date.now()
+          };
+          const sent = await postAttemptToServer(postBody);
+          if (sent) {
+            await fetchGlobalStats();
+          } else {
+            queuePendingPost(postBody);
+          }
         }
       }
       return { stats: getEffectiveMockStats(mockId), saved: true };
@@ -1473,6 +1501,53 @@
         }
         mocksGrid.appendChild(card);
       });
+
+      // بطاقة محاكي الفترة الثانية (قريباً) مع عدّاد حي نحو هدف 300 مختبر
+      const f1Stats = getEffectiveMockStats('f1');
+      const currentAttempts = f1Stats && f1Stats.attempts > 0 ? f1Stats.attempts : 0;
+      const remaining = Math.max(0, F2_GOAL_ATTEMPTS - currentAttempts);
+      const pct = Math.min(100, Math.round((currentAttempts / F2_GOAL_ATTEMPTS) * 100));
+
+      const f2Card = document.createElement('div');
+      f2Card.className = 'bg-white rounded-3xl p-5 shadow-sm border border-dashed border-slate-300 flex flex-col justify-between gap-4';
+      f2Card.innerHTML = `
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="px-3 py-1 rounded-xl bg-amber-50 text-amber-700 text-xs font-extrabold border border-amber-200/70">الفترة الثانية 🔒</span>
+            <span class="text-[11px] font-extrabold text-slate-400">قريباً</span>
+          </div>
+          <h3 class="text-lg font-black text-slate-900">محاكي الفترة الثانية</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            سيُفتح محاكي الفترة الثانية فور وصولنا إلى <strong>${F2_GOAL_ATTEMPTS} مختبر</strong> في محاكي الفترة الأولى لضمان أعلى دقة في المعايرة.
+          </p>
+          <div class="space-y-1.5 pt-1">
+            <div class="flex items-center justify-between text-xs font-extrabold">
+              <span class="text-emerald-700">${currentAttempts > 0 ? `${currentAttempts} / ${F2_GOAL_ATTEMPTS} مختبر` : `الهدف: ${F2_GOAL_ATTEMPTS} مختبر`}</span>
+              <span class="text-slate-500">${pct}%</span>
+            </div>
+            <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-l from-emerald-500 to-teal-600 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+            </div>
+            <p class="text-[11px] font-bold text-slate-500">
+              ${remaining > 0 ? `تبقّى ${remaining} مختبر لإطلاق محاكي الفترة الثانية 🎯` : 'تم تحقيق الهدف! جارٍ تجهيز محاكي الفترة الثانية 🚀'}
+            </p>
+          </div>
+        </div>
+        <button type="button" id="shareSiteForF2Btn" class="w-full py-2.5 rounded-2xl text-sm font-extrabold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 transition cursor-pointer">
+          شارك الرابط لدعم الإطلاق 📢
+        </button>
+      `;
+      const shareF2Btn = f2Card.querySelector('#shareSiteForF2Btn');
+      if (shareF2Btn) {
+        shareF2Btn.addEventListener('click', () => {
+          const shareUrl = `${window.location.origin}${window.location.pathname}#mock`;
+          const text = `جرّب محاكي التحصيلي المبكر (110 أسئلة + توقع الدرجة ومراجعة الأخطاء) 🎯
+نحتاج نوصل ${F2_GOAL_ATTEMPTS} مختبر عشان ينزل محاكي الفترة الثانية:
+${shareUrl}`;
+          copyWithFeedback(shareF2Btn, text, 'شارك الرابط لدعم الإطلاق 📢');
+        });
+      }
+      mocksGrid.appendChild(f2Card);
     }
 
     async function loadAndStartMock(mockInfo) {
@@ -1809,6 +1884,20 @@
         breakdown.appendChild(span);
       });
 
+      // عرض التوجيه الذكي لدروس الفيزياء إذا كان لدى الطالب أخطاء في الفيزياء
+      const physCta = document.getElementById('physicsWeaknessCta');
+      const physData = r.bySubject && r.bySubject['الفيزياء'];
+      if (physCta) {
+        if (physData && physData.correct < physData.total) {
+          const physMistakes = physData.total - physData.correct;
+          document.getElementById('physicsWeaknessTitle').textContent =
+            `لديك ${physMistakes} ${physMistakes === 1 ? 'خطأ' : (physMistakes === 2 ? 'خطآن' : (physMistakes <= 10 ? 'أخطاء' : 'خطأ'))} في الفيزياء — تقدر ترفع درجتك فيها بسهولة!`;
+          physCta.classList.remove('hidden');
+        } else {
+          physCta.classList.add('hidden');
+        }
+      }
+
       const filterBar = document.getElementById('mistakesFilterBar');
       const reviewList = document.getElementById('mistakesReviewList');
       if (filterBar) {
@@ -1886,6 +1975,13 @@
       mocksListView.classList.remove('hidden');
       renderMocksGrid();
     });
+    const goToPhysicsFromResultBtn = document.getElementById('goToPhysicsFromResultBtn');
+    if (goToPhysicsFromResultBtn) {
+      goToPhysicsFromResultBtn.addEventListener('click', () => {
+        switchTab('physics');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
 
     // حفظ التقدم عند إغلاق الصفحة أو إخفائها أثناء الاختبار
     window.addEventListener('pagehide', saveProgress);
@@ -1898,35 +1994,67 @@
         if (!calcSection.classList.contains('hidden')) updateAll();
       }, 120);
     });
-    // اختصارات الكيبورد داخل المحاكي (الأسهم للتنقل والأرقام 1-4 للاختيار)
+    // اختصارات الكيبورد داخل المحاكي ودروس الفيزياء (الأسهم للتنقل والأرقام 1-4 للاختيار)
     document.addEventListener('keydown', (e) => {
-      if (mockExamView.classList.contains('hidden')) return;
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : '';
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
 
-      if (e.key === 'ArrowLeft') {
-        if (examState.currentIdx < examState.questions.length - 1) {
-          e.preventDefault();
-          examState.currentIdx++;
-          saveProgress();
-          renderExamQuestion();
+      const inMock = !mocksSection.classList.contains('hidden') && !mockExamView.classList.contains('hidden');
+      const inPhysics = !physicsSection.classList.contains('hidden') && !physicsQuizView.classList.contains('hidden');
+      if (!inMock && !inPhysics) return;
+
+      if (inMock) {
+        if (e.key === 'ArrowLeft') {
+          if (examState.currentIdx < examState.questions.length - 1) {
+            e.preventDefault();
+            examState.currentIdx++;
+            saveProgress();
+            renderExamQuestion();
+          }
+        } else if (e.key === 'ArrowRight') {
+          if (examState.currentIdx > 0) {
+            e.preventDefault();
+            examState.currentIdx--;
+            saveProgress();
+            renderExamQuestion();
+          }
+        } else if (e.key >= '1' && e.key <= '4') {
+          const optIdx = parseInt(e.key, 10) - 1;
+          const q = examState.questions[examState.currentIdx];
+          if (q && Array.isArray(q.options) && optIdx < q.options.length) {
+            e.preventDefault();
+            examState.answers[examState.currentIdx] = optIdx;
+            saveProgress();
+            renderExamQuestion();
+          }
         }
-      } else if (e.key === 'ArrowRight') {
-        if (examState.currentIdx > 0) {
+      } else if (inPhysics && physicsState.activeLesson) {
+        const questions = physicsState.activeLesson.questions;
+        if (e.key === 'ArrowLeft') {
           e.preventDefault();
-          examState.currentIdx--;
-          saveProgress();
-          renderExamQuestion();
-        }
-      } else if (e.key >= '1' && e.key <= '4') {
-        const optIdx = parseInt(e.key, 10) - 1;
-        const q = examState.questions[examState.currentIdx];
-        if (q && Array.isArray(q.options) && optIdx < q.options.length) {
-          e.preventDefault();
-          examState.answers[examState.currentIdx] = optIdx;
-          saveProgress();
-          renderExamQuestion();
+          if (physicsState.currentIdx < questions.length - 1) {
+            physicsState.currentIdx++;
+            renderPhysicsQuestion();
+          } else {
+            showPhysicsResult();
+          }
+        } else if (e.key === 'ArrowRight') {
+          if (physicsState.currentIdx > 0) {
+            e.preventDefault();
+            physicsState.currentIdx--;
+            renderPhysicsQuestion();
+          }
+        } else if (e.key >= '1' && e.key <= '4') {
+          const idx = physicsState.currentIdx;
+          if (physicsState.answers[idx] !== undefined) return;
+          const optIdx = parseInt(e.key, 10) - 1;
+          const q = questions[idx];
+          if (q && Array.isArray(q.options) && optIdx < q.options.length) {
+            e.preventDefault();
+            physicsState.answers[idx] = optIdx;
+            renderPhysicsQuestion();
+          }
         }
       }
     });
@@ -2115,6 +2243,39 @@
       prevBtn.classList.toggle('opacity-40', idx === 0);
       nextBtn.textContent = idx === total - 1 ? 'إنهاء الدرس وعرض النتيجة 🎯' : 'التالي ←';
 
+      // تحديث شريط أرقام الأسئلة
+      const navStrip = document.getElementById('physicsNavStrip');
+      if (navStrip) {
+        navStrip.innerHTML = '';
+        questions.forEach((itemQ, i) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.textContent = i + 1;
+          const ans = physicsState.answers[i];
+          const isCur = i === idx;
+          let cls = 'w-8 h-8 rounded-lg text-xs font-extrabold transition cursor-pointer ';
+          if (ans === undefined) {
+            cls += isCur
+              ? 'bg-slate-900 text-white ring-2 ring-emerald-400'
+              : 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+          } else if (ans === itemQ.answer) {
+            cls += isCur
+              ? 'bg-emerald-600 text-white ring-2 ring-slate-900'
+              : 'bg-emerald-600 text-white hover:bg-emerald-700';
+          } else {
+            cls += isCur
+              ? 'bg-rose-600 text-white ring-2 ring-slate-900'
+              : 'bg-rose-500 text-white hover:bg-rose-600';
+          }
+          b.className = cls;
+          b.addEventListener('click', () => {
+            physicsState.currentIdx = i;
+            renderPhysicsQuestion();
+          });
+          navStrip.appendChild(b);
+        });
+      }
+
       renderKaTeXIn(physicsQuizView);
     }
 
@@ -2195,6 +2356,18 @@
     document.getElementById('retryPhysicsLessonBtn').addEventListener('click', () => {
       if (physicsState.activeLesson) startPhysicsLesson(physicsState.activeLesson);
     });
+    const sharePhysicsResBtn = document.getElementById('sharePhysicsResBtn');
+    if (sharePhysicsResBtn) {
+      sharePhysicsResBtn.addEventListener('click', () => {
+        const lesson = physicsState.activeLesson;
+        if (!lesson) return;
+        const scoreText = document.getElementById('physicsResScore').textContent;
+        const pctText = document.getElementById('physicsResPercent').textContent;
+        const shareUrl = `${window.location.origin}${window.location.pathname}#physics`;
+        const text = `أنهيت تدريب درس «${lesson.title}» في منصة التحصيلي المبكر ⚡\n✅ درجتي: ${scoreText} (${pctText})\n\nتدرّب على دروس الفيزياء والمحاكيات من هنا:\n${shareUrl}`;
+        copyWithFeedback(sharePhysicsResBtn, text, 'نسخ نتيجتي في الدرس 📋');
+      });
+    }
     document.getElementById('backToPhysicsListBtn').addEventListener('click', () => {
       physicsResultView.classList.add('hidden');
       physicsListView.classList.remove('hidden');
