@@ -781,6 +781,9 @@
 
           <div id="bankQuizNavStrip" class="flex flex-wrap gap-1.5"></div>
 
+          <div id="bankQuizImageWrap" class="hidden my-2 text-center">
+            <img id="bankQuizImage" src="" alt="صورة السؤال" class="max-h-80 max-w-full mx-auto rounded-2xl border border-slate-200 shadow-sm object-contain bg-white p-1" loading="lazy" />
+          </div>
           <h3 id="bankQuizQuestionText" class="exam-font text-base sm:text-lg font-semibold text-slate-900"></h3>
 
           <div id="bankQuizOptionsList" class="exam-font space-y-3"></div>
@@ -870,6 +873,16 @@
 
             <!-- نموذج إضافة سؤال فردي -->
             <div id="bankSingleFormWrap" class="space-y-4">
+              <div id="bankSingleAttachBox" class="hidden rounded-2xl border border-emerald-200 bg-emerald-50/60 p-3 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <img id="bankSinglePreviewImg" src="" alt="معاينة" class="w-14 h-14 rounded-xl object-cover border border-slate-200 bg-white shrink-0" />
+                  <label class="flex items-center gap-2 text-xs sm:text-sm font-extrabold text-emerald-900 cursor-pointer select-none">
+                    <input id="bankSingleAttachCheck" type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" />
+                    <span>إرفاق الصورة مع السؤال (تظهر للطلاب)</span>
+                  </label>
+                </div>
+                <button id="bankSingleRemoveImgBtn" type="button" class="text-xs font-bold text-rose-600 hover:underline cursor-pointer">إزالة الصورة</button>
+              </div>
               <div class="space-y-3">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
@@ -2671,7 +2684,8 @@ ${shareUrl}`;
     // المساهمون المعتمدون المعروضون تلقائياً في القائمة الرئيسية
     const FEATURED_CONTRIBUTORS = [
       { name: '@honrovc', telegram: '@honrovc', desc: 'تجميعات ومساهمات في المواد العلمية (فيزياء، كيمياء، أحياء، رياضيات)' },
-      { name: '@knowledgeseeker_2010', telegram: '@knowledgeseeker_2010', desc: 'تجميعات ومساهمات في المواد العلمية (فيزياء، كيمياء، أحياء، رياضيات)' }
+      { name: '@knowledgeseeker_2010', telegram: '@knowledgeseeker_2010', desc: 'تجميعات ومساهمات في المواد العلمية (فيزياء، كيمياء، أحياء، رياضيات)' },
+      { name: '@plmo743', telegram: '@plmo743', desc: 'تجميعات ومساهمات في المواد العلمية (فيزياء، كيمياء، أحياء، رياضيات)' }
     ];
 
     const bankState = {
@@ -2880,6 +2894,15 @@ ${shareUrl}`;
       document.getElementById('bankQuizSubjectBadge').textContent = q.subject || bankState.activeSubject;
       document.getElementById('bankQuizQNumber').textContent = `سؤال ${idx + 1} من ${total}`;
       document.getElementById('bankQuizProgressBar').style.width = `${((idx + 1) / total) * 100}%`;
+      const qImgWrap = document.getElementById('bankQuizImageWrap');
+      const qImg = document.getElementById('bankQuizImage');
+      if (q.image_url && String(q.image_url).trim()) {
+        qImg.src = String(q.image_url).trim();
+        qImgWrap.classList.remove('hidden');
+      } else {
+        qImg.src = '';
+        qImgWrap.classList.add('hidden');
+      }
       document.getElementById('bankQuizQuestionText').innerHTML = formatMathText(q.question);
 
       const list = document.getElementById('bankQuizOptionsList');
@@ -3089,6 +3112,26 @@ ${shareUrl}`;
     const bankBatchClearBtn = document.getElementById('bankBatchClearBtn');
 
     let bankBatchItems = [];
+    let bankSingleImage = null; // { base64, mimeType }
+
+    const bankSingleAttachBox = document.getElementById('bankSingleAttachBox');
+    const bankSinglePreviewImg = document.getElementById('bankSinglePreviewImg');
+    const bankSingleAttachCheck = document.getElementById('bankSingleAttachCheck');
+    const bankSingleRemoveImgBtn = document.getElementById('bankSingleRemoveImgBtn');
+
+    function setSingleAttachedImage(imgObj) {
+      bankSingleImage = imgObj;
+      if (imgObj && imgObj.base64) {
+        bankSinglePreviewImg.src = `data:${imgObj.mimeType || 'image/jpeg'};base64,${imgObj.base64}`;
+        bankSingleAttachCheck.checked = false;
+        bankSingleAttachBox.classList.remove('hidden');
+      } else {
+        bankSinglePreviewImg.src = '';
+        bankSingleAttachCheck.checked = false;
+        bankSingleAttachBox.classList.add('hidden');
+      }
+    }
+    bankSingleRemoveImgBtn.addEventListener('click', () => setSingleAttachedImage(null));
 
     function sleepMs(ms) {
       return new Promise((r) => setTimeout(r, ms));
@@ -3150,6 +3193,14 @@ ${shareUrl}`;
             <input type="text" placeholder="الخيار د" class="batch-opt-3 w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
           </div>
           <textarea rows="2" placeholder="شرح الإجابة (اختياري)..." class="batch-explanation w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+          ${item.imageBase64 ? `
+          <div class="flex items-center gap-3 pt-1">
+            <img src="data:${item.imageMimeType || 'image/jpeg'};base64,${item.imageBase64}" alt="معاينة" class="w-12 h-12 rounded-xl object-cover border border-slate-200 bg-white shrink-0" />
+            <label class="flex items-center gap-2 text-xs font-extrabold text-slate-700 cursor-pointer select-none">
+              <input type="checkbox" class="batch-attach-img w-4 h-4 accent-emerald-600 rounded" ${item.attachImage ? 'checked' : ''} />
+              <span>إرفاق الصورة مع السؤال (تظهر للطلاب)</span>
+            </label>
+          </div>` : ''}
         `;
 
         const subjEl = card.querySelector('.batch-subject');
@@ -3180,6 +3231,10 @@ ${shareUrl}`;
           });
         });
         expEl.addEventListener('input', () => { item.explanation = expEl.value; });
+        const attachChk = card.querySelector('.batch-attach-img');
+        if (attachChk) {
+          attachChk.addEventListener('change', () => { item.attachImage = attachChk.checked; });
+        }
 
         card.querySelector('.batch-remove-btn').addEventListener('click', () => {
           bankBatchItems.splice(idx, 1);
@@ -3212,7 +3267,7 @@ ${shareUrl}`;
         })
       }, 35000);
       const json = await res.json();
-      if (json && json.ok && json.data) return json.data;
+      if (json && json.ok && json.data) return { data: json.data, base64, mimeType };
       throw new Error((json && json.error) || 'فشل الاستخراج');
     }
 
@@ -3232,7 +3287,8 @@ ${shareUrl}`;
         bankAiStatus.textContent = '⏳ جارٍ قراءة الصورة واستخراج السؤال بالذكاء الاصطناعي…';
         bankAiStatus.className = 'text-xs font-extrabold text-teal-700';
         try {
-          const d = await extractSingleImageWithAI(files[0]);
+          const { data: d, base64, mimeType } = await extractSingleImageWithAI(files[0]);
+          setSingleAttachedImage({ base64, mimeType });
           if (['فيزياء', 'كيمياء', 'أحياء', 'رياضيات'].includes(d.subject)) {
             document.getElementById('bankSubjectSelect').value = d.subject;
           }
@@ -3269,7 +3325,7 @@ ${shareUrl}`;
         const f = files[i];
         setBatchProgress(true, `جارٍ استخراج الصورة ${i + 1} من ${files.length}…`, (i / files.length) * 100);
         try {
-          const d = await extractSingleImageWithAI(f);
+          const { data: d, base64, mimeType } = await extractSingleImageWithAI(f);
           const opts = Array.isArray(d.options) ? d.options : [];
           bankBatchItems.push({
             fileName: f.name || `صورة ${i + 1}`,
@@ -3277,7 +3333,10 @@ ${shareUrl}`;
             question: d.question || '',
             options: [opts[0] || '', opts[1] || '', opts[2] || '', opts[3] || ''],
             correct_index: clamp(Number(d.correct_index) || 0, 0, 3),
-            explanation: d.explanation || ''
+            explanation: d.explanation || '',
+            imageBase64: base64,
+            imageMimeType: mimeType,
+            attachImage: false
           });
           okCount++;
           renderBatchList();
@@ -3343,7 +3402,10 @@ ${shareUrl}`;
               question: String(it.question || '').trim(),
               options: it.options.map((o) => String(o || '').trim()),
               correct_index: clamp(Number(it.correct_index) || 0, 0, 3),
-              explanation: String(it.explanation || '').trim()
+              explanation: String(it.explanation || '').trim(),
+              attachImage: !!(it.attachImage && it.imageBase64),
+              imageBase64: (it.attachImage && it.imageBase64) ? it.imageBase64 : '',
+              imageMimeType: (it.attachImage && it.imageBase64) ? (it.imageMimeType || 'image/jpeg') : ''
             })
           }, 15000);
           const data = await res.json();
@@ -3416,7 +3478,10 @@ ${shareUrl}`;
             question,
             options,
             correct_index,
-            explanation
+            explanation,
+            attachImage: !!(bankSingleAttachCheck.checked && bankSingleImage && bankSingleImage.base64),
+            imageBase64: (bankSingleAttachCheck.checked && bankSingleImage && bankSingleImage.base64) ? bankSingleImage.base64 : '',
+            imageMimeType: (bankSingleAttachCheck.checked && bankSingleImage && bankSingleImage.base64) ? (bankSingleImage.mimeType || 'image/jpeg') : ''
           })
         }, 15000);
         const data = await res.json();
@@ -3429,6 +3494,7 @@ ${shareUrl}`;
           document.getElementById('bankOpt2').value = '';
           document.getElementById('bankOpt3').value = '';
           document.getElementById('bankExplanationInput').value = '';
+          setSingleAttachedImage(null);
           loadBankQuestions(true);
         } else {
           throw new Error((data && data.error) || 'فشل الحفظ');
