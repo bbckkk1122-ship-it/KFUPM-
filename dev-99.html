@@ -59,6 +59,7 @@
     html.dark .text-slate-500 { color: #94a3b8 !important; }
     html.dark .border-slate-100, html.dark .border-slate-200, html.dark .border-slate-200\/80 { border-color: #334155 !important; }
     html.dark input[type="number"] { background-color: #0f172a !important; border-color: #334155 !important; color: #34d399 !important; }
+    html.dark input[type="text"], html.dark textarea, html.dark select { background-color: #0f172a !important; border-color: #334155 !important; color: #f8fafc !important; }
     html.dark input[type="range"] { background: #334155; }
     html.dark .bg-emerald-50, html.dark .bg-emerald-50\/60 { background-color: rgba(6, 78, 59, 0.35) !important; border-color: #059669 !important; }
     html.dark .text-emerald-900, html.dark .text-emerald-800 { color: #a7f3d0 !important; }
@@ -163,7 +164,7 @@
 
     <!-- شريط التنقل بين الخانتين -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 pb-3">
-      <div class="inline-flex p-1.5 rounded-2xl bg-slate-100 border border-slate-200/80 w-full sm:w-auto">
+      <div class="inline-flex flex-wrap p-1.5 rounded-2xl bg-slate-100 border border-slate-200/80 w-full sm:w-auto gap-1">
         <button id="tabCalcBtn" type="button" class="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-emerald-700 shadow-sm transition flex items-center justify-center gap-2">
           <span>📊</span>
           حاسبة الدرجة
@@ -175,6 +176,10 @@
         <button id="tabPhysicsBtn" type="button" class="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2">
           <span>⚡</span>
           دروس الفيزياء
+        </button>
+        <button id="tabBankBtn" type="button" class="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2">
+          <span>📚</span>
+          بنك الطلاب
         </button>
       </div>
     </div>
@@ -696,6 +701,173 @@
       </div>
 
     </div>
+
+    <!-- ==================== الخانة الرابعة: بنك الطلاب ==================== -->
+    <div id="bankSection" class="hidden space-y-6">
+
+      <!-- 1. قائمة المساهمين -->
+      <div id="bankHomeView" class="space-y-6">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="space-y-1.5">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70">
+              📚 مساهمات وتجميعات الطلاب
+            </span>
+            <h2 class="text-xl sm:text-2xl font-black text-slate-900">بنك الطلاب</h2>
+            <p class="text-sm text-slate-500">
+              أسئلة مختارة يضيفها طلاب مساهمون مقسّمة حسب المادة (فيزياء، كيمياء، أحياء، رياضيات) مع تصحيح وشرح فوري.
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
+            <button id="refreshBankBtn" type="button" class="px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
+              تحديث 🔄
+            </button>
+            <button id="openAddQuestionModalBtn" type="button" class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+              ➕ أضف سؤالاً (للمساهمين)
+            </button>
+          </div>
+        </div>
+
+        <div id="bankContributorsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </div>
+
+      <!-- 2. شاشة التدريب على أسئلة المساهم -->
+      <div id="bankQuizView" class="hidden max-w-4xl mx-auto space-y-5">
+        <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-slate-200/80 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h3 id="bankQuizContributor" class="text-base sm:text-lg font-black text-slate-900">المساهم</h3>
+              <a id="bankQuizTelegram" href="#" target="_blank" rel="noopener noreferrer" dir="ltr" class="text-xs font-extrabold text-sky-600 bg-sky-50 px-2.5 py-0.5 rounded-lg border border-sky-200/70 hover:bg-sky-100 transition">@user</a>
+            </div>
+            <p id="bankQuizProgressCounter" class="text-xs font-bold text-emerald-700 mt-0.5">تم حل 0 من 0 سؤالاً</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="bankQuizLiveScore" class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200/70 text-xs font-extrabold">الصح: 0 / 0</span>
+            <button id="exitBankQuizBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
+              ← قائمة المساهمين
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80 space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span id="bankQuizSubjectBadge" class="px-3 py-1 rounded-xl bg-teal-50 text-teal-700 text-xs font-extrabold border border-teal-200/70">المادة</span>
+            <span id="bankQuizQNumber" class="text-xs font-extrabold text-slate-500">سؤال 1 من 1</span>
+          </div>
+
+          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div id="bankQuizProgressBar" class="h-full bg-emerald-600 rounded-full transition-all duration-200" style="width: 10%"></div>
+          </div>
+
+          <div id="bankQuizNavStrip" class="flex flex-wrap gap-1.5"></div>
+
+          <h3 id="bankQuizQuestionText" class="exam-font text-base sm:text-lg font-semibold text-slate-900"></h3>
+
+          <div id="bankQuizOptionsList" class="exam-font space-y-3"></div>
+
+          <div id="bankQuizFeedbackBox" class="hidden rounded-2xl p-4 border space-y-1.5 text-xs sm:text-sm"></div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
+            <button id="bankQuizPrevBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
+              → السابق
+            </button>
+            <button id="bankQuizNextBtn" type="button" class="px-7 py-2.5 rounded-xl text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+              التالي ←
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. نافذة إضافة سؤال (للمساهمين بالكود السري + AI) -->
+      <div id="bankAddModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-7 shadow-2xl border border-slate-200/80 space-y-5 my-auto max-h-[90vh] overflow-y-auto">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3.5">
+            <div>
+              <h3 class="text-lg font-black text-slate-900">إضافة سؤال لبنك الطلاب</h3>
+              <p class="text-xs text-slate-500">مخصّص للمساهمين المعتمدين (يدعم استخراج السؤال من صورة بالـ AI)</p>
+            </div>
+            <button id="closeBankModalBtn" type="button" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-extrabold transition cursor-pointer">✕</button>
+          </div>
+
+          <!-- الخطوة 1: التحقق من الكود السري -->
+          <div id="bankAuthStep" class="space-y-4">
+            <div class="space-y-2">
+              <label for="bankCodeInput" class="text-sm font-bold text-slate-700 block">أدخل الكود السري الخاص بك</label>
+              <input id="bankCodeInput" type="text" placeholder="مثال: MQW-2026" dir="ltr" class="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 font-bold text-center text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            </div>
+            <div id="bankAuthError" class="hidden text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 rounded-xl p-3"></div>
+            <button id="verifyBankCodeBtn" type="button" class="w-full py-3 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+              تحقق من الكود ←
+            </button>
+          </div>
+
+          <!-- الخطوة 2: نموذج إضافة السؤال -->
+          <div id="bankFormStep" class="hidden space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 bg-emerald-50 border border-emerald-200/80 rounded-2xl p-3.5 text-xs">
+              <div class="font-extrabold text-emerald-900">
+                مرحباً <span id="bankVerifiedName"></span> (<span id="bankVerifiedTelegram" dir="ltr"></span>) ✅
+              </div>
+              <button id="changeBankCodeBtn" type="button" class="text-emerald-700 hover:underline font-bold cursor-pointer">تغيير الكود</button>
+            </div>
+
+            <!-- رفع صورة للاستخراج التلقائي بالـ AI -->
+            <div class="rounded-2xl border-2 border-dashed border-emerald-300 bg-emerald-50/50 p-4 text-center space-y-2.5">
+              <input id="bankImageInput" type="file" accept="image/*" class="hidden" />
+              <button id="bankUploadImageBtn" type="button" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold text-white bg-teal-700 hover:bg-teal-800 shadow-sm transition cursor-pointer">
+                📸 ارفع صورة السؤال (استخراج تلقائي بالـ AI)
+              </button>
+              <p id="bankAiStatus" class="text-xs font-bold text-slate-500">سيقرأ الذكاء الاصطناعي الصورة ويعبّئ السؤال والخيارات والشرح تلقائياً لتراجعها قبل النشر.</p>
+            </div>
+
+            <div class="space-y-3">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label for="bankSubjectSelect" class="text-xs font-bold text-slate-600 block mb-1">المادة</label>
+                  <select id="bankSubjectSelect" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <option value="فيزياء">فيزياء</option>
+                    <option value="كيمياء">كيمياء</option>
+                    <option value="أحياء">أحياء</option>
+                    <option value="رياضيات">رياضيات</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="bankCorrectSelect" class="text-xs font-bold text-slate-600 block mb-1">الإجابة الصحيحة</label>
+                  <select id="bankCorrectSelect" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <option value="0">الخيار أ</option>
+                    <option value="1">الخيار ب</option>
+                    <option value="2">الخيار ج</option>
+                    <option value="3">الخيار د</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label for="bankQuestionInput" class="text-xs font-bold text-slate-600 block mb-1">نص السؤال</label>
+                <textarea id="bankQuestionInput" rows="3" placeholder="اكتب نص السؤال هنا..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <input id="bankOpt0" type="text" placeholder="الخيار أ" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                <input id="bankOpt1" type="text" placeholder="الخيار ب" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                <input id="bankOpt2" type="text" placeholder="الخيار ج" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                <input id="bankOpt3" type="text" placeholder="الخيار د" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              </div>
+
+              <div>
+                <label for="bankExplanationInput" class="text-xs font-bold text-slate-600 block mb-1">شرح الإجابة (اختياري)</label>
+                <textarea id="bankExplanationInput" rows="2" placeholder="شرح مختصر لسبب اختيار الإجابة الصحيحة..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+              </div>
+            </div>
+
+            <div id="bankFormMsg" class="hidden text-xs font-bold rounded-xl p-3 border"></div>
+
+            <button id="submitBankQuestionBtn" type="button" class="w-full py-3 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+              نشر السؤال في بنك الطلاب 🚀
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </main>
 
   <!-- قسم قائمة المساهمين -->
@@ -762,6 +934,7 @@
     const MIN_VALID_DURATION_SECONDS = 600; // أقل من 10 دقائق: تُعرض النتيجة للطالب دون إرسالها لجدول المعايرة
     const F2_GOAL_ATTEMPTS = 300; // هدف عدد المختبرين لإطلاق محاكي الفترة الثانية
     const STATS_API_URL = 'https://script.google.com/macros/s/AKfycbw2UnUkxaZ4lYMmas_KM0_1bhIHFYw05NjpnyJOD6Do1s8WeU-hVXbFSLq9_O2GVxt0/exec';
+    const BANK_API_URL = 'https://script.google.com/macros/s/AKfycbxnTcg8uQ0v9b66_l_J_KGvQKWjwDTx7F2YgIcVQb1fSgvEwPXpbp145Ejn5_vhjJSE_w/exec';
 
     // ==================== التنقل بين الخانتين ====================
     // ==================== الوضع الليلي (Dark Mode) ====================
@@ -789,6 +962,8 @@
     const calcSection = document.getElementById('calcSection');
     const mocksSection = document.getElementById('mocksSection');
     const physicsSection = document.getElementById('physicsSection');
+    const tabBankBtn = document.getElementById('tabBankBtn');
+    const bankSection = document.getElementById('bankSection');
     const calcHeaderActions = document.getElementById('calcHeaderActions');
 
     function trackEvent(eventName, params = {}) {
@@ -804,14 +979,16 @@
       calcSection.classList.toggle('hidden', tab !== 'calc');
       mocksSection.classList.toggle('hidden', tab !== 'mocks');
       physicsSection.classList.toggle('hidden', tab !== 'physics');
+      bankSection.classList.toggle('hidden', tab !== 'bank');
       calcHeaderActions.classList.toggle('hidden', tab !== 'calc');
 
       tabCalcBtn.className = tab === 'calc' ? TAB_ACTIVE_CLS : TAB_INACTIVE_CLS;
       tabMocksBtn.className = tab === 'mocks' ? TAB_ACTIVE_CLS : TAB_INACTIVE_CLS;
       tabPhysicsBtn.className = tab === 'physics' ? TAB_ACTIVE_CLS : TAB_INACTIVE_CLS;
+      tabBankBtn.className = tab === 'bank' ? TAB_ACTIVE_CLS : TAB_INACTIVE_CLS;
 
       if (tab === 'calc') {
-        if (updateHash && (window.location.hash === '#mock' || window.location.hash === '#physics')) {
+        if (updateHash && ['#mock', '#physics', '#bank'].includes(window.location.hash)) {
           try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch {}
         }
         updateAll();
@@ -826,11 +1003,18 @@
         }
         loadPhysicsLessons();
         trackEvent('open_physics_lessons');
+      } else if (tab === 'bank') {
+        if (updateHash && window.location.hash !== '#bank') {
+          try { history.replaceState(null, '', '#bank'); } catch {}
+        }
+        loadBankQuestions();
+        trackEvent('open_student_bank');
       }
     }
     tabCalcBtn.addEventListener('click', () => switchTab('calc'));
     tabMocksBtn.addEventListener('click', () => switchTab('mocks'));
     tabPhysicsBtn.addEventListener('click', () => switchTab('physics'));
+    tabBankBtn.addEventListener('click', () => switchTab('bank'));
     const goToMockFromCalcBtn = document.getElementById('goToMockFromCalcBtn');
     if (goToMockFromCalcBtn) {
       goToMockFromCalcBtn.addEventListener('click', () => {
@@ -2380,6 +2564,8 @@ ${shareUrl}`;
         switchTab('mocks', false);
       } else if (h === '#physics') {
         switchTab('physics', false);
+      } else if (h === '#bank') {
+        switchTab('bank', false);
       }
     }
     window.addEventListener('hashchange', applyHashRoute);
@@ -2419,6 +2605,487 @@ ${shareUrl}`;
       });
     }
     renderVolunteers();
+
+    
+    // ==================== منطق بنك الطلاب (مساهمات + AI) ====================
+    const bankHomeView = document.getElementById('bankHomeView');
+    const bankQuizView = document.getElementById('bankQuizView');
+    const bankContributorsGrid = document.getElementById('bankContributorsGrid');
+    const bankAddModal = document.getElementById('bankAddModal');
+
+    const bankState = {
+      questions: null,
+      loading: false,
+      activeContributor: null,
+      activeSubject: null,
+      activeQuestions: [],
+      currentIdx: 0,
+      answers: {},
+      verifiedCode: null,
+      verifiedContributor: null
+    };
+
+    try {
+      const savedAuth = JSON.parse(sessionStorage.getItem('nabthati_bank_auth') || 'null');
+      if (savedAuth && savedAuth.code && savedAuth.contributor) {
+        bankState.verifiedCode = savedAuth.code;
+        bankState.verifiedContributor = savedAuth.contributor;
+      }
+    } catch {}
+
+    async function loadBankQuestions(force = false) {
+      if (bankState.questions && !force) {
+        renderBankContributors();
+        return;
+      }
+      if (bankState.loading) return;
+      bankState.loading = true;
+      bankContributorsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-slate-500 bg-white rounded-3xl border border-slate-200/80">جارٍ تحميل أسئلة بنك الطلاب…</div>';
+      try {
+        const res = await fetchWithTimeout(BANK_API_URL, {}, 12000);
+        const data = await res.json();
+        if (data && data.ok && Array.isArray(data.questions)) {
+          bankState.questions = data.questions;
+          renderBankContributors();
+        } else {
+          throw new Error((data && data.error) || 'تعذّر جلب البيانات');
+        }
+      } catch (err) {
+        console.error('Failed to load bank questions:', err);
+        bankContributorsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-rose-700 bg-rose-50 rounded-3xl border border-rose-200">تعذّر تحميل بنك الطلاب حالياً. تأكد من اتصالك بالإنترنت ثم اضغط تحديث.</div>';
+      } finally {
+        bankState.loading = false;
+      }
+    }
+
+    function renderBankContributors() {
+      if (!bankState.questions) return;
+      bankContributorsGrid.innerHTML = '';
+
+      if (bankState.questions.length === 0) {
+        bankContributorsGrid.innerHTML = `
+          <div class="col-span-full p-8 text-center bg-white rounded-3xl border border-slate-200/80 space-y-2">
+            <div class="text-3xl">📚</div>
+            <p class="text-base font-extrabold text-slate-800">لا توجد أسئلة مضافة في بنك الطلاب حتى الآن</p>
+            <p class="text-xs text-slate-500">إذا كنت من المساهمين المعتمدين، اضغط على زر «أضف سؤالاً» بالأسفل أو بالأعلى لرفع أول سؤال!</p>
+          </div>`;
+        return;
+      }
+
+      // تجميع الأسئلة حسب المساهم
+      const grouped = {};
+      bankState.questions.forEach((q) => {
+        const rawTg = String(q.telegram || '').trim();
+        const tg = rawTg ? (rawTg.startsWith('@') ? rawTg : `@${rawTg}`) : '';
+        const key = tg || q.contributor_name || 'مساهم';
+        if (!grouped[key]) {
+          grouped[key] = {
+            name: q.contributor_name || key,
+            telegram: tg,
+            subjects: { 'فيزياء': [], 'كيمياء': [], 'أحياء': [], 'رياضيات': [] },
+            all: []
+          };
+        }
+        grouped[key].all.push(q);
+        const subj = grouped[key].subjects[q.subject] ? q.subject : 'فيزياء';
+        grouped[key].subjects[subj].push(q);
+      });
+
+      const subjectIcons = { 'فيزياء': '⚡', 'كيمياء': '🧪', 'أحياء': '🧬', 'رياضيات': '📐' };
+
+      Object.values(grouped).forEach((c) => {
+        const tgUser = c.telegram ? c.telegram.replace(/^@/, '') : '';
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between gap-4 hover:border-emerald-400 transition';
+        card.innerHTML = `
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-200/70 flex items-center justify-center font-black text-base shrink-0">
+                  ${String(c.name).charAt(0)}
+                </div>
+                <div>
+                  <h3 class="text-base font-black text-slate-900 leading-tight">${c.name}</h3>
+                  ${tgUser ? `<a href="https://t.me/${encodeURIComponent(tgUser)}" target="_blank" rel="noopener noreferrer" dir="ltr" class="text-xs font-extrabold text-sky-600 hover:underline inline-block">${c.telegram}</a>` : ''}
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-xl bg-slate-100 text-slate-600 text-xs font-extrabold">${c.all.length} سؤال</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              ${['فيزياء', 'كيمياء', 'أحياء', 'رياضيات'].map((subj) => {
+                const cnt = c.subjects[subj].length;
+                return `
+                  <button type="button" data-subj="${subj}" ${cnt === 0 ? 'disabled' : ''} class="px-3 py-2.5 rounded-2xl text-xs font-extrabold border transition flex items-center justify-between ${cnt > 0 ? 'bg-slate-50 border-slate-200 text-slate-800 hover:border-emerald-500 hover:bg-emerald-50 cursor-pointer' : 'bg-slate-50/50 border-slate-100 text-slate-400 opacity-60 cursor-not-allowed'}">
+                    <span>${subjectIcons[subj]} ${subj}</span>
+                    <span class="px-2 py-0.5 rounded-lg ${cnt > 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-400'}">${cnt}</span>
+                  </button>`;
+              }).join('')}
+            </div>
+          </div>
+
+          <button type="button" data-subj="الكل" class="w-full py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+            تدرّب على جميع أسئلة ${c.name} (${c.all.length}) ←
+          </button>
+        `;
+
+        card.querySelectorAll('button[data-subj]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const s = btn.dataset.subj;
+            const list = s === 'الكل' ? c.all : c.subjects[s];
+            if (list && list.length > 0) startBankQuiz(c, s, list);
+          });
+        });
+        bankContributorsGrid.appendChild(card);
+      });
+    }
+
+    function startBankQuiz(contributor, subject, questions) {
+      bankState.activeContributor = contributor;
+      bankState.activeSubject = subject;
+      bankState.activeQuestions = questions;
+      bankState.currentIdx = 0;
+      bankState.answers = {};
+
+      document.getElementById('bankQuizContributor').textContent = contributor.name;
+      const tgEl = document.getElementById('bankQuizTelegram');
+      if (contributor.telegram) {
+        tgEl.textContent = contributor.telegram;
+        tgEl.href = `https://t.me/${encodeURIComponent(contributor.telegram.replace(/^@/, ''))}`;
+        tgEl.classList.remove('hidden');
+      } else {
+        tgEl.classList.add('hidden');
+      }
+
+      bankHomeView.classList.add('hidden');
+      bankQuizView.classList.remove('hidden');
+      renderBankQuizQuestion();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderBankQuizQuestion() {
+      const qs = bankState.activeQuestions;
+      if (!qs || qs.length === 0) return;
+      const total = qs.length;
+      const idx = bankState.currentIdx;
+      const q = qs[idx];
+      const chosen = bankState.answers[idx];
+      const isAnswered = chosen !== undefined;
+
+      let answeredCount = 0, correctCount = 0;
+      for (const [k, v] of Object.entries(bankState.answers)) {
+        answeredCount++;
+        if (qs[Number(k)] && v === Number(qs[Number(k)].correct_index)) correctCount++;
+      }
+
+      document.getElementById('bankQuizProgressCounter').textContent = `تم حل ${answeredCount} من ${total} سؤالاً`;
+      document.getElementById('bankQuizLiveScore').textContent = `الصح: ${correctCount} / ${answeredCount}`;
+      document.getElementById('bankQuizSubjectBadge').textContent = q.subject || bankState.activeSubject;
+      document.getElementById('bankQuizQNumber').textContent = `سؤال ${idx + 1} من ${total}`;
+      document.getElementById('bankQuizProgressBar').style.width = `${((idx + 1) / total) * 100}%`;
+      document.getElementById('bankQuizQuestionText').innerHTML = formatMathText(q.question);
+
+      const list = document.getElementById('bankQuizOptionsList');
+      list.innerHTML = '';
+      const letters = ['أ', 'ب', 'ج', 'د'];
+      const correctIdx = Number(q.correct_index);
+
+      (q.options || []).forEach((opt, optIdx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        let cls = 'w-full text-right p-4 rounded-2xl border border-slate-200 bg-slate-50/70 hover:border-emerald-400 hover:bg-emerald-50/30 font-bold text-slate-800 transition flex items-center gap-3 cursor-pointer';
+        let badgeCls = 'bg-white border border-slate-200 text-slate-600';
+
+        if (isAnswered) {
+          if (optIdx === correctIdx) {
+            cls = 'w-full text-right p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50 font-extrabold text-emerald-900 transition flex items-center gap-3';
+            badgeCls = 'bg-emerald-600 text-white';
+          } else if (optIdx === chosen && chosen !== correctIdx) {
+            cls = 'w-full text-right p-4 rounded-2xl border-2 border-rose-500 bg-rose-50 font-extrabold text-rose-800 transition flex items-center gap-3';
+            badgeCls = 'bg-rose-600 text-white';
+          } else {
+            cls = 'w-full text-right p-4 rounded-2xl border border-slate-200 bg-slate-50/50 font-bold text-slate-400 opacity-75 flex items-center gap-3';
+          }
+        }
+
+        btn.className = cls;
+        btn.disabled = isAnswered;
+        btn.innerHTML = `<span class="w-7 h-7 rounded-lg ${badgeCls} text-xs font-extrabold flex items-center justify-center shrink-0">${letters[optIdx] || optIdx + 1}</span><span>${formatMathText(opt)}</span>`;
+        if (!isAnswered) {
+          btn.addEventListener('click', () => {
+            bankState.answers[idx] = optIdx;
+            renderBankQuizQuestion();
+          });
+        }
+        list.appendChild(btn);
+      });
+
+      const fb = document.getElementById('bankQuizFeedbackBox');
+      if (isAnswered) {
+        const isRight = chosen === correctIdx;
+        fb.className = isRight
+          ? 'rounded-2xl p-4 border border-emerald-300 bg-emerald-50 text-emerald-900 space-y-1.5 text-xs sm:text-sm'
+          : 'rounded-2xl p-4 border border-rose-300 bg-rose-50 text-rose-900 space-y-1.5 text-xs sm:text-sm';
+        fb.innerHTML = `
+          <div class="font-extrabold">${isRight ? '✅ إجابة صحيحة! أحسنت' : '❌ إجابة غير صحيحة'}</div>
+          ${q.explanation ? `<div class="text-slate-700 font-medium leading-relaxed">💡 ${formatMathText(q.explanation)}</div>` : ''}
+        `;
+      } else {
+        fb.className = 'hidden';
+        fb.innerHTML = '';
+      }
+
+      const prevBtn = document.getElementById('bankQuizPrevBtn');
+      const nextBtn = document.getElementById('bankQuizNextBtn');
+      prevBtn.disabled = idx === 0;
+      prevBtn.classList.toggle('opacity-40', idx === 0);
+      nextBtn.disabled = idx === total - 1;
+      nextBtn.classList.toggle('opacity-40', idx === total - 1);
+
+      const navStrip = document.getElementById('bankQuizNavStrip');
+      navStrip.innerHTML = '';
+      qs.forEach((itemQ, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = i + 1;
+        const ans = bankState.answers[i];
+        const isCur = i === idx;
+        let cls = 'w-8 h-8 rounded-lg text-xs font-extrabold transition cursor-pointer ';
+        if (ans === undefined) {
+          cls += isCur ? 'bg-slate-900 text-white ring-2 ring-emerald-400' : 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+        } else if (ans === Number(itemQ.correct_index)) {
+          cls += isCur ? 'bg-emerald-600 text-white ring-2 ring-slate-900' : 'bg-emerald-600 text-white hover:bg-emerald-700';
+        } else {
+          cls += isCur ? 'bg-rose-600 text-white ring-2 ring-slate-900' : 'bg-rose-500 text-white hover:bg-rose-600';
+        }
+        b.className = cls;
+        b.addEventListener('click', () => { bankState.currentIdx = i; renderBankQuizQuestion(); });
+        navStrip.appendChild(b);
+      });
+
+      renderKaTeXIn(bankQuizView);
+    }
+
+    document.getElementById('bankQuizPrevBtn').addEventListener('click', () => {
+      if (bankState.currentIdx > 0) { bankState.currentIdx--; renderBankQuizQuestion(); }
+    });
+    document.getElementById('bankQuizNextBtn').addEventListener('click', () => {
+      if (bankState.currentIdx < bankState.activeQuestions.length - 1) { bankState.currentIdx++; renderBankQuizQuestion(); }
+    });
+    document.getElementById('exitBankQuizBtn').addEventListener('click', () => {
+      bankQuizView.classList.add('hidden');
+      bankHomeView.classList.remove('hidden');
+    });
+    document.getElementById('refreshBankBtn').addEventListener('click', () => loadBankQuestions(true));
+
+    // --- نافذة إضافة سؤال (الكود السري + استخراج الصورة بالـ AI) ---
+    function syncBankModalStep() {
+      const authStep = document.getElementById('bankAuthStep');
+      const formStep = document.getElementById('bankFormStep');
+      if (bankState.verifiedCode && bankState.verifiedContributor) {
+        document.getElementById('bankVerifiedName').textContent = bankState.verifiedContributor.name;
+        document.getElementById('bankVerifiedTelegram').textContent = bankState.verifiedContributor.telegram;
+        authStep.classList.add('hidden');
+        formStep.classList.remove('hidden');
+      } else {
+        authStep.classList.remove('hidden');
+        formStep.classList.add('hidden');
+      }
+    }
+
+    document.getElementById('openAddQuestionModalBtn').addEventListener('click', () => {
+      syncBankModalStep();
+      document.getElementById('bankAuthError').classList.add('hidden');
+      document.getElementById('bankFormMsg').classList.add('hidden');
+      bankAddModal.classList.remove('hidden');
+    });
+    document.getElementById('closeBankModalBtn').addEventListener('click', () => {
+      bankAddModal.classList.add('hidden');
+    });
+    document.getElementById('changeBankCodeBtn').addEventListener('click', () => {
+      bankState.verifiedCode = null;
+      bankState.verifiedContributor = null;
+      try { sessionStorage.removeItem('nabthati_bank_auth'); } catch {}
+      syncBankModalStep();
+    });
+
+    document.getElementById('verifyBankCodeBtn').addEventListener('click', async () => {
+      const codeInput = document.getElementById('bankCodeInput');
+      const errEl = document.getElementById('bankAuthError');
+      const btn = document.getElementById('verifyBankCodeBtn');
+      const code = codeInput.value.trim();
+      if (!code) {
+        errEl.textContent = 'الرجاء إدخال الكود السري أولاً.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+      errEl.classList.add('hidden');
+      btn.disabled = true;
+      btn.textContent = 'جارٍ التحقق…';
+      try {
+        const res = await fetchWithTimeout(BANK_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'verify_code', code })
+        }, 12000);
+        const data = await res.json();
+        if (data && data.ok && data.contributor) {
+          bankState.verifiedCode = code;
+          bankState.verifiedContributor = data.contributor;
+          try { sessionStorage.setItem('nabthati_bank_auth', JSON.stringify({ code, contributor: data.contributor })); } catch {}
+          syncBankModalStep();
+        } else {
+          errEl.textContent = (data && data.error) || 'الكود السري غير صحيح.';
+          errEl.classList.remove('hidden');
+        }
+      } catch {
+        errEl.textContent = 'تعذّر الاتصال بالخادم، حاول مرة أخرى.';
+        errEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'تحقق من الكود ←';
+      }
+    });
+
+    // ضغط الصورة قليلاً قبل إرسالها للـ AI لضمان سرعة الاستجابة
+    function readAndCompressImage(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = reject;
+        reader.onload = () => {
+          const img = new Image();
+          img.onerror = reject;
+          img.onload = () => {
+            const maxDim = 1400;
+            let w = img.width, h = img.height;
+            if (w > maxDim || h > maxDim) {
+              const ratio = Math.min(maxDim / w, maxDim / h);
+              w = Math.round(w * ratio);
+              h = Math.round(h * ratio);
+            }
+            const c = document.createElement('canvas');
+            c.width = w; c.height = h;
+            c.getContext('2d').drawImage(img, 0, 0, w, h);
+            const dataUrl = c.toDataURL('image/jpeg', 0.85);
+            resolve({ base64: dataUrl.split(',')[1], mimeType: 'image/jpeg' });
+          };
+          img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    const bankImageInput = document.getElementById('bankImageInput');
+    const bankUploadImageBtn = document.getElementById('bankUploadImageBtn');
+    const bankAiStatus = document.getElementById('bankAiStatus');
+
+    bankUploadImageBtn.addEventListener('click', () => bankImageInput.click());
+    bankImageInput.addEventListener('change', async () => {
+      const file = bankImageInput.files && bankImageInput.files[0];
+      if (!file) return;
+      bankUploadImageBtn.disabled = true;
+      bankAiStatus.textContent = '⏳ جارٍ قراءة الصورة واستخراج السؤال بالذكاء الاصطناعي…';
+      bankAiStatus.className = 'text-xs font-extrabold text-teal-700';
+      try {
+        const { base64, mimeType } = await readAndCompressImage(file);
+        const res = await fetchWithTimeout(BANK_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'extract_image',
+            code: bankState.verifiedCode,
+            imageBase64: base64,
+            mimeType
+          })
+        }, 30000);
+        const json = await res.json();
+        if (json && json.ok && json.data) {
+          const d = json.data;
+          if (['فيزياء', 'كيمياء', 'أحياء', 'رياضيات'].includes(d.subject)) {
+            document.getElementById('bankSubjectSelect').value = d.subject;
+          }
+          document.getElementById('bankQuestionInput').value = d.question || '';
+          const opts = Array.isArray(d.options) ? d.options : [];
+          document.getElementById('bankOpt0').value = opts[0] || '';
+          document.getElementById('bankOpt1').value = opts[1] || '';
+          document.getElementById('bankOpt2').value = opts[2] || '';
+          document.getElementById('bankOpt3').value = opts[3] || '';
+          document.getElementById('bankCorrectSelect').value = String(clamp(Number(d.correct_index) || 0, 0, 3));
+          document.getElementById('bankExplanationInput').value = d.explanation || '';
+          bankAiStatus.textContent = '✅ تم استخراج السؤال بنجاح! راجعه سريعاً ثم اضغط «نشر السؤال».';
+          bankAiStatus.className = 'text-xs font-extrabold text-emerald-700';
+        } else {
+          throw new Error((json && json.error) || 'فشل الاستخراج');
+        }
+      } catch (err) {
+        bankAiStatus.textContent = `❌ تعذّر استخراج السؤال: ${err.message || 'حاول بصورة أوضح'}`;
+        bankAiStatus.className = 'text-xs font-extrabold text-rose-700';
+      } finally {
+        bankUploadImageBtn.disabled = false;
+        bankImageInput.value = '';
+      }
+    });
+
+    document.getElementById('submitBankQuestionBtn').addEventListener('click', async () => {
+      const msgEl = document.getElementById('bankFormMsg');
+      const btn = document.getElementById('submitBankQuestionBtn');
+      const subject = document.getElementById('bankSubjectSelect').value;
+      const question = document.getElementById('bankQuestionInput').value.trim();
+      const options = [
+        document.getElementById('bankOpt0').value.trim(),
+        document.getElementById('bankOpt1').value.trim(),
+        document.getElementById('bankOpt2').value.trim(),
+        document.getElementById('bankOpt3').value.trim()
+      ];
+      const correct_index = parseInt(document.getElementById('bankCorrectSelect').value, 10) || 0;
+      const explanation = document.getElementById('bankExplanationInput').value.trim();
+
+      if (!question || options.some((o) => !o)) {
+        msgEl.textContent = 'الرجاء كتابة نص السؤال والخيارات الأربعة كاملة.';
+        msgEl.className = 'text-xs font-bold rounded-xl p-3 border border-amber-200 bg-amber-50 text-amber-800';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'جارٍ النشر…';
+      msgEl.className = 'hidden';
+
+      try {
+        const res = await fetchWithTimeout(BANK_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'add_question',
+            code: bankState.verifiedCode,
+            subject,
+            question,
+            options,
+            correct_index,
+            explanation
+          })
+        }, 15000);
+        const data = await res.json();
+        if (data && data.ok) {
+          msgEl.textContent = '✅ تم نشر السؤال في بنك الطلاب بنجاح! يمكنك إضافة سؤال آخر الآن.';
+          msgEl.className = 'text-xs font-extrabold rounded-xl p-3 border border-emerald-200 bg-emerald-50 text-emerald-800';
+          document.getElementById('bankQuestionInput').value = '';
+          document.getElementById('bankOpt0').value = '';
+          document.getElementById('bankOpt1').value = '';
+          document.getElementById('bankOpt2').value = '';
+          document.getElementById('bankOpt3').value = '';
+          document.getElementById('bankExplanationInput').value = '';
+          loadBankQuestions(true);
+        } else {
+          throw new Error((data && data.error) || 'فشل الحفظ');
+        }
+      } catch (err) {
+        msgEl.textContent = `❌ تعذّر النشر: ${err.message || 'حاول مرة أخرى'}`;
+        msgEl.className = 'text-xs font-extrabold rounded-xl p-3 border border-rose-200 bg-rose-50 text-rose-700';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'نشر السؤال في بنك الطلاب 🚀';
+      }
+    });
 
     window.__nabthatiReady = true;
   </script>
