@@ -59,7 +59,7 @@
     html.dark .text-slate-500 { color: #94a3b8 !important; }
     html.dark .border-slate-100, html.dark .border-slate-200, html.dark .border-slate-200\/80 { border-color: #334155 !important; }
     html.dark input[type="number"] { background-color: #0f172a !important; border-color: #334155 !important; color: #34d399 !important; }
-    html.dark input[type="text"], html.dark textarea, html.dark select { background-color: #0f172a !important; border-color: #334155 !important; color: #f8fafc !important; }
+    html.dark input[type="text"], html.dark input[type="password"], html.dark textarea, html.dark select { background-color: #0f172a !important; border-color: #334155 !important; color: #f8fafc !important; }
     html.dark input[type="range"] { background: #334155; }
     html.dark .bg-emerald-50, html.dark .bg-emerald-50\/60 { background-color: rgba(6, 78, 59, 0.35) !important; border-color: #059669 !important; }
     html.dark .text-emerald-900, html.dark .text-emerald-800 { color: #a7f3d0 !important; }
@@ -705,7 +705,7 @@
     <!-- ==================== الخانة الرابعة: بنك الطلاب ==================== -->
     <div id="bankSection" class="hidden space-y-6">
 
-      <!-- 1. قائمة المساهمين -->
+      <!-- 1. قائمة المساهمين (بنفس تصميم بطاقات دروس الفيزياء) -->
       <div id="bankHomeView" class="space-y-6">
         <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div class="space-y-1.5">
@@ -714,7 +714,7 @@
             </span>
             <h2 class="text-xl sm:text-2xl font-black text-slate-900">بنك الطلاب</h2>
             <p class="text-sm text-slate-500">
-              أسئلة مختارة يضيفها طلاب مساهمون مقسّمة حسب المادة (فيزياء، كيمياء، أحياء، رياضيات) مع تصحيح وشرح فوري.
+              اختر المساهم الذي تثق فيه لتصفّح أسئلته المقسّمة حسب المواد العلمية مع <strong>تصحيح وشرح فوري</strong>.
             </p>
           </div>
           <div class="flex flex-wrap items-center gap-2 shrink-0">
@@ -730,7 +730,28 @@
         <div id="bankContributorsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
       </div>
 
-      <!-- 2. شاشة التدريب على أسئلة المساهم -->
+      <!-- 2. شاشة اختيار المادة العلمية داخل خانة المساهم -->
+      <div id="bankSubjectsView" class="hidden space-y-6">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="space-y-1.5">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70">
+                📚 بنك المساهم
+              </span>
+              <a id="bankSubjTelegram" href="#" target="_blank" rel="noopener noreferrer" dir="ltr" class="px-3 py-1 rounded-full bg-sky-50 text-sky-600 text-xs font-extrabold border border-sky-200/70 hover:bg-sky-100 transition">@honrovc</a>
+            </div>
+            <h2 id="bankSubjContributorName" class="text-xl sm:text-2xl font-black text-slate-900">أسئلة المساهم</h2>
+            <p class="text-sm text-slate-500">اختر المادة العلمية للبدء بالتدريب على الأسئلة المضافة مع شرح فوري لكل سؤال.</p>
+          </div>
+          <button id="backToContributorsBtn" type="button" class="px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition shrink-0 cursor-pointer">
+            ← العودة لقائمة المساهمين
+          </button>
+        </div>
+
+        <div id="bankSubjectsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </div>
+
+      <!-- 3. شاشة التدريب على أسئلة المادة -->
       <div id="bankQuizView" class="hidden max-w-4xl mx-auto space-y-5">
         <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-slate-200/80 flex flex-wrap items-center justify-between gap-3">
           <div>
@@ -743,7 +764,7 @@
           <div class="flex items-center gap-2">
             <span id="bankQuizLiveScore" class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200/70 text-xs font-extrabold">الصح: 0 / 0</span>
             <button id="exitBankQuizBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
-              ← قائمة المساهمين
+              ← اختيار مادة أخرى
             </button>
           </div>
         </div>
@@ -777,7 +798,7 @@
         </div>
       </div>
 
-      <!-- 3. نافذة إضافة سؤال (للمساهمين بالكود السري + AI) -->
+      <!-- 4. نافذة إضافة سؤال (للمساهمين بالكود السري + AI) -->
       <div id="bankAddModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-7 shadow-2xl border border-slate-200/80 space-y-5 my-auto max-h-[90vh] overflow-y-auto">
           <div class="flex items-center justify-between border-b border-slate-100 pb-3.5">
@@ -788,11 +809,11 @@
             <button id="closeBankModalBtn" type="button" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-extrabold transition cursor-pointer">✕</button>
           </div>
 
-          <!-- الخطوة 1: التحقق من الكود السري -->
+          <!-- الخطوة 1: التحقق من الكود السري (بدون إظهار أي مثال للكود) -->
           <div id="bankAuthStep" class="space-y-4">
             <div class="space-y-2">
               <label for="bankCodeInput" class="text-sm font-bold text-slate-700 block">أدخل الكود السري الخاص بك</label>
-              <input id="bankCodeInput" type="text" placeholder="مثال: MQW-2026" dir="ltr" class="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 font-bold text-center text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <input id="bankCodeInput" type="password" autocomplete="off" placeholder="أدخل الكود السري..." dir="ltr" class="w-full px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 font-bold text-center text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
             </div>
             <div id="bankAuthError" class="hidden text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 rounded-xl p-3"></div>
             <button id="verifyBankCodeBtn" type="button" class="w-full py-3 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
@@ -2609,9 +2630,16 @@ ${shareUrl}`;
     
     // ==================== منطق بنك الطلاب (مساهمات + AI) ====================
     const bankHomeView = document.getElementById('bankHomeView');
+    const bankSubjectsView = document.getElementById('bankSubjectsView');
     const bankQuizView = document.getElementById('bankQuizView');
     const bankContributorsGrid = document.getElementById('bankContributorsGrid');
+    const bankSubjectsGrid = document.getElementById('bankSubjectsGrid');
     const bankAddModal = document.getElementById('bankAddModal');
+
+    // المساهمون المعتمدون المعروضون تلقائياً في القائمة الرئيسية
+    const FEATURED_CONTRIBUTORS = [
+      { name: '@honrovc', telegram: '@honrovc', desc: 'تجميعات ومساهمات في المواد العلمية (فيزياء، كيمياء، أحياء، رياضيات)' }
+    ];
 
     const bankState = {
       questions: null,
@@ -2640,7 +2668,7 @@ ${shareUrl}`;
       }
       if (bankState.loading) return;
       bankState.loading = true;
-      bankContributorsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-slate-500 bg-white rounded-3xl border border-slate-200/80">جارٍ تحميل أسئلة بنك الطلاب…</div>';
+      bankContributorsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-slate-500 bg-white rounded-3xl border border-slate-200/80">جارٍ تحميل بنك الطلاب…</div>';
       try {
         const res = await fetchWithTimeout(BANK_API_URL, {}, 12000);
         const data = await res.json();
@@ -2652,36 +2680,39 @@ ${shareUrl}`;
         }
       } catch (err) {
         console.error('Failed to load bank questions:', err);
-        bankContributorsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-rose-700 bg-rose-50 rounded-3xl border border-rose-200">تعذّر تحميل بنك الطلاب حالياً. تأكد من اتصالك بالإنترنت ثم اضغط تحديث.</div>';
+        bankState.questions = [];
+        renderBankContributors();
       } finally {
         bankState.loading = false;
       }
     }
 
     function renderBankContributors() {
-      if (!bankState.questions) return;
+      const questions = Array.isArray(bankState.questions) ? bankState.questions : [];
       bankContributorsGrid.innerHTML = '';
 
-      if (bankState.questions.length === 0) {
-        bankContributorsGrid.innerHTML = `
-          <div class="col-span-full p-8 text-center bg-white rounded-3xl border border-slate-200/80 space-y-2">
-            <div class="text-3xl">📚</div>
-            <p class="text-base font-extrabold text-slate-800">لا توجد أسئلة مضافة في بنك الطلاب حتى الآن</p>
-            <p class="text-xs text-slate-500">إذا كنت من المساهمين المعتمدين، اضغط على زر «أضف سؤالاً» بالأسفل أو بالأعلى لرفع أول سؤال!</p>
-          </div>`;
-        return;
-      }
-
-      // تجميع الأسئلة حسب المساهم
+      // تجهيز المساهمين المعتمدين أولاً ثم دمج أي مساهمين إضافيين من الجدول
       const grouped = {};
-      bankState.questions.forEach((q) => {
+      FEATURED_CONTRIBUTORS.forEach((fc) => {
+        const tg = fc.telegram.startsWith('@') ? fc.telegram : `@${fc.telegram}`;
+        grouped[tg.toLowerCase()] = {
+          name: fc.name,
+          telegram: tg,
+          desc: fc.desc || 'أسئلة وتدريبات مختارة في المواد العلمية',
+          subjects: { 'فيزياء': [], 'كيمياء': [], 'أحياء': [], 'رياضيات': [] },
+          all: []
+        };
+      });
+
+      questions.forEach((q) => {
         const rawTg = String(q.telegram || '').trim();
         const tg = rawTg ? (rawTg.startsWith('@') ? rawTg : `@${rawTg}`) : '';
-        const key = tg || q.contributor_name || 'مساهم';
+        const key = (tg || q.contributor_name || 'مساهم').toLowerCase();
         if (!grouped[key]) {
           grouped[key] = {
-            name: q.contributor_name || key,
+            name: q.contributor_name || tg || 'مساهم',
             telegram: tg,
+            desc: 'أسئلة وتدريبات مختارة في المواد العلمية',
             subjects: { 'فيزياء': [], 'كيمياء': [], 'أحياء': [], 'رياضيات': [] },
             all: []
           };
@@ -2691,54 +2722,86 @@ ${shareUrl}`;
         grouped[key].subjects[subj].push(q);
       });
 
-      const subjectIcons = { 'فيزياء': '⚡', 'كيمياء': '🧪', 'أحياء': '🧬', 'رياضيات': '📐' };
-
       Object.values(grouped).forEach((c) => {
         const tgUser = c.telegram ? c.telegram.replace(/^@/, '') : '';
         const card = document.createElement('div');
         card.className = 'bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between gap-4 hover:border-emerald-400 transition';
         card.innerHTML = `
-          <div class="space-y-3">
+          <div class="space-y-2">
             <div class="flex items-center justify-between gap-2">
-              <div class="flex items-center gap-2.5">
-                <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-200/70 flex items-center justify-center font-black text-base shrink-0">
-                  ${String(c.name).charAt(0)}
-                </div>
-                <div>
-                  <h3 class="text-base font-black text-slate-900 leading-tight">${c.name}</h3>
-                  ${tgUser ? `<a href="https://t.me/${encodeURIComponent(tgUser)}" target="_blank" rel="noopener noreferrer" dir="ltr" class="text-xs font-extrabold text-sky-600 hover:underline inline-block">${c.telegram}</a>` : ''}
-                </div>
-              </div>
-              <span class="px-2.5 py-1 rounded-xl bg-slate-100 text-slate-600 text-xs font-extrabold">${c.all.length} سؤال</span>
+              <span class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70">مساهم معتمد ⭐</span>
+              <span class="text-[11px] font-bold text-slate-400">${c.all.length} سؤالاً</span>
             </div>
-
-            <div class="grid grid-cols-2 gap-2 pt-1">
-              ${['فيزياء', 'كيمياء', 'أحياء', 'رياضيات'].map((subj) => {
-                const cnt = c.subjects[subj].length;
-                return `
-                  <button type="button" data-subj="${subj}" ${cnt === 0 ? 'disabled' : ''} class="px-3 py-2.5 rounded-2xl text-xs font-extrabold border transition flex items-center justify-between ${cnt > 0 ? 'bg-slate-50 border-slate-200 text-slate-800 hover:border-emerald-500 hover:bg-emerald-50 cursor-pointer' : 'bg-slate-50/50 border-slate-100 text-slate-400 opacity-60 cursor-not-allowed'}">
-                    <span>${subjectIcons[subj]} ${subj}</span>
-                    <span class="px-2 py-0.5 rounded-lg ${cnt > 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-400'}">${cnt}</span>
-                  </button>`;
-              }).join('')}
+            <div class="flex items-center justify-between gap-2 pt-0.5">
+              <h3 class="text-lg font-black text-slate-900" dir="ltr">${c.telegram || c.name}</h3>
+              ${tgUser ? `<a href="https://t.me/${encodeURIComponent(tgUser)}" target="_blank" rel="noopener noreferrer" class="text-xs font-extrabold text-sky-600 bg-sky-50 hover:bg-sky-100 px-2.5 py-1 rounded-xl border border-sky-200/70 transition">حساب التليجرام ↗</a>` : ''}
             </div>
+            <p class="text-xs text-slate-500 leading-relaxed">${c.desc}</p>
           </div>
-
-          <button type="button" data-subj="الكل" class="w-full py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
-            تدرّب على جميع أسئلة ${c.name} (${c.all.length}) ←
+          <button type="button" class="open-contributor-btn w-full py-2.5 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+            الدخول واختيار المادة ←
           </button>
         `;
-
-        card.querySelectorAll('button[data-subj]').forEach((btn) => {
-          btn.addEventListener('click', () => {
-            const s = btn.dataset.subj;
-            const list = s === 'الكل' ? c.all : c.subjects[s];
-            if (list && list.length > 0) startBankQuiz(c, s, list);
-          });
-        });
+        card.querySelector('.open-contributor-btn').addEventListener('click', () => openContributorSubjects(c));
         bankContributorsGrid.appendChild(card);
       });
     }
+
+    function openContributorSubjects(contributor) {
+      bankState.activeContributor = contributor;
+      document.getElementById('bankSubjContributorName').textContent = `المواد العلمية — ${contributor.telegram || contributor.name}`;
+      const tgEl = document.getElementById('bankSubjTelegram');
+      if (contributor.telegram) {
+        tgEl.textContent = contributor.telegram;
+        tgEl.href = `https://t.me/${encodeURIComponent(contributor.telegram.replace(/^@/, ''))}`;
+        tgEl.classList.remove('hidden');
+      } else {
+        tgEl.classList.add('hidden');
+      }
+
+      const subjectMeta = [
+        { key: 'فيزياء', badge: '⚡ الفيزياء', desc: 'مسائل وأفكار الفيزياء المضافة مع شرح فوري.' },
+        { key: 'كيمياء', badge: '🧪 الكيمياء', desc: 'أسئلة وتدريبات الكيمياء المضافة مع شرح فوري.' },
+        { key: 'أحياء', badge: '🧬 الأحياء', desc: 'أسئلة ومفاهيم الأحياء المضافة مع شرح فوري.' },
+        { key: 'رياضيات', badge: '📐 الرياضيات', desc: 'مسائل وقوانين الرياضيات المضافة مع شرح فوري.' }
+      ];
+
+      bankSubjectsGrid.innerHTML = '';
+      subjectMeta.forEach((s) => {
+        const list = contributor.subjects[s.key] || [];
+        const cnt = list.length;
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between gap-4 hover:border-emerald-400 transition';
+        card.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70">${s.badge}</span>
+              <span class="text-[11px] font-bold text-slate-400">${cnt} سؤالاً</span>
+            </div>
+            <h3 class="text-lg font-black text-slate-900">أسئلة ${s.key}</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">${s.desc}</p>
+          </div>
+          <button type="button" ${cnt === 0 ? 'disabled' : ''} class="w-full py-2.5 rounded-2xl text-sm font-extrabold transition ${cnt > 0 ? 'text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm cursor-pointer' : 'text-slate-400 bg-slate-100 border border-slate-200 cursor-not-allowed'}">
+            ${cnt > 0 ? `ابدأ التدريب (${cnt}) ←` : 'لا توجد أسئلة مضافة بعد'}
+          </button>
+        `;
+        if (cnt > 0) {
+          card.querySelector('button').addEventListener('click', () => startBankQuiz(contributor, s.key, list));
+        }
+        bankSubjectsGrid.appendChild(card);
+      });
+
+      bankHomeView.classList.add('hidden');
+      bankQuizView.classList.add('hidden');
+      bankSubjectsView.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.getElementById('backToContributorsBtn').addEventListener('click', () => {
+      bankSubjectsView.classList.add('hidden');
+      bankQuizView.classList.add('hidden');
+      bankHomeView.classList.remove('hidden');
+    });
 
     function startBankQuiz(contributor, subject, questions) {
       bankState.activeContributor = contributor;
@@ -2747,7 +2810,7 @@ ${shareUrl}`;
       bankState.currentIdx = 0;
       bankState.answers = {};
 
-      document.getElementById('bankQuizContributor').textContent = contributor.name;
+      document.getElementById('bankQuizContributor').textContent = `أسئلة ${subject}`;
       const tgEl = document.getElementById('bankQuizTelegram');
       if (contributor.telegram) {
         tgEl.textContent = contributor.telegram;
@@ -2758,6 +2821,7 @@ ${shareUrl}`;
       }
 
       bankHomeView.classList.add('hidden');
+      bankSubjectsView.classList.add('hidden');
       bankQuizView.classList.remove('hidden');
       renderBankQuizQuestion();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2874,7 +2938,8 @@ ${shareUrl}`;
     });
     document.getElementById('exitBankQuizBtn').addEventListener('click', () => {
       bankQuizView.classList.add('hidden');
-      bankHomeView.classList.remove('hidden');
+      if (bankState.activeContributor) bankSubjectsView.classList.remove('hidden');
+      else bankHomeView.classList.remove('hidden');
     });
     document.getElementById('refreshBankBtn').addEventListener('click', () => loadBankQuestions(true));
 
@@ -2947,7 +3012,6 @@ ${shareUrl}`;
       }
     });
 
-    // ضغط الصورة قليلاً قبل إرسالها للـ AI لضمان سرعة الاستجابة
     function readAndCompressImage(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
