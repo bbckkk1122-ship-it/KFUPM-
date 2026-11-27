@@ -1,0 +1,2426 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MCRNSY252N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MCRNSY252N');
+</script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>منصة التحصيلي المبكر — الحاسبة + المحاكيات + دروس الفيزياء | Nabthati</title>
+  <meta name="description" content="قدّر درجتك في التحصيلي المبكر بالانحراف المعياري، وجرّب محاكيات إلكترونية بـ 110 أسئلة مع مراجعة الأخطاء. تقدير تقريبي وليس نتيجة رسمية." />
+  <meta name="theme-color" content="#059669" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ar_SA" />
+  <meta property="og:title" content="منصة التحصيلي المبكر — حاسبة الدرجة + المحاكيات" />
+  <meta property="og:description" content="احسب درجتك المتوقعة في التحصيلي المبكر وجرّب المحاكيات الإلكترونية." />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23059669'/%3E%3Cpath d='M14 46V34h8v12zm14 0V22h8v24zm14 0V14h8v32z' fill='white'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Tajawal', 'sans-serif'] },
+          colors: { emerald: { 950: '#022c22' } }
+        }
+      }
+    };
+  </script>
+  <style>
+    .watermark-bg {
+      position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: 0.06;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='180'><text x='50%' y='50%' font-family='Tajawal, sans-serif' font-size='20' font-weight='800' fill='%23059669' text-anchor='middle' dominant-baseline='middle' transform='rotate(-25 130 90)'>@mqwwsk</text></svg>");
+      background-repeat: repeat;
+    }
+    body { font-family: 'Tajawal', sans-serif; }
+    :focus-visible { outline: 3px solid #10b981; outline-offset: 2px; }
+    .exam-font { font-family: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif; line-height: 1.9; letter-spacing: 0; }
+    .katex { direction: ltr; unicode-bidi: isolate; font-size: 1.08em; }
+    /* الوضع الليلي (Dark Mode) */
+    html.dark body { background-color: #0f172a; color: #e2e8f0; }
+    html.dark header, html.dark footer { background-color: rgba(15, 23, 42, 0.92) !important; border-color: #1e293b !important; }
+    html.dark .bg-white { background-color: #1e293b !important; border-color: #334155 !important; }
+    html.dark .bg-slate-50, html.dark .bg-slate-50\/70 { background-color: #0f172a !important; border-color: #334155 !important; }
+    html.dark .bg-slate-100 { background-color: #334155 !important; color: #e2e8f0 !important; }
+    html.dark .text-slate-900, html.dark .text-slate-800 { color: #f8fafc !important; }
+    html.dark .text-slate-700, html.dark .text-slate-600 { color: #cbd5e1 !important; }
+    html.dark .text-slate-500 { color: #94a3b8 !important; }
+    html.dark .border-slate-100, html.dark .border-slate-200, html.dark .border-slate-200\/80 { border-color: #334155 !important; }
+    html.dark input[type="number"] { background-color: #0f172a !important; border-color: #334155 !important; color: #34d399 !important; }
+    html.dark input[type="range"] { background: #334155; }
+    html.dark .bg-emerald-50, html.dark .bg-emerald-50\/60 { background-color: rgba(6, 78, 59, 0.35) !important; border-color: #059669 !important; }
+    html.dark .text-emerald-900, html.dark .text-emerald-800 { color: #a7f3d0 !important; }
+    html.dark .bg-teal-50, html.dark .bg-teal-50\/70 { background-color: rgba(19, 78, 74, 0.35) !important; border-color: #0d9488 !important; }
+    html.dark .text-teal-700 { color: #5eead4 !important; }
+    html.dark .bg-amber-50 { background-color: rgba(120, 53, 15, 0.35) !important; border-color: #d97706 !important; color: #fde68a !important; }
+    html.dark .bg-rose-50 { background-color: rgba(136, 19, 55, 0.35) !important; color: #fda4af !important; }
+    /* الحفاظ على وضوح الرسومات والجداول في الوضع الليلي */
+    html.dark #examQuestionSvg svg,
+    html.dark #mistakesReviewList svg,
+    html.dark #physicsQuestionSvg svg,
+    html.dark #physicsReviewList svg {
+      background-color: #ffffff !important;
+      border-color: #475569 !important;
+    }
+    html.dark #examQuestionSvg table,
+    html.dark #mistakesReviewList table {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+    html.dark #examQuestionSvg table th,
+    html.dark #examQuestionSvg table td,
+    html.dark #mistakesReviewList table th,
+    html.dark #mistakesReviewList table td {
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+    html.dark #examQuestionSvg table .bg-slate-100,
+    html.dark #mistakesReviewList table .bg-slate-100 {
+      background-color: #f1f5f9 !important;
+      color: #0f172a !important;
+    }
+    html.dark #examQuestionSvg table .bg-amber-50,
+    html.dark #mistakesReviewList table .bg-amber-50 {
+      background-color: #fef3c7 !important;
+      color: #0f172a !important;
+    }
+    input[type="range"] { -webkit-appearance: none; appearance: none; height: 8px; border-radius: 9999px; background: #e2e8f0; outline: none; }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%;
+      background: #059669; border: 3px solid #ffffff; box-shadow: 0 2px 6px rgba(5, 150, 105, 0.4); cursor: pointer;
+    }
+    input[type="range"].amber-thumb::-webkit-slider-thumb { background: #d97706; box-shadow: 0 2px 6px rgba(217, 119, 6, 0.4); }
+    input[type="range"].teal-thumb::-webkit-slider-thumb { background: #0d9488; box-shadow: 0 2px 6px rgba(13, 148, 136, 0.4); }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-emerald-200 selection:text-emerald-950">
+  <div class="watermark-bg" aria-hidden="true"></div>
+  <noscript><div style="background:#fef3c7;color:#78350f;padding:12px 16px;text-align:center;font-weight:700">هذا الموقع يحتاج تفعيل JavaScript ليعمل.</div></noscript>
+  <!-- يظهر فقط إذا فشل تحميل ملفات الموقع (مثلاً ملف ناقص أو خاطئ في المستودع) -->
+  <div id="loadErrorBanner" role="alert" style="display:none;position:sticky;top:0;z-index:60;background:#fee2e2;color:#7f1d1d;padding:12px 16px;text-align:center;font-weight:700;font-size:14px;border-bottom:1px solid #fca5a5">
+    تعذّر تحميل أجزاء من الصفحة. حدّث الصفحة بقوة (Ctrl + F5)، وإن استمرت المشكلة فتواصل مع المطوّر.
+  </div>
+  <script>
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        if (!window.__nabthatiReady) {
+          var b = document.getElementById('loadErrorBanner');
+          if (b) b.style.display = 'block';
+        }
+      }, 3000);
+    });
+  </script>
+
+  <!-- الشريط العلوي -->
+  <header class="bg-white border-b border-slate-200/80 sticky top-0 z-30 backdrop-blur-md bg-white/90">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 text-white flex items-center justify-center shadow-md shadow-emerald-600/20 shrink-0">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-extrabold text-slate-900 leading-tight">منصة التحصيلي المبكر</h1>
+          <p class="text-xs sm:text-sm text-slate-500 font-medium">حاسبة الدرجة + المحاكيات الإلكترونية + دروس الفيزياء</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a href="https://t.me/KFUPMCD" target="_blank" rel="noopener noreferrer" title="قروب التحصيلي المبكر على تليجرام" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold text-sky-600 bg-sky-50 hover:bg-sky-100 border border-sky-200/70 transition flex items-center gap-1.5">
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          <span class="hidden sm:inline">قروبنا</span>
+        </a>
+        <button id="darkModeBtn" type="button" title="تبديل الوضع الليلي" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition cursor-pointer">
+          🌙
+        </button>
+        <div id="calcHeaderActions" class="flex items-center gap-2">
+        <button id="resetBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 transition flex items-center gap-1.5 cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+          إعادة التعيين
+        </button>
+        <button id="shareBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition flex items-center gap-1.5 shadow-sm cursor-pointer">
+          نسخ نتيجتي
+        </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- شريط التنقل بين الخانتين -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 pb-3">
+      <div class="inline-flex p-1.5 rounded-2xl bg-slate-100 border border-slate-200/80 w-full sm:w-auto">
+        <button id="tabCalcBtn" type="button" class="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-emerald-700 shadow-sm transition flex items-center justify-center gap-2">
+          <span>📊</span>
+          حاسبة الدرجة
+        </button>
+        <button id="tabMocksBtn" type="button" class="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2">
+          <span>📝</span>
+          المحاكيات الإلكترونية
+        </button>
+        <button id="tabPhysicsBtn" type="button" class="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2">
+          <span>⚡</span>
+          دروس الفيزياء
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1">
+
+    <!-- ==================== الخانة الأولى: حاسبة الدرجة ==================== -->
+    <div id="calcSection" class="space-y-6">
+      <!-- شريط التوجيه الذكي نحو محاكي الفترة الأولى -->
+      <div class="rounded-2xl bg-emerald-50 border border-emerald-200/80 p-4 sm:px-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+        <div class="flex items-start sm:items-center gap-3">
+          <span class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-base shrink-0 shadow-sm">🎯</span>
+          <div class="space-y-0.5">
+            <p class="text-xs sm:text-sm font-extrabold text-emerald-900">تبي توقع أدق من الحاسبة؟ جرّب محاكي الفترة الأولى</p>
+            <p class="text-[11px] sm:text-xs font-medium text-emerald-800">الحاسبة تعطي تقديراً عاماً، أما المحاكي فيزن كل سؤال حسب صعوبته الفعلية بين الطلاب.</p>
+          </div>
+        </div>
+        <button id="goToMockFromCalcBtn" type="button" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition shrink-0 cursor-pointer">
+          ابدأ المحاكي ←
+        </button>
+      </div>
+
+      <section class="relative overflow-hidden rounded-3xl bg-gradient-to-l from-emerald-800 via-emerald-700 to-teal-700 text-white p-6 sm:p-8 shadow-xl shadow-emerald-900/15">
+        <div class="absolute -left-16 -top-16 w-64 h-64 rounded-full bg-white/10 blur-3xl pointer-events-none"></div>
+        <div class="absolute -right-12 -bottom-20 w-72 h-72 rounded-full bg-teal-400/20 blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-xs sm:text-sm font-bold text-emerald-50 border border-white/15">
+              <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span>
+              التوقع المنطقي (إصابة 50% من الأسئلة المشكوك فيها)
+            </div>
+            <div class="flex items-baseline gap-3 pt-1">
+              <span id="heroTotalScore" aria-live="polite" class="text-5xl sm:text-6xl font-black tracking-tight">876</span>
+              <span class="text-lg sm:text-xl font-bold text-emerald-100/90">من <span id="heroMaxCap">1000</span></span>
+            </div>
+            <p id="heroPercentileText" class="text-sm sm:text-base font-medium text-emerald-50/95 flex items-center gap-1.5"></p>
+            <p id="scenarioHint" class="text-xs text-emerald-100/80"></p>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 w-full lg:w-auto">
+            <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 text-center">
+              <div class="text-xs text-emerald-100 font-medium mb-1">القسم العلمي (75%)</div>
+              <div id="heroSciScore" class="text-2xl sm:text-3xl font-extrabold">885</div>
+              <div id="heroSciRaw" class="text-[11px] text-emerald-200 mt-0.5">88 / 88 صح</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 text-center">
+              <div class="text-xs text-emerald-100 font-medium mb-1">قسم المهارات (25%)</div>
+              <div id="heroSkillsScore" class="text-2xl sm:text-3xl font-extrabold">850</div>
+              <div id="heroSkillsRaw" class="text-[11px] text-emerald-200 mt-0.5">22 / 22 صح</div>
+            </div>
+            <div class="col-span-2 sm:col-span-1 bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-center flex flex-col justify-center">
+              <div class="text-xs text-emerald-100 font-medium mb-1">معيار الانحراف (Z)</div>
+              <div id="heroZScore" class="text-2xl sm:text-3xl font-extrabold" dir="ltr">+2.26σ</div>
+              <div class="text-[11px] text-emerald-200 mt-0.5">فوق متوسط الطلاب</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="lg:col-span-5 space-y-5">
+          <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-5">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3.5">
+              <div>
+                <h2 class="text-base sm:text-lg font-extrabold text-slate-900">القسم العلمي</h2>
+                <p class="text-xs text-slate-500">88 سؤالاً • الوزن النسبي 75%</p>
+              </div>
+              <span id="sciRemainingBadge" class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200/70">88 مؤكدة صح</span>
+            </div>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label for="sciConfirmedRange" class="text-sm font-bold text-slate-700">الأخطاء المؤكدة</label>
+                <input id="sciConfirmedNum" aria-label="عدد الأخطاء المؤكدة في القسم العلمي" inputmode="numeric" type="number" min="0" max="88" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              </div>
+              <input id="sciConfirmedRange" type="range" min="0" max="88" value="0" class="w-full" />
+            </div>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label for="sciUncertainRange" class="text-sm font-bold text-slate-700">الأسئلة المشكوك فيها</label>
+                <input id="sciUncertainNum" aria-label="عدد الأسئلة المشكوك فيها في القسم العلمي" inputmode="numeric" type="number" min="0" max="88" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500" />
+              </div>
+              <input id="sciUncertainRange" type="range" min="0" max="88" value="0" class="w-full amber-thumb" />
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-5">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3.5">
+              <div>
+                <h2 class="text-base sm:text-lg font-extrabold text-slate-900">قسم المهارات</h2>
+                <p class="text-xs text-slate-500">22 سؤالاً • الوزن النسبي 25%</p>
+              </div>
+              <span id="skillsRemainingBadge" class="px-3 py-1 rounded-xl bg-teal-50 text-teal-700 text-xs font-bold border border-teal-200/70">22 مؤكدة صح</span>
+            </div>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label for="skillsConfirmedRange" class="text-sm font-bold text-slate-700">الأخطاء المؤكدة</label>
+                <input id="skillsConfirmedNum" aria-label="عدد الأخطاء المؤكدة في قسم المهارات" inputmode="numeric" type="number" min="0" max="22" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              </div>
+              <input id="skillsConfirmedRange" type="range" min="0" max="22" value="0" class="w-full" />
+            </div>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label for="skillsUncertainRange" class="text-sm font-bold text-slate-700">الأسئلة المشكوك فيها</label>
+                <input id="skillsUncertainNum" aria-label="عدد الأسئلة المشكوك فيها في قسم المهارات" inputmode="numeric" type="number" min="0" max="22" value="0" class="w-16 text-center py-1 px-2 rounded-xl border border-slate-200 bg-slate-50 font-extrabold text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500" />
+              </div>
+              <input id="skillsUncertainRange" type="range" min="0" max="22" value="0" class="w-full amber-thumb" />
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-5">
+            <div class="border-b border-slate-100 pb-3.5">
+              <h2 class="text-base sm:text-lg font-extrabold text-slate-900">إعدادات المنحنى والانحراف المعياري</h2>
+              <p class="text-xs text-slate-500">تحكّم بمستوى صعوبة النموذج وقوة الانحراف</p>
+            </div>
+            <div class="space-y-2">
+              <span class="text-xs font-bold text-slate-500 block">مستوى صعوبة الاختبار (تقدير متوسط أخطاء الطلاب)</span>
+              <div class="grid grid-cols-3 gap-2">
+                <button type="button" data-preset="22" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">سهل (~22)</button>
+                <button type="button" data-preset="25" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">متوسط (~25)</button>
+                <button type="button" data-preset="29" class="preset-btn py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-400 transition">صعب (~29)</button>
+              </div>
+              <button type="button" id="siteAvgPresetBtn" class="hidden w-full py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold border border-teal-200 bg-teal-50 text-teal-700 hover:border-teal-500 transition cursor-pointer items-center justify-center gap-1.5">
+                <span>📊</span>
+                <span id="siteAvgPresetText">متوسط طلاب المحاكي</span>
+              </button>
+            </div>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label for="avgMistakesRange" class="text-sm font-bold text-slate-700">متوسط أخطاء الطلاب في الاختبار</label>
+                <span class="text-sm font-extrabold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-xl border border-teal-200/70"><span id="avgMistakesVal">25</span> خطأ</span>
+              </div>
+              <input id="avgMistakesRange" type="range" min="22" max="29" value="25" class="w-full teal-thumb" />
+            </div>
+            <div class="space-y-2">
+              <span class="text-sm font-bold text-slate-700 block">قوة الانحراف المعياري</span>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <button type="button" data-sd="weak" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-50 text-slate-700 transition text-center cursor-pointer">انحراف ضعيف</button>
+                <button type="button" data-sd="medium" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm transition text-center cursor-pointer">انحراف متوسط</button>
+                <button type="button" data-sd="strong" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-50 text-slate-700 transition text-center cursor-pointer">انحراف قوي</button>
+                <button type="button" data-sd="mock" class="sd-btn py-2.5 px-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-50 text-slate-700 transition text-center cursor-pointer">انحراف المحاكي 📊</button>
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-3">
+              <div>
+                <span class="text-sm font-bold text-slate-800 block">سقف المقياس</span>
+                <span id="capDesc" class="text-xs text-slate-500">المقياس الرسمي الكامل (1000)</span>
+              </div>
+              <div class="inline-flex p-1 rounded-xl bg-slate-100 border border-slate-200">
+                <button type="button" id="cap1000Btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-emerald-700 shadow-sm transition">1000 رسمي</button>
+                <button type="button" id="cap950Btn" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition">950 تحفظي</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-lg">المتفائل</span>
+                  <span id="optRaw" class="text-[11px] font-bold text-slate-400">110 / 110 صح</span>
+                </div>
+                <div class="flex items-baseline gap-1.5 my-2">
+                  <span id="optTotal" class="text-3xl font-black text-slate-900">876</span>
+                  <span class="text-xs font-bold text-slate-400">/ <span class="cap-label">1000</span></span>
+                </div>
+              </div>
+              <div class="pt-3 border-t border-slate-100 space-y-1.5 text-xs">
+                <div class="flex justify-between"><span class="text-slate-500">العلمي (75%):</span><span id="optSci" class="font-bold text-slate-800">885</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">المهارات (25%):</span><span id="optSkills" class="font-bold text-slate-800">850</span></div>
+              </div>
+            </div>
+            <div class="bg-emerald-50/60 rounded-3xl p-5 shadow-md shadow-emerald-900/5 border-2 border-emerald-500 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-extrabold text-white bg-emerald-600 px-2.5 py-1 rounded-lg">التوقع المنطقي</span>
+                  <span id="midRaw" class="text-[11px] font-bold text-emerald-700">110 / 110 صح</span>
+                </div>
+                <div class="flex items-baseline gap-1.5 my-2">
+                  <span id="midTotal" class="text-3xl font-black text-emerald-800">876</span>
+                  <span class="text-xs font-bold text-emerald-600/80">/ <span class="cap-label">1000</span></span>
+                </div>
+              </div>
+              <div class="pt-3 border-t border-emerald-200/70 space-y-1.5 text-xs">
+                <div class="flex justify-between"><span class="text-emerald-900/70">العلمي (75%):</span><span id="midSci" class="font-extrabold text-emerald-900">885</span></div>
+                <div class="flex justify-between"><span class="text-emerald-900/70">المهارات (25%):</span><span id="midSkills" class="font-extrabold text-emerald-900">850</span></div>
+              </div>
+            </div>
+            <div class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-lg">أسوأ احتمال</span>
+                  <span id="worstRaw" class="text-[11px] font-bold text-slate-400">110 / 110 صح</span>
+                </div>
+                <div class="flex items-baseline gap-1.5 my-2">
+                  <span id="worstTotal" class="text-3xl font-black text-slate-900">876</span>
+                  <span class="text-xs font-bold text-slate-400">/ <span class="cap-label">1000</span></span>
+                </div>
+              </div>
+              <div class="pt-3 border-t border-slate-100 space-y-1.5 text-xs">
+                <div class="flex justify-between"><span class="text-slate-500">العلمي (75%):</span><span id="worstSci" class="font-bold text-slate-800">885</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">المهارات (25%):</span><span id="worstSkills" class="font-bold text-slate-800">850</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+              <div>
+                <h3 class="text-base sm:text-lg font-extrabold text-slate-900">منحنى التوزيع الطبيعي (Bell Curve)</h3>
+                <p class="text-xs text-slate-500">موقعك المتوقع مقارنةً بمتوسط بقية المختبرين</p>
+              </div>
+            </div>
+            <div id="canvasContainer" class="w-full h-64 sm:h-72 relative rounded-2xl bg-slate-50/70 border border-slate-100 overflow-hidden">
+              <canvas id="bellCurveCanvas" class="w-full h-full block"></canvas>
+            </div>
+            <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-3 text-center bg-slate-50 rounded-2xl p-3 border border-slate-100">
+              <div><span class="text-[11px] text-slate-500 block">متوسط الطلاب (صح)</span><span id="meanCorrectInfo" class="text-sm font-extrabold text-slate-800">85 / 110</span></div>
+              <div><span class="text-[11px] text-slate-500 block">إجاباتك المرجّحة (صح)</span><span id="userCorrectInfo" class="text-sm font-extrabold text-emerald-700">110 / 110</span></div>
+              <div class="col-span-2 sm:col-span-1"><span class="text-[11px] text-slate-500 block">الفارق فوق المتوسط</span><span id="diffCorrectInfo" class="text-sm font-extrabold text-teal-700">+25 سؤالاً</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <details class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200/80 text-sm text-slate-600 cursor-pointer">
+        <summary class="font-extrabold text-slate-800 select-none">كيف تعمل الحاسبة؟ وما معنى الانحراف المعياري و (Z)؟</summary>
+        <div class="mt-3 pt-3 border-t border-slate-100 space-y-2 leading-relaxed">
+          <p><strong>• الانحراف المعياري:</strong> يقيس مدى تقارب درجات الطلاب؛ كلما كان صغيراً ("انحراف قوي") كان الطلاب متقاربين جداً حول المتوسط، فيُحدث كل سؤال زائد أو ناقص فرقاً أكبر في ترتيبك؛ وكلما كان كبيراً ("انحراف ضعيف") كانت الدرجات أكثر تشتتاً فيقلّ أثر السؤال الواحد.</p>
+          <p><strong>• معيار (Z):</strong> يوضح كم تبعد درجتك عن متوسط بقية المختبرين (كلما زاد الرقم الموجب كنت ضمن نسبة أعلى من الطلاب).</p>
+          <p><strong>• هذه الحاسبة تقدير وليست نتيجة رسمية:</strong> تحوّل عدد أخطائك إلى درجة بافتراض أن درجات الطلاب تتوزع توزيعاً طبيعياً متوسطه 650 وكل انحراف معياري 100 درجة، وبوزن 75% للقسم العلمي و25% لقسم المهارات. هذه افتراضات الموقع وليست أرقاماً منشورة من «قياس».</p>
+          <p><strong>• الأسئلة المشكوك فيها:</strong> تظهر ثلاث حالات: المتفائل (كلها صح)، والمتوقع (نصفها صح)، وأسوأ احتمال (كلها خطأ).</p>
+          <p><strong>• الفرق بين الحاسبة والمحاكيات:</strong> الحاسبة تعتمد على متوسط أخطاء الطلاب الذي تحدده أنت، أما المحاكيات فتزن كل سؤال حسب صعوبته الفعلية، لذا قد تختلف الدرجتان قليلاً لنفس عدد الأخطاء.</p>
+        </div>
+      </details>
+    </div>
+
+    <!-- ==================== الخانة الثانية: المحاكيات الإلكترونية ==================== -->
+    <div id="mocksSection" class="hidden space-y-6">
+
+      <!-- 1. قائمة المحاكي الإلكتروني -->
+      <div id="mocksListView" class="space-y-6">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70 mb-2">
+            📝 اختبارات محاكاة كاملة (110 أسئلة)
+          </span>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900">المحاكيات الإلكترونية للتحصيلي المبكر</h2>
+          <p class="text-sm text-slate-500 mt-1">
+            كل محاكي يطابق توزيع الاختبار الرسمي: <strong>22 مهارات • 24 رياضيات • 24 فيزياء • 20 كيمياء • 20 أحياء</strong> (مع سؤال متطابقات مثلثية في كل محاكي). يجب إكمال جميع الأسئلة لتسجيل نتيجتك وتوقع درجتك من 1000. <strong>يُسمح بمحاولة واحدة فقط لكل محاكي</strong> لضمان دقة متوسط وتوزيع درجات الطلاب، ويمكنك مراجعة نتيجتك وأخطائك في أي وقت.
+          </p>
+        </div>
+
+        <div id="mocksGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </div>
+
+      <!-- 2. شاشة أداء المحاكي -->
+      <div id="mockExamView" class="hidden max-w-4xl mx-auto space-y-5">
+        <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-slate-200/80 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div>
+              <h3 id="examTitle" class="text-base sm:text-lg font-black text-slate-900">المحاكي الأول</h3>
+              <p id="examAnsweredCounter" class="text-xs font-bold text-emerald-700">تم حل 0 من 110 سؤالاً</p>
+            </div>
+            <div class="px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-xs sm:text-sm font-extrabold text-slate-700 flex items-center gap-1.5" dir="ltr">
+              <span>⏱</span>
+              <span id="examTimerDisplay">00:00</span>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="submitMockBtn" type="button" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-teal-700 text-white hover:bg-teal-800 shadow-sm transition cursor-pointer">
+              تسليم الاختبار 🎯
+            </button>
+            <button id="toggleNavBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
+              خريطة الأسئلة (110)
+            </button>
+            <button id="exitMockBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 hover:bg-rose-100 transition cursor-pointer">
+              خروج
+            </button>
+          </div>
+        </div>
+
+        <!-- خريطة التنقل السريع بين 110 سؤال -->
+        <div id="questionNavDrawer" class="hidden bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-slate-200/80 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-bold text-slate-500">
+            <span>اضغط على أي رقم للانتقال إليه مباشرة:</span>
+            <div class="flex items-center gap-3">
+              <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-emerald-600 inline-block"></span> مجاب</span>
+              <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-amber-400 inline-block"></span> مميّز للمراجعة</span>
+              <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-slate-200 inline-block"></span> غير مجاب</span>
+            </div>
+          </div>
+          <div id="questionNavGrid" class="grid grid-cols-10 sm:grid-cols-11 gap-1.5"></div>
+        </div>
+
+        <!-- بطاقة السؤال -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80 space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span id="examSubjectBadge" class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70">المهارات</span>
+            <div class="flex items-center gap-2">
+              <button id="flagQBtn" type="button" class="px-3 py-1 rounded-xl text-xs font-extrabold bg-slate-100 text-slate-600 hover:bg-amber-100 hover:text-amber-800 border border-slate-200 transition cursor-pointer">
+                🚩 تمييز للمراجعة
+              </button>
+              <span id="examQNumber" class="text-xs font-extrabold text-slate-500">سؤال 1 من 110</span>
+            </div>
+          </div>
+
+          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div id="examProgressBar" class="h-full bg-emerald-600 rounded-full transition-all duration-200" style="width: 1%"></div>
+          </div>
+
+          <div id="examQuestionSvg" class="hidden"></div>
+          <h3 id="examQuestionText" class="exam-font text-base sm:text-lg font-semibold text-slate-900"></h3>
+
+          <div id="examOptionsList" class="exam-font space-y-3"></div>
+
+          <div id="examWarningMsg" class="hidden rounded-2xl p-3.5 bg-amber-50 border border-amber-200 text-xs sm:text-sm font-bold text-amber-800"></div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
+            <button id="prevQBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
+              → السابق
+            </button>
+            <button id="nextQBtn" type="button" class="px-7 py-2.5 rounded-xl text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+              التالي ←
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. شاشة نتيجة المحاكي وتوقع الدرجة -->
+      <div id="mockResultView" class="hidden max-w-4xl mx-auto space-y-6">
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-l from-emerald-800 via-emerald-700 to-teal-700 text-white p-6 sm:p-8 shadow-xl">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div class="space-y-2">
+              <span id="resMockTitle" class="inline-flex px-3 py-1 rounded-full bg-white/15 text-xs font-extrabold">نتيجة المحاكي الأول</span>
+              <div class="flex items-baseline gap-3">
+                <span id="resPredictedScore" class="text-5xl sm:text-6xl font-black">0</span>
+                <span class="text-lg font-bold text-emerald-100">من 1000</span>
+              </div>
+              <p id="resModeDesc" class="text-xs sm:text-sm text-emerald-100"></p>
+              <p class="text-[11px] text-emerald-200/80">الورقة بلا أخطاء تُقدَّر بنحو 910 في هذا النظام، وليس 1000.</p>
+              <div id="resCalibrationBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold border mt-1"></div>
+              <p id="resDurationText" class="text-xs font-bold text-emerald-200/90"></p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center">
+              <div class="bg-white/10 rounded-2xl p-3.5 border border-white/15">
+                <div class="text-[11px] text-emerald-100">العلمي (88)</div>
+                <div id="resSciScore" class="text-2xl font-black">0</div>
+                <div id="resSciMistakes" class="text-[11px] text-emerald-200">0 أخطاء</div>
+              </div>
+              <div class="bg-white/10 rounded-2xl p-3.5 border border-white/15">
+                <div class="text-[11px] text-emerald-100">المهارات (22)</div>
+                <div id="resSkillsScore" class="text-2xl font-black">0</div>
+                <div id="resSkillsMistakes" class="text-[11px] text-emerald-200">0 أخطاء</div>
+              </div>
+              <div class="col-span-2 sm:col-span-1 bg-white/15 rounded-2xl p-3.5 border border-white/20">
+                <div class="text-[11px] text-emerald-100">إجمالي الصح</div>
+                <div id="resTotalCorrect" class="text-2xl font-black">0 / 110</div>
+                <div id="resZScore" class="text-[11px] text-emerald-200" dir="ltr">+0.00σ</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- خيارا حساب الدرجة المتوقعة -->
+        <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-4">
+          <h3 class="text-base font-extrabold text-slate-900">اختر معيار توقع الدرجة:</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <button id="scoreModeDefaultBtn" type="button" class="p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50 text-right transition cursor-pointer">
+              <div class="text-sm font-extrabold text-emerald-900">1. معيار قياس التقديري 🎯</div>
+              <div class="text-xs text-emerald-700 mt-1">ترجيح كل سؤال حسب صعوبته المقدّرة + حماية ضد تحيّز العينة (تقدير تقريبي لمحاكاة الاختبار الحقيقي)</div>
+            </button>
+            <button id="scoreModeStudentsBtn" type="button" class="p-4 rounded-2xl border border-slate-200 bg-slate-50 text-right hover:border-emerald-400 transition cursor-pointer">
+              <div class="text-sm font-extrabold text-slate-900">2. مقارنة مباشرة بطلاب الموقع (معايرة من نتائجهم)</div>
+              <div id="studentsStatsSummary" class="text-xs text-slate-500 mt-1">يُحسب مباشرةً من أداء الطلاب الذين أكملوا هذا المحاكي بالكامل</div>
+            </button>
+          </div>
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100">
+            <div id="subjectBreakdown" class="flex flex-wrap gap-2 text-xs font-bold"></div>
+            <div class="flex flex-wrap items-center gap-2">
+              <button id="shareMockResBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+                نسخ نتيجتي في المحاكي 📋
+              </button>
+              <a href="https://t.me/KFUPMCD" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-xl text-sm font-extrabold bg-sky-500 text-white hover:bg-sky-600 shadow-sm transition flex items-center gap-2">
+                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                انضم لقروب التحصيلي المبكر
+              </a>
+              <button id="backToMocksBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-extrabold bg-slate-900 text-white hover:bg-slate-800 transition cursor-pointer">
+                العودة لقائمة المحاكيات
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- توجيه ذكي لدروس الفيزياء عند وجود أخطاء في الفيزياء -->
+        <div id="physicsWeaknessCta" class="hidden rounded-3xl bg-emerald-50 border border-emerald-200/80 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+          <div class="flex items-start sm:items-center gap-3">
+            <span class="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-lg shrink-0 shadow-sm">⚡</span>
+            <div class="space-y-0.5">
+              <p id="physicsWeaknessTitle" class="text-sm sm:text-base font-extrabold text-emerald-900">تقدر ترفع درجتك في الفيزياء بسرعة!</p>
+              <p id="physicsWeaknessDesc" class="text-xs text-emerald-800 font-medium">تدرّب على مسائل الفيزياء المخصّصة حسب الدروس مع شرح فوري ورسومات رسمية.</p>
+            </div>
+          </div>
+          <button id="goToPhysicsFromResultBtn" type="button" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition shrink-0 cursor-pointer">
+            تدرّب على دروس الفيزياء ←
+          </button>
+        </div>
+
+        <!-- مراجعة الأخطاء -->
+        <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <h3 class="text-base sm:text-lg font-extrabold text-slate-900">مراجعة الأسئلة التي أخطأت فيها</h3>
+            <div id="mistakesFilterBar" class="flex flex-wrap gap-1.5"></div>
+          </div>
+          <div id="mistakesReviewList" class="exam-font space-y-3"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================== الخانة الثالثة: دروس الفيزياء ==================== -->
+    <div id="physicsSection" class="hidden space-y-6">
+
+      <!-- 1. قائمة دروس الفيزياء -->
+      <div id="physicsListView" class="space-y-6">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70 mb-2">
+            ⚡ تدريب مخصّص حسب الدروس (تصحيح وشرح فوري)
+          </span>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900">دروس الفيزياء — تدريب تفاعلي</h2>
+          <p class="text-sm text-slate-500 mt-1">
+            اختر الدرس وتدرّب على مسائل التحصيلي برسومات رسمية واضحة مع <strong>تصحيح فوري وشرح لكل سؤال</strong> فور اختيارك للإجابة. يمكنك إعادة التدريب في أي وقت.
+          </p>
+        </div>
+
+        <div id="physicsLessonsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </div>
+
+      <!-- 2. شاشة التدريب على الدرس -->
+      <div id="physicsQuizView" class="hidden max-w-4xl mx-auto space-y-5">
+        <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-slate-200/80 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 id="physicsLessonTitle" class="text-base sm:text-lg font-black text-slate-900">الدرس</h3>
+            <p id="physicsProgressCounter" class="text-xs font-bold text-emerald-700">سؤال 1 من 10</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="physicsLiveScore" class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200/70 text-xs font-extrabold">الصح: 0 / 0</span>
+            <button id="exitPhysicsBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
+              ← قائمة الدروس
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80 space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span id="physicsTopicBadge" class="px-3 py-1 rounded-xl bg-teal-50 text-teal-700 text-xs font-extrabold border border-teal-200/70">الموضوع</span>
+            <span id="physicsQNumber" class="text-xs font-extrabold text-slate-500">سؤال 1 من 10</span>
+          </div>
+
+          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div id="physicsProgressBar" class="h-full bg-emerald-600 rounded-full transition-all duration-200" style="width: 10%"></div>
+          </div>
+
+          <!-- شريط أرقام أسئلة الدرس -->
+          <div id="physicsNavStrip" class="flex flex-wrap gap-1.5"></div>
+
+          <div id="physicsQuestionSvg" class="hidden"></div>
+          <h3 id="physicsQuestionText" class="exam-font text-base sm:text-lg font-semibold text-slate-900"></h3>
+
+          <div id="physicsOptionsList" class="exam-font space-y-3"></div>
+
+          <div id="physicsFeedbackBox" class="hidden rounded-2xl p-4 border space-y-1.5 text-xs sm:text-sm"></div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
+            <button id="physicsPrevBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
+              → السابق
+            </button>
+            <button id="physicsNextBtn" type="button" class="px-7 py-2.5 rounded-xl text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+              التالي ←
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. شاشة نتيجة الدرس -->
+      <div id="physicsResultView" class="hidden max-w-4xl mx-auto space-y-6">
+        <div class="rounded-3xl bg-gradient-to-l from-emerald-800 via-emerald-700 to-teal-700 text-white p-6 sm:p-8 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+          <div class="space-y-1.5">
+            <span id="physicsResBadge" class="inline-flex px-3 py-1 rounded-full bg-white/15 text-xs font-extrabold">أنهيت الدرس!</span>
+            <h3 id="physicsResTitle" class="text-2xl sm:text-3xl font-black">نتيجة الدرس</h3>
+            <p id="physicsResSubtitle" class="text-xs sm:text-sm text-emerald-100"></p>
+          </div>
+          <div class="bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl px-6 py-4 text-center shrink-0">
+            <div class="text-xs text-emerald-100 font-bold">درجتك في الدرس</div>
+            <div id="physicsResScore" class="text-4xl font-black mt-1">0 / 10</div>
+            <div id="physicsResPercent" class="text-xs font-extrabold text-emerald-200 mt-0.5">0%</div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <button id="sharePhysicsResBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-extrabold bg-teal-700 text-white hover:bg-teal-800 shadow-sm transition cursor-pointer">
+            نسخ نتيجتي في الدرس 📋
+          </button>
+          <button id="retryPhysicsLessonBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+            إعادة التدريب على الدرس 🔄
+          </button>
+          <button id="backToPhysicsListBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-extrabold bg-slate-900 text-white hover:bg-slate-800 transition cursor-pointer">
+            العودة لقائمة الدروس
+          </button>
+        </div>
+
+        <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-4">
+          <h3 class="text-base sm:text-lg font-extrabold text-slate-900">مراجعة الأسئلة والأخطاء</h3>
+          <div id="physicsReviewList" class="exam-font space-y-3"></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- قسم قائمة المساهمين -->
+  <section id="volunteersSection" class="max-w-6xl w-full mx-auto px-4 sm:px-6 pb-6">
+    <details class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200/80 group">
+      <summary class="flex flex-wrap items-center justify-between gap-2 cursor-pointer select-none list-none">
+        <div class="flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200/70 flex items-center justify-center text-sm shrink-0">🤝</span>
+          <div>
+            <h2 class="text-sm sm:text-base font-extrabold text-slate-900">قائمة المساهمين في معايرة المنصة</h2>
+            <p class="text-[11px] sm:text-xs text-slate-500 font-medium">شكر خاص لكل من ساهم بدرجته الفعلية لرفع دقة الحاسبة والمحاكيات</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="volunteersCountBadge" class="px-2.5 py-1 rounded-xl bg-slate-100 text-slate-600 text-[11px] font-extrabold">قريباً</span>
+          <span class="text-xs font-bold text-emerald-700 group-open:rotate-180 transition-transform">▼</span>
+        </div>
+      </summary>
+
+      <div class="mt-4 pt-4 border-t border-slate-100 space-y-4">
+        <div id="volunteersList" class="flex flex-wrap gap-2"></div>
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100 text-xs">
+          <p class="text-slate-500 font-medium">حاب تساهم وتشارك درجتك الفعلية مع عدد أخطائك عند نزول النتائج؟ (تُستخدم للمعايرة فقط، وذكر اليوزر اختياري)</p>
+          <a href="https://t.me/mqwwsk" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-xl font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 transition shrink-0">
+            تواصل للمساهمة (@mqwwsk) ←
+          </a>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <footer class="mt-auto border-t border-slate-200 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-5 text-center space-y-1">
+      <p class="text-xs text-slate-400 font-bold pt-2 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+        <span>تطوير وحقوق © 2026 — Nabthati</span>
+        <span>•</span>
+        <a href="https://t.me/mqwwsk" target="_blank" rel="noopener noreferrer" class="text-emerald-600 hover:underline">@mqwwsk</a>
+        <span>•</span>
+        <a href="https://t.me/KFUPMCD" target="_blank" rel="noopener noreferrer" class="text-sky-600 hover:underline inline-flex items-center gap-1">قروب التليجرام (@KFUPMCD)</a>
+      </p>
+      <p class="text-xs sm:text-sm text-slate-500 font-medium">
+        تنويه: هذه المنصة تقدم <strong class="text-slate-700">تقديراً إحصائياً وتدريبياً</strong> ولا تمثل نتيجة رسمية صادرة من هيئة تقويم التعليم والتدريب (قياس).
+      </p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import {
+      TOTAL_SKILLS,
+      TOTAL_SCI,
+      SD_CONFIG,
+      DEFAULT_STATE,
+      normalCDF,
+      clamp,
+      calculateScenario
+    } from './calc.js?v=4';
+    import {
+      calculateIRTResult,
+      getCalibrationStatus
+    } from './irt.js?v=4';
+
+    // اختياري: ضع هنا رابط Google Apps Script أو Firebase لحفظ متوسط أخطاء جميع الطلاب سحابياً عبر كل الأجهزة
+    const APP_VERSION = '6'; // ارفع الرقم عند تعديل أي ملف .js حتى لا يبقى المتصفح على نسخة قديمة
+    const MIN_VALID_DURATION_SECONDS = 600; // أقل من 10 دقائق: تُعرض النتيجة للطالب دون إرسالها لجدول المعايرة
+    const F2_GOAL_ATTEMPTS = 300; // هدف عدد المختبرين لإطلاق محاكي الفترة الثانية
+    const STATS_API_URL = 'https://script.google.com/macros/s/AKfycbw2UnUkxaZ4lYMmas_KM0_1bhIHFYw05NjpnyJOD6Do1s8WeU-hVXbFSLq9_O2GVxt0/exec';
+
+    // ==================== التنقل بين الخانتين ====================
+    // ==================== الوضع الليلي (Dark Mode) ====================
+    const darkModeBtn = document.getElementById('darkModeBtn');
+    function applyDarkMode(isDark, persist = true) {
+      document.documentElement.classList.toggle('dark', isDark);
+      if (darkModeBtn) darkModeBtn.textContent = isDark ? '☀️' : '🌙';
+      if (persist) { try { localStorage.setItem('nabthati_dark_mode', isDark ? '1' : '0'); } catch {} }
+    }
+    try {
+      const savedDark = localStorage.getItem('nabthati_dark_mode');
+      if (savedDark === '1') applyDarkMode(true);
+      else if (savedDark === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) applyDarkMode(true, false);
+    } catch {}
+    if (darkModeBtn) {
+      darkModeBtn.addEventListener('click', () => {
+        applyDarkMode(!document.documentElement.classList.contains('dark'));
+        if (typeof updateAll === 'function' && !calcSection.classList.contains('hidden')) updateAll();
+      });
+    }
+
+    const tabCalcBtn = document.getElementById('tabCalcBtn');
+    const tabMocksBtn = document.getElementById('tabMocksBtn');
+    const tabPhysicsBtn = document.getElementById('tabPhysicsBtn');
+    const calcSection = document.getElementById('calcSection');
+    const mocksSection = document.getElementById('mocksSection');
+    const physicsSection = document.getElementById('physicsSection');
+    const calcHeaderActions = document.getElementById('calcHeaderActions');
+
+    function trackEvent(eventName, params = {}) {
+      try {
+        if (typeof window.gtag === 'function') window.gtag('event', eventName, params);
+      } catch {}
+    }
+
+    const TAB_ACTIVE_CLS = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-emerald-700 shadow-sm transition flex items-center justify-center gap-2';
+    const TAB_INACTIVE_CLS = 'flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2';
+
+    function switchTab(tab, updateHash = true) {
+      calcSection.classList.toggle('hidden', tab !== 'calc');
+      mocksSection.classList.toggle('hidden', tab !== 'mocks');
+      physicsSection.classList.toggle('hidden', tab !== 'physics');
+      calcHeaderActions.classList.toggle('hidden', tab !== 'calc');
+
+      tabCalcBtn.className = tab === 'calc' ? TAB_ACTIVE_CLS : TAB_INACTIVE_CLS;
+      tabMocksBtn.className = tab === 'mocks' ? TAB_ACTIVE_CLS : TAB_INACTIVE_CLS;
+      tabPhysicsBtn.className = tab === 'physics' ? TAB_ACTIVE_CLS : TAB_INACTIVE_CLS;
+
+      if (tab === 'calc') {
+        if (updateHash && (window.location.hash === '#mock' || window.location.hash === '#physics')) {
+          try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch {}
+        }
+        updateAll();
+      } else if (tab === 'mocks') {
+        if (updateHash && window.location.hash !== '#mock') {
+          try { history.replaceState(null, '', '#mock'); } catch {}
+        }
+        trackEvent('open_mocks');
+      } else if (tab === 'physics') {
+        if (updateHash && window.location.hash !== '#physics') {
+          try { history.replaceState(null, '', '#physics'); } catch {}
+        }
+        loadPhysicsLessons();
+        trackEvent('open_physics_lessons');
+      }
+    }
+    tabCalcBtn.addEventListener('click', () => switchTab('calc'));
+    tabMocksBtn.addEventListener('click', () => switchTab('mocks'));
+    tabPhysicsBtn.addEventListener('click', () => switchTab('physics'));
+    const goToMockFromCalcBtn = document.getElementById('goToMockFromCalcBtn');
+    if (goToMockFromCalcBtn) {
+      goToMockFromCalcBtn.addEventListener('click', () => {
+        switchTab('mocks');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    // ==================== منطق الحاسبة ====================
+    const AVG_MIN = 22;
+    const AVG_MAX = 29;
+    const AVG_DEFAULT = 25;
+    // الانحراف المعياري الفعلي لطلاب محاكي الفترة الأولى (العلمي 10.77 | المهارات 2.41)
+    const MOCK_SD = { sci: 10.77, skills: 2.41, visualSpread: 1.0 };
+
+    const state = { ...DEFAULT_STATE, avgMistakes: AVG_DEFAULT };
+    const CALC_STATE_KEY = 'nabthati_calc_state_v1';
+    function loadCalcState() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(CALC_STATE_KEY) || 'null');
+        if (!raw || typeof raw !== 'object') return;
+        const num = (v, lo, hi, d) => (Number.isFinite(Number(v)) ? clamp(Math.round(Number(v)), lo, hi) : d);
+        state.sciConfirmed = num(raw.sciConfirmed, 0, TOTAL_SCI, 0);
+        state.sciUncertain = num(raw.sciUncertain, 0, TOTAL_SCI - state.sciConfirmed, 0);
+        state.skillsConfirmed = num(raw.skillsConfirmed, 0, TOTAL_SKILLS, 0);
+        state.skillsUncertain = num(raw.skillsUncertain, 0, TOTAL_SKILLS - state.skillsConfirmed, 0);
+        state.avgMistakes = num(raw.avgMistakes, AVG_MIN, AVG_MAX, AVG_DEFAULT);
+        if (SD_CONFIG[raw.sdMode] || raw.sdMode === 'mock') state.sdMode = raw.sdMode;
+        if (raw.maxCap === 950 || raw.maxCap === 1000) state.maxCap = raw.maxCap;
+      } catch {}
+    }
+
+    function computeCalcScenario(st, uncertainWeight) {
+      if (st.sdMode !== 'mock') return calculateScenario(st, uncertainWeight);
+      const userSciMistakes = st.sciConfirmed + st.sciUncertain * uncertainWeight;
+      const userSkillsMistakes = st.skillsConfirmed + st.skillsUncertain * uncertainWeight;
+      const userSciCorrect = TOTAL_SCI - userSciMistakes;
+      const userSkillsCorrect = TOTAL_SKILLS - userSkillsMistakes;
+      const totalCorrect = userSciCorrect + userSkillsCorrect;
+      const meanSciCorrect = TOTAL_SCI - (st.avgMistakes * (TOTAL_SCI / 110));
+      const meanSkillsCorrect = TOTAL_SKILLS - (st.avgMistakes * (TOTAL_SKILLS / 110));
+      const zSci = (userSciCorrect - meanSciCorrect) / MOCK_SD.sci;
+      const zSkills = (userSkillsCorrect - meanSkillsCorrect) / MOCK_SD.skills;
+      const zWeighted = 0.75 * zSci + 0.25 * zSkills;
+      const sciScore = clamp(Math.round(650 + 100 * zSci), 0, st.maxCap);
+      const skillsScore = clamp(Math.round(650 + 100 * zSkills), 0, st.maxCap);
+      const totalScore = clamp(Math.round(0.75 * sciScore + 0.25 * skillsScore), 0, st.maxCap);
+      return { totalScore, sciScore, skillsScore, userSciCorrect, userSkillsCorrect, totalCorrect, zWeighted };
+    }
+    function saveCalcState() {
+      try { localStorage.setItem(CALC_STATE_KEY, JSON.stringify(state)); } catch {}
+    }
+    loadCalcState();
+    const el = {
+      sciConfirmedRange: document.getElementById('sciConfirmedRange'),
+      sciConfirmedNum: document.getElementById('sciConfirmedNum'),
+      sciUncertainRange: document.getElementById('sciUncertainRange'),
+      sciUncertainNum: document.getElementById('sciUncertainNum'),
+      sciRemainingBadge: document.getElementById('sciRemainingBadge'),
+      skillsConfirmedRange: document.getElementById('skillsConfirmedRange'),
+      skillsConfirmedNum: document.getElementById('skillsConfirmedNum'),
+      skillsUncertainRange: document.getElementById('skillsUncertainRange'),
+      skillsUncertainNum: document.getElementById('skillsUncertainNum'),
+      skillsRemainingBadge: document.getElementById('skillsRemainingBadge'),
+      avgMistakesRange: document.getElementById('avgMistakesRange'),
+      avgMistakesVal: document.getElementById('avgMistakesVal'),
+      cap1000Btn: document.getElementById('cap1000Btn'),
+      cap950Btn: document.getElementById('cap950Btn'),
+      capDesc: document.getElementById('capDesc'),
+      resetBtn: document.getElementById('resetBtn'),
+      heroTotalScore: document.getElementById('heroTotalScore'),
+      heroMaxCap: document.getElementById('heroMaxCap'),
+      heroPercentileText: document.getElementById('heroPercentileText'),
+      heroSciScore: document.getElementById('heroSciScore'),
+      heroSciRaw: document.getElementById('heroSciRaw'),
+      heroSkillsScore: document.getElementById('heroSkillsScore'),
+      heroSkillsRaw: document.getElementById('heroSkillsRaw'),
+      heroZScore: document.getElementById('heroZScore'),
+      optTotal: document.getElementById('optTotal'), optSci: document.getElementById('optSci'), optSkills: document.getElementById('optSkills'), optRaw: document.getElementById('optRaw'),
+      midTotal: document.getElementById('midTotal'), midSci: document.getElementById('midSci'), midSkills: document.getElementById('midSkills'), midRaw: document.getElementById('midRaw'),
+      worstTotal: document.getElementById('worstTotal'), worstSci: document.getElementById('worstSci'), worstSkills: document.getElementById('worstSkills'), worstRaw: document.getElementById('worstRaw'),
+      meanCorrectInfo: document.getElementById('meanCorrectInfo'),
+      userCorrectInfo: document.getElementById('userCorrectInfo'),
+      diffCorrectInfo: document.getElementById('diffCorrectInfo'),
+      canvas: document.getElementById('bellCurveCanvas'),
+      canvasContainer: document.getElementById('canvasContainer')
+    };
+    const presetBtns = document.querySelectorAll('.preset-btn');
+    const sdBtns = document.querySelectorAll('.sd-btn');
+    const capLabels = document.querySelectorAll('.cap-label');
+    const fmtNum = (n) => Number.isInteger(n) ? n.toString() : n.toFixed(1);
+    function formatMathText(str) {
+      if (!str) return '';
+      // تقسيم النص لحماية معادلات KaTeX ($...$) من أي تعديل، مع تهريب < و > لحماية النص من التفسير كـ HTML
+      return String(str).split(/(\$\$[\s\S]+?\$\$|\$[^$]+?\$)/g).map((part) => {
+        if (part.startsWith('$') && part.endsWith('$')) return part.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const safePart = part.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return safePart.replace(/[^\u0600-\u06FF«»]+/g, (chunk) => {
+          const leadMatch = chunk.match(/^[\s:؛،؟.!]+/);
+          const lead = leadMatch ? leadMatch[0] : '';
+          const rest = chunk.slice(lead.length);
+          const trailMatch = rest.match(/[\s:؛،؟.!]+$/);
+          const trail = trailMatch ? trailMatch[0] : '';
+          const core = trail ? rest.slice(0, -trail.length) : rest;
+          if (core && /[A-Za-z0-9]/.test(core) && !/^&(?:amp|lt|gt);$/.test(core)) {
+            return `${lead}<bdi dir="ltr" style="unicode-bidi: isolate;" class="font-semibold">${core}</bdi>${trail}`;
+          }
+          return chunk;
+        });
+      }).join('');
+    }
+
+    function renderKaTeXIn(container) {
+      if (typeof window.renderMathInElement === 'function' && container) {
+        window.renderMathInElement(container, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    function updateAll() {
+      el.sciConfirmedRange.value = state.sciConfirmed; el.sciConfirmedNum.value = state.sciConfirmed;
+      el.sciUncertainRange.value = state.sciUncertain; el.sciUncertainNum.value = state.sciUncertain;
+      el.skillsConfirmedRange.value = state.skillsConfirmed; el.skillsConfirmedNum.value = state.skillsConfirmed;
+      el.skillsUncertainRange.value = state.skillsUncertain; el.skillsUncertainNum.value = state.skillsUncertain;
+      state.avgMistakes = clamp(parseInt(state.avgMistakes, 10) || AVG_DEFAULT, AVG_MIN, AVG_MAX);
+      el.avgMistakesRange.value = state.avgMistakes; el.avgMistakesVal.textContent = state.avgMistakes;
+      saveCalcState();
+
+      el.sciRemainingBadge.textContent = `${TOTAL_SCI - state.sciConfirmed - state.sciUncertain} مؤكدة صح`;
+      el.skillsRemainingBadge.textContent = `${TOTAL_SKILLS - state.skillsConfirmed - state.skillsUncertain} مؤكدة صح`;
+
+      const opt = computeCalcScenario(state, 0);
+      const mid = computeCalcScenario(state, 0.5);
+      const worst = computeCalcScenario(state, 1);
+
+      el.heroTotalScore.textContent = mid.totalScore;
+      el.heroMaxCap.textContent = state.maxCap;
+      el.heroSciScore.textContent = mid.sciScore;
+      el.heroSciRaw.textContent = `${fmtNum(mid.userSciCorrect)} / ${TOTAL_SCI} صح`;
+      el.heroSkillsScore.textContent = mid.skillsScore;
+      el.heroSkillsRaw.textContent = `${fmtNum(mid.userSkillsCorrect)} / ${TOTAL_SKILLS} صح`;
+      const hint = document.getElementById('scenarioHint');
+      if (hint) hint.textContent = (state.sciUncertain + state.skillsUncertain === 0)
+        ? 'أضف الأسئلة المشكوك فيها لترى المدى بين أفضل احتمال وأسوأ احتمال.'
+        : '';
+      el.heroZScore.textContent = `${mid.zWeighted >= 0 ? '+' : ''}${mid.zWeighted.toFixed(2)}σ`;
+
+      const cdf = normalCDF(mid.zWeighted);
+      const topPercent = (1 - cdf) * 100;
+      el.heroPercentileText.textContent = topPercent < 0.1
+        ? 'موقعك التقديري: ضمن أعلى 0.1% من المختبرين (أداء استثنائي)'
+        : topPercent <= 50
+          ? `موقعك التقديري: ضمن أعلى ${topPercent.toFixed(1)}% من المختبرين`
+          : `موقعك التقديري: أعلى من ${(cdf * 100).toFixed(1)}% من المختبرين`;
+
+      el.optTotal.textContent = opt.totalScore; el.optSci.textContent = opt.sciScore; el.optSkills.textContent = opt.skillsScore; el.optRaw.textContent = `${fmtNum(opt.totalCorrect)} / 110 صح`;
+      el.midTotal.textContent = mid.totalScore; el.midSci.textContent = mid.sciScore; el.midSkills.textContent = mid.skillsScore; el.midRaw.textContent = `${fmtNum(mid.totalCorrect)} / 110 صح`;
+      el.worstTotal.textContent = worst.totalScore; el.worstSci.textContent = worst.sciScore; el.worstSkills.textContent = worst.skillsScore; el.worstRaw.textContent = `${fmtNum(worst.totalCorrect)} / 110 صح`;
+      capLabels.forEach(lbl => lbl.textContent = state.maxCap);
+
+      const meanCorrectTotal = 110 - state.avgMistakes;
+      const diff = mid.totalCorrect - meanCorrectTotal;
+      el.meanCorrectInfo.textContent = `${fmtNum(meanCorrectTotal)} / 110`;
+      el.userCorrectInfo.textContent = `${fmtNum(mid.totalCorrect)} / 110`;
+      el.diffCorrectInfo.textContent = `${diff >= 0 ? '+' : ''}${fmtNum(diff)} سؤالاً`;
+      drawBellCurve(mid.zWeighted);
+    }
+
+    function drawBellCurve(userZ) {
+      const canvas = el.canvas, container = el.canvasContainer;
+      const dpr = window.devicePixelRatio || 1;
+      const width = container.clientWidth, height = container.clientHeight;
+      if (!width || !height) return;
+      canvas.width = width * dpr; canvas.height = height * dpr;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr); ctx.clearRect(0, 0, width, height);
+
+      const padLeft = 28, padRight = 28, padTop = 44, padBottom = 38;
+      const plotW = width - padLeft - padRight, plotH = height - padTop - padBottom, baseY = height - padBottom;
+      const minX = -3.8, maxX = 3.8;
+      const spread = state.sdMode === 'mock' ? MOCK_SD.visualSpread : (SD_CONFIG[state.sdMode] || SD_CONFIG.medium).visualSpread;
+      const xToPx = (x) => padLeft + ((x - minX) / (maxX - minX)) * plotW;
+      const pdf = (x) => Math.exp(-0.5 * Math.pow(x / spread, 2)) / spread;
+      const maxPdf = pdf(0);
+      const peakScale = state.sdMode === 'strong' ? 0.96 : state.sdMode === 'medium' ? 0.82 : 0.65;
+      const yToPx = (yVal) => baseY - (yVal / maxPdf) * (plotH * peakScale);
+
+      const userVisualX = clamp(userZ * spread, minX + 0.15, maxX - 0.15);
+      const userPxX = xToPx(userVisualX);
+
+      ctx.beginPath(); ctx.moveTo(xToPx(minX), baseY);
+      for (let i = 0; i <= 160; i++) { const x = minX + (i / 160) * (userVisualX - minX); ctx.lineTo(xToPx(x), yToPx(pdf(x))); }
+      ctx.lineTo(userPxX, baseY); ctx.closePath();
+      const grad = ctx.createLinearGradient(0, padTop, 0, baseY);
+      grad.addColorStop(0, 'rgba(5, 150, 105, 0.28)'); grad.addColorStop(1, 'rgba(5, 150, 105, 0.03)');
+      ctx.fillStyle = grad; ctx.fill();
+
+      ctx.beginPath();
+      for (let i = 0; i <= 200; i++) { const x = minX + (i / 200) * (maxX - minX); const px = xToPx(x), py = yToPx(pdf(x)); if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py); }
+      ctx.strokeStyle = '#0d9488'; ctx.lineWidth = 2.8; ctx.stroke();
+
+      const isDark = document.documentElement.classList.contains('dark');
+      ctx.beginPath(); ctx.moveTo(padLeft, baseY); ctx.lineTo(width - padRight, baseY);
+      ctx.strokeStyle = isDark ? '#475569' : '#cbd5e1'; ctx.lineWidth = 1.5; ctx.stroke();
+
+      const meanPxX = xToPx(0);
+      ctx.save(); ctx.beginPath(); ctx.setLineDash([5, 5]); ctx.moveTo(meanPxX, yToPx(pdf(0))); ctx.lineTo(meanPxX, baseY);
+      ctx.strokeStyle = isDark ? '#64748b' : '#94a3b8'; ctx.lineWidth = 1.5; ctx.stroke(); ctx.restore();
+      ctx.fillStyle = isDark ? '#94a3b8' : '#64748b'; ctx.font = '700 11px Tajawal, sans-serif'; ctx.textAlign = 'center'; ctx.fillText('متوسط الطلاب (0σ)', meanPxX, baseY + 20);
+
+      const userPxY = yToPx(pdf(userVisualX));
+      ctx.beginPath(); ctx.moveTo(userPxX, userPxY); ctx.lineTo(userPxX, baseY); ctx.strokeStyle = '#059669'; ctx.lineWidth = 2.5; ctx.stroke();
+      ctx.beginPath(); ctx.arc(userPxX, userPxY, 5, 0, Math.PI * 2); ctx.fillStyle = '#059669'; ctx.fill();
+    }
+
+    function setSectionValues(section, type, rawVal) {
+      const maxTotal = section === 'sci' ? TOTAL_SCI : TOTAL_SKILLS;
+      const val = clamp(parseInt(rawVal, 10) || 0, 0, maxTotal);
+      if (section === 'sci') {
+        if (type === 'confirmed') { state.sciConfirmed = val; if (state.sciConfirmed + state.sciUncertain > TOTAL_SCI) state.sciUncertain = TOTAL_SCI - state.sciConfirmed; }
+        else { state.sciUncertain = val; if (state.sciConfirmed + state.sciUncertain > TOTAL_SCI) state.sciConfirmed = TOTAL_SCI - state.sciUncertain; }
+      } else {
+        if (type === 'confirmed') { state.skillsConfirmed = val; if (state.skillsConfirmed + state.skillsUncertain > TOTAL_SKILLS) state.skillsUncertain = TOTAL_SKILLS - state.skillsConfirmed; }
+        else { state.skillsUncertain = val; if (state.skillsConfirmed + state.skillsUncertain > TOTAL_SKILLS) state.skillsConfirmed = TOTAL_SKILLS - state.skillsUncertain; }
+      }
+      updateAll();
+    }
+    el.sciConfirmedRange.addEventListener('input', (e) => setSectionValues('sci', 'confirmed', e.target.value));
+    el.sciConfirmedNum.addEventListener('input', (e) => setSectionValues('sci', 'confirmed', e.target.value));
+    el.sciUncertainRange.addEventListener('input', (e) => setSectionValues('sci', 'uncertain', e.target.value));
+    el.sciUncertainNum.addEventListener('input', (e) => setSectionValues('sci', 'uncertain', e.target.value));
+    el.skillsConfirmedRange.addEventListener('input', (e) => setSectionValues('skills', 'confirmed', e.target.value));
+    el.skillsConfirmedNum.addEventListener('input', (e) => setSectionValues('skills', 'confirmed', e.target.value));
+    el.skillsUncertainRange.addEventListener('input', (e) => setSectionValues('skills', 'uncertain', e.target.value));
+    el.skillsUncertainNum.addEventListener('input', (e) => setSectionValues('skills', 'uncertain', e.target.value));
+    el.avgMistakesRange.addEventListener('input', (e) => { state.avgMistakes = parseInt(e.target.value, 10); updatePresetStyles(); updateAll(); });
+
+    const siteAvgPresetBtn = document.getElementById('siteAvgPresetBtn');
+    const siteAvgPresetText = document.getElementById('siteAvgPresetText');
+
+    function updateSiteAvgBtn() {
+      if (!siteAvgPresetBtn || !siteAvgPresetText) return;
+      const stats = typeof getEffectiveMockStats === 'function' ? getEffectiveMockStats('f1') : null;
+      if (!stats || !stats.attempts || stats.attempts <= 0) {
+        siteAvgPresetBtn.classList.add('hidden');
+        siteAvgPresetBtn.classList.remove('flex');
+        delete siteAvgPresetBtn.dataset.liveAvg;
+        return;
+      }
+      const rawAvg = stats.totalMistakesSum / stats.attempts;
+      const clampedAvg = clamp(Math.round(rawAvg), AVG_MIN, AVG_MAX);
+      siteAvgPresetBtn.dataset.liveAvg = String(clampedAvg);
+      siteAvgPresetText.textContent = `متوسط طلاب المحاكي الفعلي (~${rawAvg.toFixed(1)} خطأ • ${stats.attempts} محاولة)`;
+      siteAvgPresetBtn.classList.remove('hidden');
+      siteAvgPresetBtn.classList.add('flex');
+
+      const active = state.avgMistakes === clampedAvg;
+      siteAvgPresetBtn.classList.toggle('bg-teal-600', active);
+      siteAvgPresetBtn.classList.toggle('text-white', active);
+      siteAvgPresetBtn.classList.toggle('border-teal-600', active);
+      siteAvgPresetBtn.classList.toggle('shadow-sm', active);
+      siteAvgPresetBtn.classList.toggle('bg-teal-50', !active);
+      siteAvgPresetBtn.classList.toggle('text-teal-700', !active);
+      siteAvgPresetBtn.classList.toggle('border-teal-200', !active);
+    }
+
+    if (siteAvgPresetBtn) {
+      siteAvgPresetBtn.addEventListener('click', () => {
+        const val = parseInt(siteAvgPresetBtn.dataset.liveAvg, 10);
+        if (!Number.isFinite(val)) return;
+        state.avgMistakes = clamp(val, AVG_MIN, AVG_MAX);
+        updatePresetStyles();
+        updateAll();
+      });
+    }
+
+    function updatePresetStyles() {
+      presetBtns.forEach(btn => {
+        const active = parseInt(btn.dataset.preset, 10) === state.avgMistakes;
+        btn.classList.toggle('bg-emerald-600', active); btn.classList.toggle('text-white', active); btn.classList.toggle('border-emerald-600', active);
+        btn.classList.toggle('bg-slate-50', !active); btn.classList.toggle('text-slate-700', !active); btn.classList.toggle('border-slate-200', !active);
+      });
+      if (typeof updateSiteAvgBtn === 'function') updateSiteAvgBtn();
+    }
+    function updateSdStyles() {
+      sdBtns.forEach(b => {
+        const active = b.dataset.sd === state.sdMode;
+        b.classList.toggle('bg-emerald-600', active); b.classList.toggle('text-white', active); b.classList.toggle('border-emerald-600', active);
+        b.classList.toggle('bg-slate-50', !active); b.classList.toggle('text-slate-700', !active); b.classList.toggle('border-slate-200', !active);
+      });
+    }
+    presetBtns.forEach(btn => btn.addEventListener('click', () => { state.avgMistakes = parseInt(btn.dataset.preset, 10); updatePresetStyles(); updateAll(); }));
+    sdBtns.forEach(btn => btn.addEventListener('click', () => { state.sdMode = btn.dataset.sd; updateSdStyles(); updateAll(); }));
+
+    function setCap(cap) {
+      state.maxCap = cap;
+      el.cap1000Btn.className = cap === 1000 ? 'px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-emerald-700 shadow-sm transition' : 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition';
+      el.cap950Btn.className = cap === 950 ? 'px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-emerald-700 shadow-sm transition' : 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition';
+      el.capDesc.textContent = cap === 1000 ? 'المقياس الرسمي الكامل (1000)' : 'سقف تحفظي مقلّص (950)';
+      updateAll();
+    }
+    el.cap1000Btn.addEventListener('click', () => setCap(1000));
+    el.cap950Btn.addEventListener('click', () => setCap(950));
+    el.resetBtn.addEventListener('click', () => { Object.assign(state, DEFAULT_STATE, { avgMistakes: AVG_DEFAULT }); updatePresetStyles(); updateSdStyles(); setCap(DEFAULT_STATE.maxCap); });
+
+    // نسخ النص مع بديل قديم عند رفض الإذن أو عدم توفر clipboard (مثلاً خارج HTTPS)
+    async function copyText(text) {
+      try { await navigator.clipboard.writeText(text); return true; } catch {}
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly', '');
+        ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+        document.body.appendChild(ta); ta.select();
+        const ok = document.execCommand('copy');
+        ta.remove();
+        return ok;
+      } catch { return false; }
+    }
+    async function copyWithFeedback(btn, text, defaultLabel) {
+      // على الجوال نفتح قائمة المشاركة الأصلية (واتساب/تيليجرام...) وفي غيره ننسخ النص
+      if (navigator.share && window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
+        try { await navigator.share({ text }); return; }
+        catch (e) { if (e && e.name === 'AbortError') return; }
+      }
+      const ok = await copyText(text);
+      btn.textContent = ok ? 'تم النسخ! ✓' : 'تعذّر النسخ، انسخ يدوياً';
+      setTimeout(() => { btn.textContent = defaultLabel; }, 2000);
+    }
+
+    const shareBtn = document.getElementById('shareBtn');
+    if (shareBtn) {
+      shareBtn.addEventListener('click', () => {
+        const text = `توقعي في التحصيلي المبكر: ${el.heroTotalScore.textContent} من ${el.heroMaxCap.textContent} 🎯\n\nجرب الحاسبة والمحاكيات من هنا:\n${window.location.href}`;
+        copyWithFeedback(shareBtn, text, 'نسخ نتيجتي');
+      });
+    }
+
+    // ==================== منطق المحاكي الإلكتروني ====================
+    const MOCKS_CATALOG = [
+      {
+        id: 'f1',
+        badge: 'الفترة الأولى ⭐',
+        title: 'محاكي الفترة الأولى',
+        file: './mock_f1.js',
+        desc: '110 أسئلة (22 مهارات • 24 رياضيات • 24 فيزياء • 20 كيمياء • 20 أحياء)'
+      }
+    ];
+
+    const mocksListView = document.getElementById('mocksListView');
+    const mockExamView = document.getElementById('mockExamView');
+    const mockResultView = document.getElementById('mockResultView');
+    const mocksGrid = document.getElementById('mocksGrid');
+
+    const examState = {
+      mockId: null,
+      meta: null,
+      questions: [],
+      answers: {}, // { index: optionIdx }
+      flagged: {}, // { index: true }
+      currentIdx: 0,
+      elapsedSeconds: 0,
+      timerInterval: null,
+      lastResult: null,
+      scoreMode: 'default', // 'default' | 'students'
+      mistakeFilter: 'الكل'
+    };
+
+    function formatTime(sec) {
+      const s = Math.max(0, Math.floor(sec || 0));
+      const h = Math.floor(s / 3600);
+      const m = Math.floor((s % 3600) / 60);
+      const r = s % 60;
+      const pad = (n) => String(n).padStart(2, '0');
+      return h > 0 ? `${pad(h)}:${pad(m)}:${pad(r)}` : `${pad(m)}:${pad(r)}`;
+    }
+
+    function startExamTimer() {
+      stopExamTimer();
+      const disp = document.getElementById('examTimerDisplay');
+      if (disp) disp.textContent = formatTime(examState.elapsedSeconds);
+      // الوقت يُحسب من الساعة الفعلية (وليس بعدّ الثواني) كي لا يتأخر عند تبديل التبويب أو خمول المتصفح
+      const startedAt = Date.now() - examState.elapsedSeconds * 1000;
+      let lastSavedAt = examState.elapsedSeconds;
+      examState.timerInterval = setInterval(() => {
+        examState.elapsedSeconds = Math.floor((Date.now() - startedAt) / 1000);
+        if (disp) disp.textContent = formatTime(examState.elapsedSeconds);
+        if (examState.elapsedSeconds - lastSavedAt >= 5) { lastSavedAt = examState.elapsedSeconds; saveProgress(); }
+      }, 1000);
+    }
+
+    function stopExamTimer() {
+      if (examState.timerInterval) {
+        clearInterval(examState.timerInterval);
+        examState.timerInterval = null;
+      }
+    }
+
+    function getSavedProgress(mockId) {
+      try {
+        const raw = localStorage.getItem(`nabthati_mock_progress_${mockId}`);
+        return raw ? JSON.parse(raw) : null;
+      } catch { return null; }
+    }
+
+    function saveProgress() {
+      // لا يُحفظ التقدم إلا أثناء اختبار جارٍ (حتى لا يُعاد حفظه بعد التسليم)
+      if (!examState.mockId || !examState.timerInterval) return;
+      try {
+        localStorage.setItem(`nabthati_mock_progress_${examState.mockId}`, JSON.stringify({
+          answers: examState.answers,
+          flagged: examState.flagged,
+          currentIdx: examState.currentIdx,
+          elapsedSeconds: examState.elapsedSeconds
+        }));
+      } catch {}
+    }
+
+    function clearProgress(mockId) {
+      try { localStorage.removeItem(`nabthati_mock_progress_${mockId}`); } catch {}
+    }
+
+    let globalStatsCache = {};
+
+    // طلب شبكة بمهلة زمنية حتى لا يعلق التسليم إذا تأخر الخادم
+    function fetchWithTimeout(url, opts = {}, ms = 8000) {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), ms);
+      return fetch(url, { ...opts, signal: ctrl.signal }).finally(() => clearTimeout(t));
+    }
+
+    // تنقية الإحصائيات القادمة من الخادم: أرقام صالحة فقط، ومجموع أخطاء ممكن (0..110 لكل محاولة)
+    function sanitizeGlobalStats(data) {
+      const out = {};
+      if (!data || typeof data !== 'object') return out;
+      for (const [k, v] of Object.entries(data)) {
+        if (!v || typeof v !== 'object') continue;
+        const attempts = Number(v.attempts);
+        const sum = Number(v.totalMistakesSum);
+        if (!Number.isFinite(attempts) || !Number.isFinite(sum) || attempts < 0 || sum < 0 || sum > attempts * 110) continue;
+        const clean = { ...v, attempts, totalMistakesSum: sum };
+        if (Array.isArray(v.qCorrect)) clean.qCorrect = v.qCorrect.map((n) => Math.max(0, Number(n) || 0));
+        out[String(k)] = clean;
+      }
+      return out;
+    }
+
+    function getLocalMockStats(mockId) {
+      try {
+        const raw = localStorage.getItem(`nabthati_mock_stats_${mockId}`);
+        return raw ? JSON.parse(raw) : { attempts: 0, totalMistakesSum: 0 };
+      } catch {
+        return { attempts: 0, totalMistakesSum: 0 };
+      }
+    }
+
+    function getEffectiveMockStats(mockId) {
+      const g = globalStatsCache[String(mockId)];
+      if (g && g.attempts > 0) return g;
+      return getLocalMockStats(mockId);
+    }
+
+    async function fetchGlobalStats() {
+      if (!STATS_API_URL) return;
+      try {
+        const res = await fetchWithTimeout(STATS_API_URL);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && typeof data === 'object') {
+          globalStatsCache = sanitizeGlobalStats(data);
+          renderMocksGrid();
+          updateSiteAvgBtn();
+          if (examState.lastResult && !mockResultView.classList.contains('hidden')) {
+            examState.lastResult.stats = getEffectiveMockStats(examState.mockId);
+            renderMockResult();
+          }
+        }
+      } catch {}
+    }
+
+    function getLastAttempt(mockId) {
+      try {
+        const raw = localStorage.getItem(`nabthati_mock_last_${mockId}`);
+        return raw ? JSON.parse(raw) : null;
+      } catch {
+        return null;
+      }
+    }
+
+    // تُرجع true إذا تم الحفظ فعلاً (قد يفشل عند امتلاء التخزين أو في التصفح الخاص)
+    function saveLastAttempt(mockId, payload) {
+      try {
+        localStorage.setItem(`nabthati_mock_last_${mockId}`, JSON.stringify(payload));
+        return true;
+      } catch { return false; }
+    }
+
+    function hasCompletedMock(mockId) {
+      try {
+        return localStorage.getItem(`nabthati_mock_completed_${mockId}`) === '1' || !!getLastAttempt(mockId);
+      } catch {
+        return false;
+      }
+    }
+
+    function markMockCompleted(mockId) {
+      try { localStorage.setItem(`nabthati_mock_completed_${mockId}`, '1'); } catch {}
+    }
+
+    // تُرجع { stats, saved }. تُحفظ المحاولة محلياً أولاً ثم تُعلَّم مكتملة، وبعدها فقط تُرسل للشبكة،
+    // كي لا يُقفل المحاكي بلا نتيجة إذا فشل الحفظ أو أُغلقت الصفحة أثناء الإرسال.
+    async function saveCompletedAttempt(mockId, totalMistakes, sciMistakes, skillsMistakes, answersBitstring, payload) {
+      // منع تكرار التسجيل أو الإرسال أكثر من مرة لنفس المحاكي
+      if (hasCompletedMock(mockId)) {
+        return { stats: getEffectiveMockStats(mockId), saved: true };
+      }
+      if (!saveLastAttempt(mockId, payload)) {
+        // تعذّر الحفظ على الجهاز: تُعرض النتيجة فقط، ولا تُحتسب المحاولة ولا تُقفل
+        return { stats: getEffectiveMockStats(mockId), saved: false };
+      }
+      markMockCompleted(mockId);
+
+      // فلتر تلقائي: إذا كان وقت الحل أقل من 10 دقائق، تُعرض النتيجة للطالب وتُحفظ له محلياً دون إرسالها لجدول المعايرة
+      const durSec = Number.isFinite(payload && payload.durationSeconds) ? Math.round(payload.durationSeconds) : null;
+      const isTooFast = durSec !== null && durSec < MIN_VALID_DURATION_SECONDS;
+
+      if (!isTooFast) {
+        // 1. حفظ محلي فوري (بما في ذلك إحصائيات كل سؤال على حدة)
+        const localStats = getLocalMockStats(mockId);
+        localStats.attempts += 1;
+        localStats.totalMistakesSum += totalMistakes;
+        if (answersBitstring && answersBitstring.length > 0) {
+          if (!Array.isArray(localStats.qCorrect) || localStats.qCorrect.length !== answersBitstring.length) {
+            localStats.qCorrect = Array(answersBitstring.length).fill(0);
+          }
+          for (let i = 0; i < answersBitstring.length; i++) {
+            if (answersBitstring[i] === '1') localStats.qCorrect[i] += 1;
+          }
+        }
+        try { localStorage.setItem(`nabthati_mock_stats_${mockId}`, JSON.stringify(localStats)); } catch {}
+
+        // 2. إرسال لقاعدة بيانات Google Sheets (مع الوقت المستغرق + إعادة إرسال تلقائية عند ضعف الإنترنت)
+        if (STATS_API_URL) {
+          const postBody = {
+            mockId: String(mockId),
+            totalMistakes,
+            sciMistakes,
+            skillsMistakes,
+            answersBitstring: answersBitstring || '',
+            durationSeconds: durSec,
+            ts: Date.now()
+          };
+          const sent = await postAttemptToServer(postBody);
+          if (sent) {
+            await fetchGlobalStats();
+          } else {
+            queuePendingPost(postBody);
+          }
+        }
+      }
+      return { stats: getEffectiveMockStats(mockId), saved: true };
+    }
+
+    const PENDING_POSTS_KEY = 'nabthati_pending_posts_v1';
+
+    async function postAttemptToServer(postBody) {
+      if (!STATS_API_URL) return false;
+      try {
+        const res = await fetchWithTimeout(STATS_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(postBody)
+        }, 12000);
+        return res && res.ok;
+      } catch {
+        return false;
+      }
+    }
+
+    function queuePendingPost(postBody) {
+      try {
+        const list = JSON.parse(localStorage.getItem(PENDING_POSTS_KEY) || '[]');
+        const filtered = Array.isArray(list) ? list.filter((it) => it && it.mockId !== postBody.mockId) : [];
+        filtered.push(postBody);
+        localStorage.setItem(PENDING_POSTS_KEY, JSON.stringify(filtered));
+      } catch {}
+    }
+
+    async function flushPendingPosts() {
+      if (!STATS_API_URL) return;
+      let list;
+      try {
+        list = JSON.parse(localStorage.getItem(PENDING_POSTS_KEY) || '[]');
+      } catch { return; }
+      if (!Array.isArray(list) || list.length === 0) return;
+
+      const remaining = [];
+      let anySent = false;
+      for (const item of list) {
+        if (!item || !item.mockId) continue;
+        const ok = await postAttemptToServer(item);
+        if (ok) anySent = true;
+        else remaining.push(item);
+      }
+      try {
+        if (remaining.length === 0) localStorage.removeItem(PENDING_POSTS_KEY);
+        else localStorage.setItem(PENDING_POSTS_KEY, JSON.stringify(remaining));
+      } catch {}
+      if (anySent) await fetchGlobalStats();
+    }
+
+    function renderMocksGrid() {
+      mocksGrid.innerHTML = '';
+      MOCKS_CATALOG.forEach(m => {
+        const stats = getEffectiveMockStats(m.id);
+        const lastAttempt = getLastAttempt(m.id);
+        const completed = hasCompletedMock(m.id);
+        const savedProg = !completed ? getSavedProgress(m.id) : null;
+        const progCount = savedProg && savedProg.answers ? Object.keys(savedProg.answers).length : 0;
+        const avgText = stats.attempts > 0
+          ? `متوسط أخطاء الطلاب: ${(stats.totalMistakesSum / stats.attempts).toFixed(1)} (${stats.attempts} محاولة مكتملة)`
+          : 'لا توجد محاولات مكتملة بعد';
+
+        const startLabel = progCount > 0
+          ? `استكمال المحاكي (${progCount}/110) ←`
+          : `ابدأ ${m.title} ←`;
+
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between gap-4 hover:border-emerald-400 transition';
+        card.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70">${m.badge || `محاكي #${m.id}`}</span>
+              <span class="text-[11px] font-bold ${completed ? 'text-emerald-600' : 'text-slate-400'}">${completed ? 'مكتمل ✓' : '110 أسئلة'}</span>
+            </div>
+            <h3 class="text-lg font-black text-slate-900">${m.title}</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">${m.desc}</p>
+            <p class="text-[11px] font-bold text-teal-700 bg-teal-50/70 px-2.5 py-1.5 rounded-xl">${avgText}</p>
+          </div>
+          <div class="space-y-2">
+            ${completed ? `
+              <div class="w-full py-2 px-3 rounded-xl text-[11px] font-extrabold text-center text-slate-500 bg-slate-100 border border-slate-200">
+                🔒 تم إكمال المحاكي (يُسمح بمحاولة واحدة فقط)
+              </div>
+              ${lastAttempt ? `
+                <button type="button" data-review-mock="${m.id}" class="w-full py-2.5 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+                  عرض النتيجة ومراجعة الأخطاء (${110 - lastAttempt.totalMistakes}/110) 🔍
+                </button>
+              ` : ''}
+            ` : `
+              <button type="button" data-start-mock="${m.id}" class="w-full py-2.5 rounded-2xl text-sm font-extrabold text-white ${progCount > 0 ? 'bg-amber-600 hover:bg-amber-700' : 'bg-emerald-600 hover:bg-emerald-700'} shadow-sm transition cursor-pointer">
+                ${startLabel}
+              </button>
+            `}
+          </div>
+        `;
+        const startBtn = card.querySelector(`[data-start-mock="${m.id}"]`);
+        if (startBtn) {
+          startBtn.addEventListener('click', () => loadAndStartMock(m));
+        }
+        const reviewBtn = card.querySelector(`[data-review-mock="${m.id}"]`);
+        if (reviewBtn) {
+          reviewBtn.addEventListener('click', () => openSavedAttempt(m, lastAttempt));
+        }
+        mocksGrid.appendChild(card);
+      });
+
+      // بطاقة محاكي الفترة الثانية (قريباً) مع عدّاد حي نحو هدف 300 مختبر
+      const f1Stats = getEffectiveMockStats('f1');
+      const currentAttempts = f1Stats && f1Stats.attempts > 0 ? f1Stats.attempts : 0;
+      const remaining = Math.max(0, F2_GOAL_ATTEMPTS - currentAttempts);
+      const pct = Math.min(100, Math.round((currentAttempts / F2_GOAL_ATTEMPTS) * 100));
+
+      const f2Card = document.createElement('div');
+      f2Card.className = 'bg-white rounded-3xl p-5 shadow-sm border border-dashed border-slate-300 flex flex-col justify-between gap-4';
+      f2Card.innerHTML = `
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="px-3 py-1 rounded-xl bg-amber-50 text-amber-700 text-xs font-extrabold border border-amber-200/70">الفترة الثانية 🔒</span>
+            <span class="text-[11px] font-extrabold text-slate-400">قريباً</span>
+          </div>
+          <h3 class="text-lg font-black text-slate-900">محاكي الفترة الثانية</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            سيُفتح محاكي الفترة الثانية فور وصولنا إلى <strong>${F2_GOAL_ATTEMPTS} مختبر</strong> في محاكي الفترة الأولى لضمان أعلى دقة في المعايرة.
+          </p>
+          <div class="space-y-1.5 pt-1">
+            <div class="flex items-center justify-between text-xs font-extrabold">
+              <span class="text-emerald-700">${currentAttempts > 0 ? `${currentAttempts} / ${F2_GOAL_ATTEMPTS} مختبر` : `الهدف: ${F2_GOAL_ATTEMPTS} مختبر`}</span>
+              <span class="text-slate-500">${pct}%</span>
+            </div>
+            <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-l from-emerald-500 to-teal-600 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+            </div>
+            <p class="text-[11px] font-bold text-slate-500">
+              ${remaining > 0 ? `تبقّى ${remaining} مختبر لإطلاق محاكي الفترة الثانية 🎯` : 'تم تحقيق الهدف! جارٍ تجهيز محاكي الفترة الثانية 🚀'}
+            </p>
+          </div>
+        </div>
+        <button type="button" id="shareSiteForF2Btn" class="w-full py-2.5 rounded-2xl text-sm font-extrabold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 transition cursor-pointer">
+          شارك الرابط لدعم الإطلاق 📢
+        </button>
+      `;
+      const shareF2Btn = f2Card.querySelector('#shareSiteForF2Btn');
+      if (shareF2Btn) {
+        shareF2Btn.addEventListener('click', () => {
+          const shareUrl = `${window.location.origin}${window.location.pathname}#mock`;
+          const text = `جرّب محاكي التحصيلي المبكر (110 أسئلة + توقع الدرجة ومراجعة الأخطاء) 🎯
+نحتاج نوصل ${F2_GOAL_ATTEMPTS} مختبر عشان ينزل محاكي الفترة الثانية:
+${shareUrl}`;
+          copyWithFeedback(shareF2Btn, text, 'شارك الرابط لدعم الإطلاق 📢');
+        });
+      }
+      mocksGrid.appendChild(f2Card);
+    }
+
+    async function loadAndStartMock(mockInfo) {
+      if (hasCompletedMock(mockInfo.id)) {
+        const last = getLastAttempt(mockInfo.id);
+        if (last) {
+          openSavedAttempt(mockInfo, last);
+        } else {
+          alert('لقد أكملت هذا المحاكي مسبقاً؛ يُسمح بمحاولة واحدة فقط لضمان دقة التوزيع.');
+        }
+        return;
+      }
+      try {
+        const mod = await import(`${mockInfo.file}?v=${APP_VERSION}`);
+        examState.mockId = mockInfo.id;
+        examState.meta = mod.MOCK_META || { id: mockInfo.id, title: mockInfo.title };
+        examState.questions = Array.isArray(mod.QUESTIONS) ? mod.QUESTIONS : [];
+        if (examState.questions.length === 0) {
+          alert(`ملف ${mockInfo.title} لا يحتوي على أسئلة (QUESTIONS فارغة أو غير موجودة).`);
+          return;
+        }
+        const savedProg = getSavedProgress(mockInfo.id);
+        if (savedProg && savedProg.answers) {
+          examState.answers = savedProg.answers;
+          examState.flagged = savedProg.flagged || {};
+          examState.currentIdx = clamp(savedProg.currentIdx || 0, 0, Math.max(0, examState.questions.length - 1));
+          examState.elapsedSeconds = savedProg.elapsedSeconds || 0;
+        } else {
+          examState.answers = {};
+          examState.flagged = {};
+          examState.currentIdx = 0;
+          examState.elapsedSeconds = 0;
+        }
+
+        document.getElementById('examTitle').textContent = examState.meta.title;
+        mocksListView.classList.add('hidden');
+        mockResultView.classList.add('hidden');
+        mockExamView.classList.remove('hidden');
+        buildNavGrid();
+        renderExamQuestion();
+        startExamTimer();
+        trackEvent('start_mock', { mock_id: String(mockInfo.id) });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        console.error('Failed to load mock', mockInfo.file, err);
+        const missing = err && /fetch|import|load|404|Failed/i.test(String(err.message || err));
+        alert(missing
+          ? `تعذّر تحميل ${mockInfo.title} (${mockInfo.file}). تأكد أن الملف مرفوع في المستودع ومن اتصالك بالإنترنت ثم أعد المحاولة.`
+          : `حدث خطأ أثناء تشغيل ${mockInfo.title}. افتح وحدة التحكم (Console) لمعرفة التفاصيل.`);
+      }
+    }
+
+    function buildNavGrid() {
+      const grid = document.getElementById('questionNavGrid');
+      grid.innerHTML = '';
+      examState.questions.forEach((_, idx) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.id = `navQ_${idx}`;
+        b.textContent = idx + 1;
+        b.className = 'py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 text-slate-600 hover:bg-emerald-100 transition cursor-pointer';
+        b.addEventListener('click', () => {
+          examState.currentIdx = idx;
+          saveProgress();
+          renderExamQuestion();
+        });
+        grid.appendChild(b);
+      });
+    }
+
+    function updateNavStyles() {
+      const answeredCount = Object.keys(examState.answers).length;
+      const total = examState.questions.length;
+      document.getElementById('examAnsweredCounter').textContent = `تم حل ${answeredCount} من ${total} سؤالاً`;
+      document.getElementById('examProgressBar').style.width = `${(answeredCount / total) * 100}%`;
+
+      examState.questions.forEach((_, idx) => {
+        const btn = document.getElementById(`navQ_${idx}`);
+        if (!btn) return;
+        const isCurrent = idx === examState.currentIdx;
+        const isAnswered = examState.answers[idx] !== undefined;
+        const isFlagged = !!examState.flagged[idx];
+        if (isCurrent) {
+          btn.className = 'py-1.5 rounded-lg text-xs font-black bg-slate-900 text-white ring-2 ring-emerald-400 cursor-pointer';
+        } else if (isFlagged) {
+          btn.className = 'py-1.5 rounded-lg text-xs font-extrabold bg-amber-400 text-slate-900 ring-1 ring-amber-500 cursor-pointer';
+        } else if (isAnswered) {
+          btn.className = 'py-1.5 rounded-lg text-xs font-extrabold bg-emerald-600 text-white cursor-pointer';
+        } else {
+          btn.className = 'py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 cursor-pointer';
+        }
+      });
+    }
+
+    function renderExamQuestion() {
+      const q = examState.questions[examState.currentIdx];
+      const total = examState.questions.length;
+      document.getElementById('examSubjectBadge').textContent = q.subject;
+      document.getElementById('examQNumber').textContent = `سؤال ${examState.currentIdx + 1} من ${total}`;
+      const flagBtn = document.getElementById('flagQBtn');
+      if (flagBtn) {
+        const isFlagged = !!examState.flagged[examState.currentIdx];
+        flagBtn.textContent = isFlagged ? '🚩 مميّز للمراجعة' : '🚩 تمييز للمراجعة';
+        flagBtn.className = isFlagged
+          ? 'px-3 py-1 rounded-xl text-xs font-extrabold bg-amber-400 text-slate-900 border border-amber-500 transition cursor-pointer'
+          : 'px-3 py-1 rounded-xl text-xs font-extrabold bg-slate-100 text-slate-600 hover:bg-amber-100 hover:text-amber-800 border border-slate-200 transition cursor-pointer';
+      }
+      const svgBox = document.getElementById('examQuestionSvg');
+      if (svgBox) {
+        if (q.svg) { svgBox.innerHTML = q.svg; svgBox.classList.remove('hidden'); }
+        else { svgBox.innerHTML = ''; svgBox.classList.add('hidden'); }
+      }
+      document.getElementById('examQuestionText').innerHTML = formatMathText(q.question);
+      document.getElementById('examWarningMsg').classList.add('hidden');
+
+      const list = document.getElementById('examOptionsList');
+      list.innerHTML = '';
+      const letters = ['أ', 'ب', 'ج', 'د'];
+      const chosen = examState.answers[examState.currentIdx];
+
+      q.options.forEach((opt, idx) => {
+        const isSelected = chosen === idx;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = isSelected
+          ? 'w-full text-right p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50 font-extrabold text-emerald-900 transition flex items-center gap-3 cursor-pointer'
+          : 'w-full text-right p-4 rounded-2xl border border-slate-200 bg-slate-50/70 hover:border-emerald-400 hover:bg-emerald-50/30 font-bold text-slate-800 transition flex items-center gap-3 cursor-pointer';
+        btn.innerHTML = `<span class="w-7 h-7 rounded-lg ${isSelected ? 'bg-emerald-600 text-white' : 'bg-white border border-slate-200 text-slate-600'} text-xs font-extrabold flex items-center justify-center shrink-0">${letters[idx]}</span><span>${formatMathText(opt)}</span>`;
+        btn.addEventListener('click', () => {
+          examState.answers[examState.currentIdx] = idx;
+          saveProgress();
+          renderExamQuestion();
+        });
+        list.appendChild(btn);
+      });
+
+      document.getElementById('prevQBtn').disabled = examState.currentIdx === 0;
+      document.getElementById('prevQBtn').classList.toggle('opacity-40', examState.currentIdx === 0);
+      document.getElementById('nextQBtn').disabled = examState.currentIdx === total - 1;
+      document.getElementById('nextQBtn').classList.toggle('opacity-40', examState.currentIdx === total - 1);
+      renderKaTeXIn(mockExamView);
+      updateNavStyles();
+    }
+
+    document.getElementById('flagQBtn').addEventListener('click', () => {
+      const idx = examState.currentIdx;
+      if (examState.flagged[idx]) delete examState.flagged[idx];
+      else examState.flagged[idx] = true;
+      saveProgress();
+      renderExamQuestion();
+    });
+    document.getElementById('toggleNavBtn').addEventListener('click', () => {
+      document.getElementById('questionNavDrawer').classList.toggle('hidden');
+    });
+    document.getElementById('prevQBtn').addEventListener('click', () => {
+      if (examState.currentIdx > 0) { examState.currentIdx--; saveProgress(); renderExamQuestion(); }
+    });
+    document.getElementById('nextQBtn').addEventListener('click', () => {
+      if (examState.currentIdx < examState.questions.length - 1) { examState.currentIdx++; saveProgress(); renderExamQuestion(); }
+    });
+    document.getElementById('exitMockBtn').addEventListener('click', () => {
+      saveProgress();
+      stopExamTimer();
+      mockExamView.classList.add('hidden');
+      mocksListView.classList.remove('hidden');
+      renderMocksGrid();
+    });
+
+    let submitting = false;
+    document.getElementById('submitMockBtn').addEventListener('click', async () => {
+      if (submitting) return;
+      const total = examState.questions.length;
+      const unanswered = [];
+      for (let i = 0; i < total; i++) {
+        if (examState.answers[i] === undefined) unanswered.push(i + 1);
+      }
+      // شرط إكمال المحاكي بالكامل لحفظ الإجابات وحساب الدرجة
+      if (unanswered.length > 0) {
+        const warn = document.getElementById('examWarningMsg');
+        warn.textContent = `يجب إكمال المحاكي بالكامل قبل التسليم! تبقّى لديك ${unanswered.length} سؤالاً لم تُجب عنها (أولها سؤال رقم ${unanswered[0]}).`;
+        warn.classList.remove('hidden');
+        document.getElementById('questionNavDrawer').classList.remove('hidden');
+        return;
+      }
+
+      let sciMistakes = 0, skillsMistakes = 0;
+      const bySubject = {};
+      const wrongItems = [];
+      let bits = '';
+      const questionsSlim = [];
+
+      examState.questions.forEach((q, idx) => {
+        if (!bySubject[q.subject]) bySubject[q.subject] = { correct: 0, total: 0 };
+        bySubject[q.subject].total++;
+        const userAns = examState.answers[idx];
+        const isRight = userAns === q.answer;
+        bits += isRight ? '1' : '0';
+        questionsSlim.push({ id: q.id, section: q.section, pPrior: q.pPrior });
+        if (isRight) {
+          bySubject[q.subject].correct++;
+        } else {
+          if (q.section === 'skills') skillsMistakes++;
+          else sciMistakes++;
+          wrongItems.push({ num: idx + 1, idx, q, userAns });
+        }
+      });
+
+      const totalMistakes = sciMistakes + skillsMistakes;
+
+      // نوقف المؤقت أولاً حتى لا يستمر العدّ أثناء انتظار الشبكة، ونمنع الضغط المزدوج
+      stopExamTimer();
+      submitting = true;
+      const submitBtn = document.getElementById('submitMockBtn');
+      const submitLabel = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'جارٍ حفظ النتيجة…';
+
+      const resultPayload = {
+        sciMistakes,
+        skillsMistakes,
+        totalMistakes,
+        bySubject,
+        wrongItems,
+        answersBitstring: bits,
+        questionsSlim,
+        meta: examState.meta,
+        durationSeconds: examState.elapsedSeconds
+      };
+
+      let outcome;
+      try {
+        outcome = await saveCompletedAttempt(examState.mockId, totalMistakes, sciMistakes, skillsMistakes, bits, resultPayload);
+      } finally {
+        submitting = false;
+        submitBtn.disabled = false;
+        submitBtn.textContent = submitLabel;
+      }
+      resultPayload.stats = outcome.stats;
+      if (outcome.saved) clearProgress(examState.mockId);
+      else alert('تعذّر حفظ المحاولة على هذا الجهاز (التخزين ممتلئ أو التصفح الخاص). ستظهر لك النتيجة الآن، لكنها لن تُحتسب ضمن إحصائيات الطلاب ولن تبقى بعد إغلاق الصفحة.');
+      examState.lastResult = resultPayload;
+      examState.scoreMode = 'default';
+      examState.mistakeFilter = 'الكل';
+      trackEvent('submit_mock', { mock_id: String(examState.mockId), total_mistakes: totalMistakes });
+      renderMockResult();
+      mockExamView.classList.add('hidden');
+      mockResultView.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    function openSavedAttempt(mockInfo, saved) {
+      examState.mockId = mockInfo.id;
+      examState.meta = saved.meta || { id: mockInfo.id, title: mockInfo.title };
+      examState.lastResult = { ...saved, stats: getEffectiveMockStats(mockInfo.id) };
+      examState.scoreMode = 'default';
+      examState.mistakeFilter = 'الكل';
+      renderMockResult();
+      mocksListView.classList.add('hidden');
+      mockExamView.classList.add('hidden');
+      mockResultView.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderMockResult() {
+      const r = examState.lastResult;
+      const liveStats = getEffectiveMockStats(examState.mockId);
+      r.stats = liveStats;
+      const attempts = liveStats.attempts || 0;
+      const avgFromStudents = attempts > 0 ? (liveStats.totalMistakesSum / attempts) : 32;
+
+      let calcRes;
+      let itemDiagnostics = null;
+
+      if (r.answersBitstring && Array.isArray(r.questionsSlim) && r.questionsSlim.length > 0) {
+        const irtMode = examState.scoreMode === 'students' ? 'students' : 'qiyas';
+        calcRes = calculateIRTResult(r.questionsSlim, r.answersBitstring, liveStats, irtMode);
+        itemDiagnostics = calcRes.itemDiagnostics;
+      } else {
+        // توافق تلقائي مع المحاولات القديمة المحفوظة قبل التحديث
+        const usedAvgMistakes = examState.scoreMode === 'students' ? clamp(avgFromStudents, 5, 60) : 32;
+        calcRes = calculateScenario({
+          skillsConfirmed: r.skillsMistakes,
+          skillsUncertain: 0,
+          sciConfirmed: r.sciMistakes,
+          sciUncertain: 0,
+          avgMistakes: usedAvgMistakes,
+          sdMode: 'medium',
+          maxCap: 1000
+        }, 0);
+      }
+
+      document.getElementById('resMockTitle').textContent = `نتيجة ${examState.meta.title}`;
+      document.getElementById('resPredictedScore').textContent = calcRes.totalScore;
+      document.getElementById('resSciScore').textContent = calcRes.sciScore;
+      document.getElementById('resSciMistakes').textContent = `${r.sciMistakes} أخطاء من 88`;
+      document.getElementById('resSkillsScore').textContent = calcRes.skillsScore;
+      document.getElementById('resSkillsMistakes').textContent = `${r.skillsMistakes} أخطاء من 22`;
+      document.getElementById('resTotalCorrect').textContent = `${110 - r.totalMistakes} / 110`;
+      document.getElementById('resZScore').textContent = `${calcRes.zWeighted >= 0 ? '+' : ''}${calcRes.zWeighted.toFixed(2)}σ`;
+
+      document.getElementById('resModeDesc').textContent = examState.scoreMode === 'default'
+        ? 'محسوبة وفق معيار التقييم الذكي: ترجيح كل سؤال حسب صعوبته الفعلية مع موازنة العينة.'
+        : `مقارنة مباشرة بطلاب الموقع: متوسط الأخطاء الفعلي ${avgFromStudents.toFixed(1)} خطأ (من ${attempts} محاولة مكتملة).`;
+
+      const calBadge = document.getElementById('resCalibrationBadge');
+      if (calBadge) {
+        const calStatus = getCalibrationStatus(attempts);
+        calBadge.textContent = `📊 ${calStatus.label}`;
+        calBadge.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold bg-white/15 text-emerald-50 border border-white/20 mt-1';
+      }
+
+      const durEl = document.getElementById('resDurationText');
+      if (durEl) {
+        durEl.textContent = r.durationSeconds ? `⏱ الوقت المستغرق: ${formatTime(r.durationSeconds)}` : '';
+      }
+      document.getElementById('studentsStatsSummary').textContent =
+        `متوسط أخطاء الطلاب المسجّل: ${avgFromStudents.toFixed(1)} خطأ (عدد المحاولات المكتملة: ${attempts})`;
+
+      const defBtn = document.getElementById('scoreModeDefaultBtn');
+      const stuBtn = document.getElementById('scoreModeStudentsBtn');
+      defBtn.className = examState.scoreMode === 'default'
+        ? 'p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50 text-right transition cursor-pointer'
+        : 'p-4 rounded-2xl border border-slate-200 bg-slate-50 text-right hover:border-emerald-400 transition cursor-pointer';
+      stuBtn.className = examState.scoreMode === 'students'
+        ? 'p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50 text-right transition cursor-pointer'
+        : 'p-4 rounded-2xl border border-slate-200 bg-slate-50 text-right hover:border-emerald-400 transition cursor-pointer';
+
+      const breakdown = document.getElementById('subjectBreakdown');
+      breakdown.innerHTML = '';
+      Object.entries(r.bySubject).forEach(([subj, data]) => {
+        const span = document.createElement('span');
+        span.className = 'px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700';
+        span.textContent = `${subj}: ${data.correct}/${data.total}`;
+        breakdown.appendChild(span);
+      });
+
+      // عرض التوجيه الذكي لدروس الفيزياء إذا كان لدى الطالب أخطاء في الفيزياء
+      const physCta = document.getElementById('physicsWeaknessCta');
+      const physData = r.bySubject && r.bySubject['الفيزياء'];
+      if (physCta) {
+        if (physData && physData.correct < physData.total) {
+          const physMistakes = physData.total - physData.correct;
+          document.getElementById('physicsWeaknessTitle').textContent =
+            `لديك ${physMistakes} ${physMistakes === 1 ? 'خطأ' : (physMistakes === 2 ? 'خطآن' : (physMistakes <= 10 ? 'أخطاء' : 'خطأ'))} في الفيزياء — تقدر ترفع درجتك فيها بسهولة!`;
+          physCta.classList.remove('hidden');
+        } else {
+          physCta.classList.add('hidden');
+        }
+      }
+
+      const filterBar = document.getElementById('mistakesFilterBar');
+      const reviewList = document.getElementById('mistakesReviewList');
+      if (filterBar) {
+        filterBar.innerHTML = '';
+        const subjects = ['الكل', 'المهارات', 'الرياضيات', 'الفيزياء', 'الكيمياء', 'الأحياء'];
+        subjects.forEach(subj => {
+          const cnt = subj === 'الكل' ? r.wrongItems.length : r.wrongItems.filter(it => it.q.subject === subj).length;
+          if (subj !== 'الكل' && cnt === 0) return;
+          const b = document.createElement('button');
+          b.type = 'button';
+          const active = examState.mistakeFilter === subj;
+          b.className = active
+            ? 'px-3 py-1 rounded-xl text-xs font-extrabold bg-emerald-600 text-white shadow-sm transition cursor-pointer'
+            : 'px-3 py-1 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition cursor-pointer';
+          b.textContent = `${subj} (${cnt})`;
+          b.addEventListener('click', () => { examState.mistakeFilter = subj; renderMockResult(); });
+          filterBar.appendChild(b);
+        });
+      }
+
+      reviewList.innerHTML = '';
+      const filteredWrongs = examState.mistakeFilter === 'الكل'
+        ? r.wrongItems
+        : r.wrongItems.filter(it => it.q.subject === examState.mistakeFilter);
+
+      if (r.wrongItems.length === 0) {
+        reviewList.innerHTML = '<div class="p-4 rounded-2xl bg-emerald-50 text-emerald-800 font-extrabold text-sm">ما شاء الله! لا توجد أي أخطاء (110 / 110) 🎉</div>';
+      } else if (filteredWrongs.length === 0) {
+        reviewList.innerHTML = '<div class="p-4 rounded-2xl bg-emerald-50 text-emerald-800 font-bold text-sm">لا توجد أخطاء في هذه المادة! 👏</div>';
+      } else {
+        filteredWrongs.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-sm';
+          div.innerHTML = `
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-extrabold">
+              <span class="text-emerald-700">سؤال #${item.num} • ${item.q.subject}</span>
+              ${(() => {
+                const qIdx = typeof item.idx === 'number' ? item.idx : (item.num - 1);
+                const diag = itemDiagnostics && itemDiagnostics[qIdx];
+                if (!diag) return '';
+                return `<div class="flex flex-wrap items-center gap-1.5">
+                  <span class="px-2 py-0.5 rounded-lg bg-slate-100 text-slate-600 text-[11px] font-bold">${attempts >= 5 ? 'أجاب عنه صح' : 'نسبة الحل المقدّرة'}: ${diag.pctCorrect}%</span>
+                  <span class="px-2 py-0.5 rounded-lg border text-[11px] font-extrabold ${diag.impactColor}">تأثير الخطأ: ${diag.impactLevel} (~ -${diag.pointsLost} درجة)</span>
+                </div>`;
+              })()}
+            </div>
+            ${item.q.svg ? `<div class="my-2">${item.q.svg}</div>` : ''}
+            <p class="font-extrabold text-slate-900">${formatMathText(item.q.question)}</p>
+            <p class="text-xs font-bold text-rose-700">إجابتك: ${formatMathText(item.q.options[item.userAns])}</p>
+            <p class="text-xs font-extrabold text-emerald-700">الإجابة الصحيحة: ${formatMathText(item.q.options[item.q.answer])}</p>
+            <p class="text-xs text-slate-600 bg-white p-2.5 rounded-xl border border-slate-100">💡 ${formatMathText(item.q.explanation)}</p>
+          `;
+          reviewList.appendChild(div);
+        });
+      }
+      renderKaTeXIn(reviewList);
+    }
+
+    document.getElementById('scoreModeDefaultBtn').addEventListener('click', () => { examState.scoreMode = 'default'; renderMockResult(); });
+    document.getElementById('scoreModeStudentsBtn').addEventListener('click', () => { examState.scoreMode = 'students'; renderMockResult(); });
+    const shareMockResBtn = document.getElementById('shareMockResBtn');
+    if (shareMockResBtn) {
+      shareMockResBtn.addEventListener('click', () => {
+        const r = examState.lastResult;
+        if (!r) return;
+        const score = document.getElementById('resPredictedScore').textContent;
+        const subjectsLine = Object.entries(r.bySubject).map(([s, d]) => `${s}: ${d.correct}/${d.total}`).join(' | ');
+        const durLine = r.durationSeconds ? `\n⏱ الوقت: ${formatTime(r.durationSeconds)}` : '';
+        const text = `نتيجتي في ${examState.meta.title} (التحصيلي المبكر):\n🎯 الدرجة المتوقعة: ${score} من 1000\n✅ الإجابات الصحيحة: ${110 - r.totalMistakes} / 110\n📊 ${subjectsLine}${durLine}\n\nجرّب المحاكيات من هنا:\n${window.location.href}`;
+        copyWithFeedback(shareMockResBtn, text, 'نسخ نتيجتي في المحاكي 📋');
+      });
+    }
+    document.getElementById('backToMocksBtn').addEventListener('click', () => {
+      mockResultView.classList.add('hidden');
+      mocksListView.classList.remove('hidden');
+      renderMocksGrid();
+    });
+    const goToPhysicsFromResultBtn = document.getElementById('goToPhysicsFromResultBtn');
+    if (goToPhysicsFromResultBtn) {
+      goToPhysicsFromResultBtn.addEventListener('click', () => {
+        switchTab('physics');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    // حفظ التقدم عند إغلاق الصفحة أو إخفائها أثناء الاختبار
+    window.addEventListener('pagehide', saveProgress);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) saveProgress(); });
+
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (!calcSection.classList.contains('hidden')) updateAll();
+      }, 120);
+    });
+    // اختصارات الكيبورد داخل المحاكي ودروس الفيزياء (الأسهم للتنقل والأرقام 1-4 للاختيار)
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+      const inMock = !mocksSection.classList.contains('hidden') && !mockExamView.classList.contains('hidden');
+      const inPhysics = !physicsSection.classList.contains('hidden') && !physicsQuizView.classList.contains('hidden');
+      if (!inMock && !inPhysics) return;
+
+      if (inMock) {
+        if (e.key === 'ArrowLeft') {
+          if (examState.currentIdx < examState.questions.length - 1) {
+            e.preventDefault();
+            examState.currentIdx++;
+            saveProgress();
+            renderExamQuestion();
+          }
+        } else if (e.key === 'ArrowRight') {
+          if (examState.currentIdx > 0) {
+            e.preventDefault();
+            examState.currentIdx--;
+            saveProgress();
+            renderExamQuestion();
+          }
+        } else if (e.key >= '1' && e.key <= '4') {
+          const optIdx = parseInt(e.key, 10) - 1;
+          const q = examState.questions[examState.currentIdx];
+          if (q && Array.isArray(q.options) && optIdx < q.options.length) {
+            e.preventDefault();
+            examState.answers[examState.currentIdx] = optIdx;
+            saveProgress();
+            renderExamQuestion();
+          }
+        }
+      } else if (inPhysics && physicsState.activeLesson) {
+        const questions = physicsState.activeLesson.questions;
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          if (physicsState.currentIdx < questions.length - 1) {
+            physicsState.currentIdx++;
+            renderPhysicsQuestion();
+          } else {
+            showPhysicsResult();
+          }
+        } else if (e.key === 'ArrowRight') {
+          if (physicsState.currentIdx > 0) {
+            e.preventDefault();
+            physicsState.currentIdx--;
+            renderPhysicsQuestion();
+          }
+        } else if (e.key >= '1' && e.key <= '4') {
+          const idx = physicsState.currentIdx;
+          if (physicsState.answers[idx] !== undefined) return;
+          const optIdx = parseInt(e.key, 10) - 1;
+          const q = questions[idx];
+          if (q && Array.isArray(q.options) && optIdx < q.options.length) {
+            e.preventDefault();
+            physicsState.answers[idx] = optIdx;
+            renderPhysicsQuestion();
+          }
+        }
+      }
+    });
+
+    // ==================== منطق دروس الفيزياء ====================
+    const physicsListView = document.getElementById('physicsListView');
+    const physicsQuizView = document.getElementById('physicsQuizView');
+    const physicsResultView = document.getElementById('physicsResultView');
+    const physicsLessonsGrid = document.getElementById('physicsLessonsGrid');
+
+    const physicsState = {
+      lessons: null,
+      loading: false,
+      activeLesson: null,
+      currentIdx: 0,
+      answers: {} // { qIdx: selectedOptionIdx }
+    };
+
+    function getPhysicsBest(lessonId) {
+      try {
+        const raw = localStorage.getItem(`nabthati_physics_best_${lessonId}`);
+        return raw ? JSON.parse(raw) : null;
+      } catch { return null; }
+    }
+
+    function savePhysicsBest(lessonId, correct, total) {
+      try {
+        const prev = getPhysicsBest(lessonId);
+        if (!prev || correct >= prev.correct) {
+          localStorage.setItem(`nabthati_physics_best_${lessonId}`, JSON.stringify({ correct, total }));
+        }
+      } catch {}
+    }
+
+    async function loadPhysicsLessons() {
+      if (physicsState.lessons) {
+        renderPhysicsLessonsGrid();
+        return;
+      }
+      if (physicsState.loading) return;
+      physicsState.loading = true;
+      physicsLessonsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-slate-500 bg-white rounded-3xl border border-slate-200/80">جارٍ تحميل دروس الفيزياء…</div>';
+      try {
+        const mod = await import(`./physics_lessons.js?v=${APP_VERSION}`);
+        physicsState.lessons = Array.isArray(mod.PHYSICS_LESSONS) ? mod.PHYSICS_LESSONS : [];
+        renderPhysicsLessonsGrid();
+      } catch (err) {
+        console.error('Failed to load physics_lessons.js', err);
+        physicsLessonsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-rose-700 bg-rose-50 rounded-3xl border border-rose-200">تعذّر تحميل ملف دروس الفيزياء (physics_lessons.js). تأكد من رفعه في نفس المجلد مع index.html ثم حدّث الصفحة.</div>';
+      } finally {
+        physicsState.loading = false;
+      }
+    }
+
+    function renderPhysicsLessonsGrid() {
+      if (!physicsState.lessons) return;
+      physicsLessonsGrid.innerHTML = '';
+      if (physicsState.lessons.length === 0) {
+        physicsLessonsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-slate-500 bg-white rounded-3xl border border-slate-200/80">لا توجد دروس متاحة حالياً.</div>';
+        return;
+      }
+
+      physicsState.lessons.forEach((lesson) => {
+        const total = Array.isArray(lesson.questions) ? lesson.questions.length : 0;
+        const best = getPhysicsBest(lesson.id);
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between gap-4 hover:border-emerald-400 transition';
+        card.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70">${lesson.badge || `درس #${lesson.order || ''}`}</span>
+              <span class="text-[11px] font-bold text-slate-400">${total} سؤالاً</span>
+            </div>
+            <h3 class="text-lg font-black text-slate-900">${lesson.title}</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">${lesson.subtitle || ''}</p>
+            ${best ? `<p class="text-[11px] font-extrabold text-teal-700 bg-teal-50/70 px-2.5 py-1.5 rounded-xl">أفضل نتيجة محفوظة: ${best.correct} / ${best.total} (${Math.round((best.correct / best.total) * 100)}%)</p>` : ''}
+          </div>
+          <button type="button" class="w-full py-2.5 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+            ${best ? 'إعادة التدريب على الدرس ←' : 'ابدأ التدريب ←'}
+          </button>
+        `;
+        card.querySelector('button').addEventListener('click', () => startPhysicsLesson(lesson));
+        physicsLessonsGrid.appendChild(card);
+      });
+    }
+
+    function startPhysicsLesson(lesson) {
+      physicsState.activeLesson = lesson;
+      physicsState.currentIdx = 0;
+      physicsState.answers = {};
+      document.getElementById('physicsLessonTitle').textContent = lesson.title;
+      physicsListView.classList.add('hidden');
+      physicsResultView.classList.add('hidden');
+      physicsQuizView.classList.remove('hidden');
+      renderPhysicsQuestion();
+      trackEvent('start_physics_lesson', { lesson_id: String(lesson.id) });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderPhysicsQuestion() {
+      const lesson = physicsState.activeLesson;
+      if (!lesson) return;
+      const questions = lesson.questions;
+      const total = questions.length;
+      const idx = physicsState.currentIdx;
+      const q = questions[idx];
+      const chosen = physicsState.answers[idx];
+      const isAnswered = chosen !== undefined;
+
+      // حساب عدد الإجابات الصحيحة حتى الآن
+      let answeredCount = 0, correctCount = 0;
+      for (const [k, v] of Object.entries(physicsState.answers)) {
+        answeredCount++;
+        if (questions[Number(k)] && v === questions[Number(k)].answer) correctCount++;
+      }
+
+      document.getElementById('physicsProgressCounter').textContent = `تم حل ${answeredCount} من ${total} سؤالاً`;
+      document.getElementById('physicsLiveScore').textContent = `الصح: ${correctCount} / ${answeredCount}`;
+      document.getElementById('physicsTopicBadge').textContent = q.topic || lesson.title;
+      document.getElementById('physicsQNumber').textContent = `سؤال ${idx + 1} من ${total}`;
+      document.getElementById('physicsProgressBar').style.width = `${((idx + 1) / total) * 100}%`;
+
+      const svgBox = document.getElementById('physicsQuestionSvg');
+      if (q.svg) {
+        svgBox.innerHTML = q.svg;
+        svgBox.classList.remove('hidden');
+      } else {
+        svgBox.innerHTML = '';
+        svgBox.classList.add('hidden');
+      }
+
+      document.getElementById('physicsQuestionText').innerHTML = formatMathText(q.question);
+
+      const list = document.getElementById('physicsOptionsList');
+      list.innerHTML = '';
+      const letters = ['أ', 'ب', 'ج', 'د'];
+
+      q.options.forEach((opt, optIdx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        let cls = 'w-full text-right p-4 rounded-2xl border border-slate-200 bg-slate-50/70 hover:border-emerald-400 hover:bg-emerald-50/30 font-bold text-slate-800 transition flex items-center gap-3 cursor-pointer';
+        let badgeCls = 'bg-white border border-slate-200 text-slate-600';
+
+        if (isAnswered) {
+          if (optIdx === q.answer) {
+            cls = 'w-full text-right p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50 font-extrabold text-emerald-900 transition flex items-center gap-3';
+            badgeCls = 'bg-emerald-600 text-white';
+          } else if (optIdx === chosen && chosen !== q.answer) {
+            cls = 'w-full text-right p-4 rounded-2xl border-2 border-rose-500 bg-rose-50 font-extrabold text-rose-800 transition flex items-center gap-3';
+            badgeCls = 'bg-rose-600 text-white';
+          } else {
+            cls = 'w-full text-right p-4 rounded-2xl border border-slate-200 bg-slate-50/50 font-bold text-slate-400 opacity-75 flex items-center gap-3';
+          }
+        }
+
+        btn.className = cls;
+        btn.disabled = isAnswered;
+        btn.innerHTML = `<span class="w-7 h-7 rounded-lg ${badgeCls} text-xs font-extrabold flex items-center justify-center shrink-0">${letters[optIdx]}</span><span>${formatMathText(opt)}</span>`;
+        if (!isAnswered) {
+          btn.addEventListener('click', () => {
+            physicsState.answers[idx] = optIdx;
+            renderPhysicsQuestion();
+          });
+        }
+        list.appendChild(btn);
+      });
+
+      const fb = document.getElementById('physicsFeedbackBox');
+      if (isAnswered) {
+        const isRight = chosen === q.answer;
+        fb.className = isRight
+          ? 'rounded-2xl p-4 border border-emerald-300 bg-emerald-50 text-emerald-900 space-y-1.5 text-xs sm:text-sm'
+          : 'rounded-2xl p-4 border border-rose-300 bg-rose-50 text-rose-900 space-y-1.5 text-xs sm:text-sm';
+        fb.innerHTML = `
+          <div class="font-extrabold">${isRight ? '✅ إجابة صحيحة! أحسنت' : '❌ إجابة غير صحيحة'}</div>
+          <div class="text-slate-700 font-medium leading-relaxed">💡 ${formatMathText(q.explanation)}</div>
+        `;
+      } else {
+        fb.className = 'hidden';
+        fb.innerHTML = '';
+      }
+
+      const prevBtn = document.getElementById('physicsPrevBtn');
+      const nextBtn = document.getElementById('physicsNextBtn');
+      prevBtn.disabled = idx === 0;
+      prevBtn.classList.toggle('opacity-40', idx === 0);
+      nextBtn.textContent = idx === total - 1 ? 'إنهاء الدرس وعرض النتيجة 🎯' : 'التالي ←';
+
+      // تحديث شريط أرقام الأسئلة
+      const navStrip = document.getElementById('physicsNavStrip');
+      if (navStrip) {
+        navStrip.innerHTML = '';
+        questions.forEach((itemQ, i) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.textContent = i + 1;
+          const ans = physicsState.answers[i];
+          const isCur = i === idx;
+          let cls = 'w-8 h-8 rounded-lg text-xs font-extrabold transition cursor-pointer ';
+          if (ans === undefined) {
+            cls += isCur
+              ? 'bg-slate-900 text-white ring-2 ring-emerald-400'
+              : 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+          } else if (ans === itemQ.answer) {
+            cls += isCur
+              ? 'bg-emerald-600 text-white ring-2 ring-slate-900'
+              : 'bg-emerald-600 text-white hover:bg-emerald-700';
+          } else {
+            cls += isCur
+              ? 'bg-rose-600 text-white ring-2 ring-slate-900'
+              : 'bg-rose-500 text-white hover:bg-rose-600';
+          }
+          b.className = cls;
+          b.addEventListener('click', () => {
+            physicsState.currentIdx = i;
+            renderPhysicsQuestion();
+          });
+          navStrip.appendChild(b);
+        });
+      }
+
+      renderKaTeXIn(physicsQuizView);
+    }
+
+    function showPhysicsResult() {
+      const lesson = physicsState.activeLesson;
+      if (!lesson) return;
+      const questions = lesson.questions;
+      const total = questions.length;
+      let correct = 0;
+      const wrongs = [];
+      questions.forEach((q, i) => {
+        const ans = physicsState.answers[i];
+        if (ans === q.answer) correct++;
+        else wrongs.push({ num: i + 1, q, userAns: ans });
+      });
+
+      const pct = Math.round((correct / total) * 100);
+      savePhysicsBest(lesson.id, correct, total);
+
+      document.getElementById('physicsResBadge').textContent = lesson.badge || 'الدرس';
+      document.getElementById('physicsResTitle').textContent = lesson.title;
+      document.getElementById('physicsResSubtitle').textContent =
+        pct >= 90 ? 'مستوى ممتاز جداً! أتقنت أفكار هذا الدرس.' :
+        pct >= 70 ? 'أداء جيد جداً — راجع الأخطاء بالأسفل لتثبيت القوانين.' :
+        'بداية جيدة — راجع شرح الأخطاء وأعد التدريب لرفع إتقانك.';
+      document.getElementById('physicsResScore').textContent = `${correct} / ${total}`;
+      document.getElementById('physicsResPercent').textContent = `${pct}%`;
+
+      const reviewList = document.getElementById('physicsReviewList');
+      reviewList.innerHTML = '';
+      if (wrongs.length === 0) {
+        reviewList.innerHTML = '<div class="p-4 rounded-2xl bg-emerald-50 text-emerald-800 font-extrabold text-sm">ما شاء الله! أجبت على جميع أسئلة الدرس بشكل صحيح 🎉</div>';
+      } else {
+        wrongs.forEach((item) => {
+          const div = document.createElement('div');
+          div.className = 'p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-sm';
+          const userAnsText = item.userAns !== undefined ? formatMathText(item.q.options[item.userAns]) : 'لم يتم اختيار إجابة';
+          div.innerHTML = `
+            <div class="text-xs font-extrabold text-emerald-700">سؤال #${item.num} • ${item.q.topic || ''}</div>
+            ${item.q.svg ? `<div class="my-2">${item.q.svg}</div>` : ''}
+            <p class="font-extrabold text-slate-900">${formatMathText(item.q.question)}</p>
+            <p class="text-xs font-bold text-rose-700">إجابتك: ${userAnsText}</p>
+            <p class="text-xs font-extrabold text-emerald-700">الإجابة الصحيحة: ${formatMathText(item.q.options[item.q.answer])}</p>
+            <p class="text-xs text-slate-600 bg-white p-2.5 rounded-xl border border-slate-100">💡 ${formatMathText(item.q.explanation)}</p>
+          `;
+          reviewList.appendChild(div);
+        });
+      }
+
+      physicsQuizView.classList.add('hidden');
+      physicsResultView.classList.remove('hidden');
+      renderKaTeXIn(reviewList);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.getElementById('physicsPrevBtn').addEventListener('click', () => {
+      if (physicsState.currentIdx > 0) {
+        physicsState.currentIdx--;
+        renderPhysicsQuestion();
+      }
+    });
+    document.getElementById('physicsNextBtn').addEventListener('click', () => {
+      const lesson = physicsState.activeLesson;
+      if (!lesson) return;
+      if (physicsState.currentIdx < lesson.questions.length - 1) {
+        physicsState.currentIdx++;
+        renderPhysicsQuestion();
+      } else {
+        showPhysicsResult();
+      }
+    });
+    document.getElementById('exitPhysicsBtn').addEventListener('click', () => {
+      physicsQuizView.classList.add('hidden');
+      physicsResultView.classList.add('hidden');
+      physicsListView.classList.remove('hidden');
+      renderPhysicsLessonsGrid();
+    });
+    document.getElementById('retryPhysicsLessonBtn').addEventListener('click', () => {
+      if (physicsState.activeLesson) startPhysicsLesson(physicsState.activeLesson);
+    });
+    const sharePhysicsResBtn = document.getElementById('sharePhysicsResBtn');
+    if (sharePhysicsResBtn) {
+      sharePhysicsResBtn.addEventListener('click', () => {
+        const lesson = physicsState.activeLesson;
+        if (!lesson) return;
+        const scoreText = document.getElementById('physicsResScore').textContent;
+        const pctText = document.getElementById('physicsResPercent').textContent;
+        const shareUrl = `${window.location.origin}${window.location.pathname}#physics`;
+        const text = `أنهيت تدريب درس «${lesson.title}» في منصة التحصيلي المبكر ⚡\n✅ درجتي: ${scoreText} (${pctText})\n\nتدرّب على دروس الفيزياء والمحاكيات من هنا:\n${shareUrl}`;
+        copyWithFeedback(sharePhysicsResBtn, text, 'نسخ نتيجتي في الدرس 📋');
+      });
+    }
+    document.getElementById('backToPhysicsListBtn').addEventListener('click', () => {
+      physicsResultView.classList.add('hidden');
+      physicsListView.classList.remove('hidden');
+      renderPhysicsLessonsGrid();
+    });
+
+    function applyHashRoute() {
+      const h = (window.location.hash || '').toLowerCase();
+      if (h === '#mock' || h === '#mocks') {
+        switchTab('mocks', false);
+      } else if (h === '#physics') {
+        switchTab('physics', false);
+      }
+    }
+    window.addEventListener('hashchange', applyHashRoute);
+    window.addEventListener('online', () => { flushPendingPosts(); fetchGlobalStats(); });
+    window.addEventListener('load', () => { updatePresetStyles(); updateSdStyles(); setCap(state.maxCap); renderMocksGrid(); applyHashRoute(); flushPendingPosts(); fetchGlobalStats(); });
+    updatePresetStyles(); updateSdStyles(); setCap(state.maxCap); renderMocksGrid(); applyHashRoute();
+    // ==================== قائمة المساهمين (أضف اليوزرات هنا بسهولة) ====================
+    // مثال: const VOLUNTEERS = ['@user1', '@user2'];
+    const VOLUNTEERS = [];
+
+    function renderVolunteers() {
+      const listEl = document.getElementById('volunteersList');
+      const badgeEl = document.getElementById('volunteersCountBadge');
+      if (!listEl || !badgeEl) return;
+
+      if (!Array.isArray(VOLUNTEERS) || VOLUNTEERS.length === 0) {
+        badgeEl.textContent = 'قريباً';
+        listEl.innerHTML = '<p class="text-xs sm:text-sm font-bold text-slate-500 bg-slate-50 border border-slate-200/80 rounded-xl px-4 py-3 w-full">سيتم إضافة أسماء المساهمين هنا فور نزول نتائج الفترة الأولى — كن أول المساهمين في رفع دقة المنصة! 🌟</p>';
+        return;
+      }
+
+      badgeEl.textContent = `${VOLUNTEERS.length} مساهم`;
+      listEl.innerHTML = '';
+      VOLUNTEERS.forEach((raw) => {
+        const clean = String(raw || '').trim();
+        if (!clean) return;
+        const handle = clean.startsWith('@') ? clean : `@${clean}`;
+        const username = handle.slice(1);
+        const a = document.createElement('a');
+        a.href = `https://t.me/${encodeURIComponent(username)}`;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.dir = 'ltr';
+        a.className = 'px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200/80 hover:bg-emerald-100 text-xs font-extrabold transition';
+        a.textContent = handle;
+        listEl.appendChild(a);
+      });
+    }
+    renderVolunteers();
+
+    window.__nabthatiReady = true;
+  </script>
+</body>
+</html>
