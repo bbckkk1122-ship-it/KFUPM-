@@ -3076,7 +3076,7 @@ ${shareUrl}`;
           const img = new Image();
           img.onerror = reject;
           img.onload = () => {
-            const maxDim = 1400;
+            const maxDim = 1200;
             let w = img.width, h = img.height;
             if (w > maxDim || h > maxDim) {
               const ratio = Math.min(maxDim / w, maxDim / h);
@@ -3086,7 +3086,7 @@ ${shareUrl}`;
             const c = document.createElement('canvas');
             c.width = w; c.height = h;
             c.getContext('2d').drawImage(img, 0, 0, w, h);
-            const dataUrl = c.toDataURL('image/jpeg', 0.85);
+            const dataUrl = c.toDataURL('image/jpeg', 0.78);
             resolve({ base64: dataUrl.split(',')[1], mimeType: 'image/jpeg' });
           };
           img.src = reader.result;
@@ -3265,7 +3265,7 @@ ${shareUrl}`;
           imageBase64: base64,
           mimeType
         })
-      }, 35000);
+      }, 90000);
       const json = await res.json();
       if (json && json.ok && json.data) return { data: json.data, base64, mimeType };
       throw new Error((json && json.error) || 'فشل الاستخراج');
@@ -3303,7 +3303,8 @@ ${shareUrl}`;
           bankAiStatus.textContent = '✅ تم استخراج السؤال بنجاح! راجعه سريعاً ثم اضغط «نشر السؤال».';
           bankAiStatus.className = 'text-xs font-extrabold text-emerald-700';
         } catch (err) {
-          bankAiStatus.textContent = `❌ تعذّر استخراج السؤال: ${err.message || 'حاول بصورة أوضح'}`;
+          const errMsg = (err && err.name === 'AbortError') ? 'انتهت مهلة الاتصال بالخادم، حاول مرة أخرى.' : (err.message || 'حاول بصورة أوضح');
+          bankAiStatus.textContent = `❌ تعذّر استخراج السؤال: ${errMsg}`;
           bankAiStatus.className = 'text-xs font-extrabold text-rose-700';
         } finally {
           bankUploadImageBtn.disabled = false;
@@ -3407,7 +3408,7 @@ ${shareUrl}`;
               imageBase64: (it.attachImage && it.imageBase64) ? it.imageBase64 : '',
               imageMimeType: (it.attachImage && it.imageBase64) ? (it.imageMimeType || 'image/jpeg') : ''
             })
-          }, 15000);
+          }, 45000);
           const data = await res.json();
           if (data && data.ok) {
             publishedCount++;
@@ -3483,7 +3484,7 @@ ${shareUrl}`;
             imageBase64: (bankSingleAttachCheck.checked && bankSingleImage && bankSingleImage.base64) ? bankSingleImage.base64 : '',
             imageMimeType: (bankSingleAttachCheck.checked && bankSingleImage && bankSingleImage.base64) ? (bankSingleImage.mimeType || 'image/jpeg') : ''
           })
-        }, 15000);
+        }, 45000);
         const data = await res.json();
         if (data && data.ok) {
           msgEl.textContent = '✅ تم نشر السؤال في بنك الطلاب بنجاح! يمكنك إضافة سؤال آخر الآن.';
