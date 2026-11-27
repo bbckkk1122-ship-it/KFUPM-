@@ -830,60 +830,92 @@
               <button id="changeBankCodeBtn" type="button" class="text-emerald-700 hover:underline font-bold cursor-pointer">تغيير الكود</button>
             </div>
 
-            <!-- رفع صورة للاستخراج التلقائي بالـ AI -->
+            <!-- رفع صورة أو حتى 10 صور للاستخراج التلقائي بالـ AI -->
             <div class="rounded-2xl border-2 border-dashed border-emerald-300 bg-emerald-50/50 p-4 text-center space-y-2.5">
-              <input id="bankImageInput" type="file" accept="image/*" class="hidden" />
+              <input id="bankImageInput" type="file" accept="image/*" multiple class="hidden" />
               <button id="bankUploadImageBtn" type="button" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold text-white bg-teal-700 hover:bg-teal-800 shadow-sm transition cursor-pointer">
-                📸 ارفع صورة السؤال (استخراج تلقائي بالـ AI)
+                📸 ارفع صورة أو حتى 10 صور دفعة واحدة (AI)
               </button>
-              <p id="bankAiStatus" class="text-xs font-bold text-slate-500">سيقرأ الذكاء الاصطناعي الصورة ويعبّئ السؤال والخيارات والشرح تلقائياً لتراجعها قبل النشر.</p>
-            </div>
-
-            <div class="space-y-3">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label for="bankSubjectSelect" class="text-xs font-bold text-slate-600 block mb-1">المادة</label>
-                  <select id="bankSubjectSelect" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    <option value="فيزياء">فيزياء</option>
-                    <option value="كيمياء">كيمياء</option>
-                    <option value="أحياء">أحياء</option>
-                    <option value="رياضيات">رياضيات</option>
-                  </select>
+              <p id="bankAiStatus" class="text-xs font-bold text-slate-500">يمكنك اختيار صورة واحدة أو حتى 10 صور معاً — سيقرؤها الذكاء الاصطناعي ويعبّئ الأسئلة لتراجعها قبل النشر.</p>
+              <div id="bankBatchProgressWrap" class="hidden space-y-1.5 pt-1 text-right">
+                <div class="flex items-center justify-between text-[11px] font-extrabold text-teal-700">
+                  <span id="bankBatchProgressText">جارٍ المعالجة…</span>
+                  <span id="bankBatchProgressPct">0%</span>
                 </div>
-                <div>
-                  <label for="bankCorrectSelect" class="text-xs font-bold text-slate-600 block mb-1">الإجابة الصحيحة</label>
-                  <select id="bankCorrectSelect" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    <option value="0">الخيار أ</option>
-                    <option value="1">الخيار ب</option>
-                    <option value="2">الخيار ج</option>
-                    <option value="3">الخيار د</option>
-                  </select>
+                <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                  <div id="bankBatchProgressBar" class="h-full bg-teal-600 rounded-full transition-all duration-300" style="width: 0%"></div>
                 </div>
-              </div>
-
-              <div>
-                <label for="bankQuestionInput" class="text-xs font-bold text-slate-600 block mb-1">نص السؤال</label>
-                <textarea id="bankQuestionInput" rows="3" placeholder="اكتب نص السؤال هنا..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <input id="bankOpt0" type="text" placeholder="الخيار أ" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-                <input id="bankOpt1" type="text" placeholder="الخيار ب" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-                <input id="bankOpt2" type="text" placeholder="الخيار ج" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-                <input id="bankOpt3" type="text" placeholder="الخيار د" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-              </div>
-
-              <div>
-                <label for="bankExplanationInput" class="text-xs font-bold text-slate-600 block mb-1">شرح الإجابة (اختياري)</label>
-                <textarea id="bankExplanationInput" rows="2" placeholder="شرح مختصر لسبب اختيار الإجابة الصحيحة..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
               </div>
             </div>
 
-            <div id="bankFormMsg" class="hidden text-xs font-bold rounded-xl p-3 border"></div>
+            <!-- وضع المراجعة والنشر الجماعي (يظهر عند رفع أكثر من صورة) -->
+            <div id="bankBatchContainer" class="hidden space-y-4">
+              <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-50 border border-slate-200 rounded-2xl p-3.5">
+                <div class="text-xs sm:text-sm font-extrabold text-slate-800">
+                  📋 قائمة المراجعة الجماعية (<span id="bankBatchCount">0</span> أسئلة)
+                </div>
+                <button id="bankBatchClearBtn" type="button" class="text-xs font-bold text-rose-600 hover:underline cursor-pointer">
+                  إلغاء القائمة والعودة للإضافة الفردية
+                </button>
+              </div>
 
-            <button id="submitBankQuestionBtn" type="button" class="w-full py-3 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
-              نشر السؤال في بنك الطلاب 🚀
-            </button>
+              <div id="bankBatchList" class="space-y-4"></div>
+
+              <div id="bankBatchMsg" class="hidden text-xs font-bold rounded-xl p-3 border"></div>
+
+              <button id="submitBankBatchBtn" type="button" class="w-full py-3 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+                نشر جميع الأسئلة في بنك الطلاب 🚀
+              </button>
+            </div>
+
+            <!-- نموذج إضافة سؤال فردي -->
+            <div id="bankSingleFormWrap" class="space-y-4">
+              <div class="space-y-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label for="bankSubjectSelect" class="text-xs font-bold text-slate-600 block mb-1">المادة</label>
+                    <select id="bankSubjectSelect" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                      <option value="فيزياء">فيزياء</option>
+                      <option value="كيمياء">كيمياء</option>
+                      <option value="أحياء">أحياء</option>
+                      <option value="رياضيات">رياضيات</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="bankCorrectSelect" class="text-xs font-bold text-slate-600 block mb-1">الإجابة الصحيحة</label>
+                    <select id="bankCorrectSelect" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                      <option value="0">الخيار أ</option>
+                      <option value="1">الخيار ب</option>
+                      <option value="2">الخيار ج</option>
+                      <option value="3">الخيار د</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label for="bankQuestionInput" class="text-xs font-bold text-slate-600 block mb-1">نص السؤال</label>
+                  <textarea id="bankQuestionInput" rows="3" placeholder="اكتب نص السؤال هنا..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <input id="bankOpt0" type="text" placeholder="الخيار أ" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                  <input id="bankOpt1" type="text" placeholder="الخيار ب" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                  <input id="bankOpt2" type="text" placeholder="الخيار ج" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                  <input id="bankOpt3" type="text" placeholder="الخيار د" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                </div>
+
+                <div>
+                  <label for="bankExplanationInput" class="text-xs font-bold text-slate-600 block mb-1">شرح الإجابة (اختياري)</label>
+                  <textarea id="bankExplanationInput" rows="2" placeholder="شرح مختصر لسبب اختيار الإجابة الصحيحة..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+                </div>
+              </div>
+
+              <div id="bankFormMsg" class="hidden text-xs font-bold rounded-xl p-3 border"></div>
+
+              <button id="submitBankQuestionBtn" type="button" class="w-full py-3 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+                نشر السؤال في بنك الطلاب 🚀
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -3040,32 +3072,167 @@ ${shareUrl}`;
       });
     }
 
+    const MAX_BATCH_IMAGES = 10;
     const bankImageInput = document.getElementById('bankImageInput');
     const bankUploadImageBtn = document.getElementById('bankUploadImageBtn');
     const bankAiStatus = document.getElementById('bankAiStatus');
+    const bankBatchProgressWrap = document.getElementById('bankBatchProgressWrap');
+    const bankBatchProgressText = document.getElementById('bankBatchProgressText');
+    const bankBatchProgressPct = document.getElementById('bankBatchProgressPct');
+    const bankBatchProgressBar = document.getElementById('bankBatchProgressBar');
+    const bankBatchContainer = document.getElementById('bankBatchContainer');
+    const bankBatchList = document.getElementById('bankBatchList');
+    const bankBatchCount = document.getElementById('bankBatchCount');
+    const bankBatchMsg = document.getElementById('bankBatchMsg');
+    const bankSingleFormWrap = document.getElementById('bankSingleFormWrap');
+    const submitBankBatchBtn = document.getElementById('submitBankBatchBtn');
+    const bankBatchClearBtn = document.getElementById('bankBatchClearBtn');
+
+    let bankBatchItems = [];
+
+    function sleepMs(ms) {
+      return new Promise((r) => setTimeout(r, ms));
+    }
+
+    function setBatchProgress(show, text = '', pct = 0) {
+      bankBatchProgressWrap.classList.toggle('hidden', !show);
+      if (show) {
+        bankBatchProgressText.textContent = text;
+        bankBatchProgressPct.textContent = `${Math.round(pct)}%`;
+        bankBatchProgressBar.style.width = `${clamp(pct, 0, 100)}%`;
+      }
+    }
+
+    function updateBatchUI() {
+      const count = bankBatchItems.length;
+      bankBatchCount.textContent = count;
+      submitBankBatchBtn.textContent = `نشر جميع الأسئلة (${count}) في بنك الطلاب 🚀`;
+      submitBankBatchBtn.disabled = count === 0;
+      if (count === 0) {
+        bankBatchContainer.classList.add('hidden');
+        bankSingleFormWrap.classList.remove('hidden');
+      } else {
+        bankBatchContainer.classList.remove('hidden');
+        bankSingleFormWrap.classList.add('hidden');
+      }
+    }
+
+    function renderBatchList() {
+      bankBatchList.innerHTML = '';
+      bankBatchItems.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'rounded-2xl border border-slate-200 bg-slate-50/70 p-4 space-y-3';
+        card.dataset.batchIdx = String(idx);
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-2 border-b border-slate-200/70 pb-2">
+            <span class="text-xs font-extrabold text-emerald-700">سؤال #${idx + 1}${item.fileName ? ` • ${item.fileName.replace(/</g, '&lt;')}` : ''}</span>
+            <button type="button" class="batch-remove-btn text-xs font-bold text-rose-600 hover:underline cursor-pointer">حذف 🗑️</button>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <select class="batch-subject w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+              <option value="فيزياء">فيزياء</option>
+              <option value="كيمياء">كيمياء</option>
+              <option value="أحياء">أحياء</option>
+              <option value="رياضيات">رياضيات</option>
+            </select>
+            <select class="batch-correct w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+              <option value="0">الإجابة الصحيحة: أ</option>
+              <option value="1">الإجابة الصحيحة: ب</option>
+              <option value="2">الإجابة الصحيحة: ج</option>
+              <option value="3">الإجابة الصحيحة: د</option>
+            </select>
+          </div>
+          <textarea rows="2" placeholder="نص السؤال..." class="batch-question w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <input type="text" placeholder="الخيار أ" class="batch-opt-0 w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            <input type="text" placeholder="الخيار ب" class="batch-opt-1 w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            <input type="text" placeholder="الخيار ج" class="batch-opt-2 w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            <input type="text" placeholder="الخيار د" class="batch-opt-3 w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+          </div>
+          <textarea rows="2" placeholder="شرح الإجابة (اختياري)..." class="batch-explanation w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+        `;
+
+        const subjEl = card.querySelector('.batch-subject');
+        const corrEl = card.querySelector('.batch-correct');
+        const qEl = card.querySelector('.batch-question');
+        const o0 = card.querySelector('.batch-opt-0');
+        const o1 = card.querySelector('.batch-opt-1');
+        const o2 = card.querySelector('.batch-opt-2');
+        const o3 = card.querySelector('.batch-opt-3');
+        const expEl = card.querySelector('.batch-explanation');
+
+        subjEl.value = ['فيزياء', 'كيمياء', 'أحياء', 'رياضيات'].includes(item.subject) ? item.subject : 'فيزياء';
+        corrEl.value = String(clamp(Number(item.correct_index) || 0, 0, 3));
+        qEl.value = item.question || '';
+        o0.value = (item.options && item.options[0]) || '';
+        o1.value = (item.options && item.options[1]) || '';
+        o2.value = (item.options && item.options[2]) || '';
+        o3.value = (item.options && item.options[3]) || '';
+        expEl.value = item.explanation || '';
+
+        subjEl.addEventListener('change', () => { item.subject = subjEl.value; });
+        corrEl.addEventListener('change', () => { item.correct_index = parseInt(corrEl.value, 10) || 0; });
+        qEl.addEventListener('input', () => { item.question = qEl.value; });
+        [o0, o1, o2, o3].forEach((inp, oi) => {
+          inp.addEventListener('input', () => {
+            if (!Array.isArray(item.options)) item.options = ['', '', '', ''];
+            item.options[oi] = inp.value;
+          });
+        });
+        expEl.addEventListener('input', () => { item.explanation = expEl.value; });
+
+        card.querySelector('.batch-remove-btn').addEventListener('click', () => {
+          bankBatchItems.splice(idx, 1);
+          renderBatchList();
+          updateBatchUI();
+        });
+
+        bankBatchList.appendChild(card);
+      });
+      updateBatchUI();
+    }
+
+    bankBatchClearBtn.addEventListener('click', () => {
+      bankBatchItems = [];
+      bankBatchMsg.classList.add('hidden');
+      renderBatchList();
+      updateBatchUI();
+    });
+
+    async function extractSingleImageWithAI(file) {
+      const { base64, mimeType } = await readAndCompressImage(file);
+      const res = await fetchWithTimeout(BANK_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'extract_image',
+          code: bankState.verifiedCode,
+          imageBase64: base64,
+          mimeType
+        })
+      }, 35000);
+      const json = await res.json();
+      if (json && json.ok && json.data) return json.data;
+      throw new Error((json && json.error) || 'فشل الاستخراج');
+    }
 
     bankUploadImageBtn.addEventListener('click', () => bankImageInput.click());
     bankImageInput.addEventListener('change', async () => {
-      const file = bankImageInput.files && bankImageInput.files[0];
-      if (!file) return;
+      const rawFiles = bankImageInput.files ? Array.from(bankImageInput.files) : [];
+      if (rawFiles.length === 0) return;
+
+      const truncated = rawFiles.length > MAX_BATCH_IMAGES;
+      const files = rawFiles.slice(0, MAX_BATCH_IMAGES);
+
       bankUploadImageBtn.disabled = true;
-      bankAiStatus.textContent = '⏳ جارٍ قراءة الصورة واستخراج السؤال بالذكاء الاصطناعي…';
-      bankAiStatus.className = 'text-xs font-extrabold text-teal-700';
-      try {
-        const { base64, mimeType } = await readAndCompressImage(file);
-        const res = await fetchWithTimeout(BANK_API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({
-            action: 'extract_image',
-            code: bankState.verifiedCode,
-            imageBase64: base64,
-            mimeType
-          })
-        }, 30000);
-        const json = await res.json();
-        if (json && json.ok && json.data) {
-          const d = json.data;
+      bankBatchMsg.classList.add('hidden');
+
+      // حالة صورة واحدة (تعبئة النموذج الفردي مباشرة)
+      if (files.length === 1 && bankBatchItems.length === 0) {
+        bankAiStatus.textContent = '⏳ جارٍ قراءة الصورة واستخراج السؤال بالذكاء الاصطناعي…';
+        bankAiStatus.className = 'text-xs font-extrabold text-teal-700';
+        try {
+          const d = await extractSingleImageWithAI(files[0]);
           if (['فيزياء', 'كيمياء', 'أحياء', 'رياضيات'].includes(d.subject)) {
             document.getElementById('bankSubjectSelect').value = d.subject;
           }
@@ -3079,16 +3246,139 @@ ${shareUrl}`;
           document.getElementById('bankExplanationInput').value = d.explanation || '';
           bankAiStatus.textContent = '✅ تم استخراج السؤال بنجاح! راجعه سريعاً ثم اضغط «نشر السؤال».';
           bankAiStatus.className = 'text-xs font-extrabold text-emerald-700';
-        } else {
-          throw new Error((json && json.error) || 'فشل الاستخراج');
+        } catch (err) {
+          bankAiStatus.textContent = `❌ تعذّر استخراج السؤال: ${err.message || 'حاول بصورة أوضح'}`;
+          bankAiStatus.className = 'text-xs font-extrabold text-rose-700';
+        } finally {
+          bankUploadImageBtn.disabled = false;
+          bankImageInput.value = '';
         }
-      } catch (err) {
-        bankAiStatus.textContent = `❌ تعذّر استخراج السؤال: ${err.message || 'حاول بصورة أوضح'}`;
-        bankAiStatus.className = 'text-xs font-extrabold text-rose-700';
-      } finally {
-        bankUploadImageBtn.disabled = false;
-        bankImageInput.value = '';
+        return;
       }
+
+      // حالة الرفع الجماعي (من 2 إلى 10 صور بالتتابع)
+      bankAiStatus.textContent = truncated
+        ? `⚠️ تم تحديد أكثر من ${MAX_BATCH_IMAGES} صور — سيتم استخراج أول ${MAX_BATCH_IMAGES} صور فقط بالتتابع.`
+        : `⏳ جارٍ استخراج ${files.length} صور بالتتابع بالذكاء الاصطناعي…`;
+      bankAiStatus.className = 'text-xs font-extrabold text-teal-700';
+
+      let okCount = 0;
+      let failCount = 0;
+
+      for (let i = 0; i < files.length; i++) {
+        const f = files[i];
+        setBatchProgress(true, `جارٍ استخراج الصورة ${i + 1} من ${files.length}…`, (i / files.length) * 100);
+        try {
+          const d = await extractSingleImageWithAI(f);
+          const opts = Array.isArray(d.options) ? d.options : [];
+          bankBatchItems.push({
+            fileName: f.name || `صورة ${i + 1}`,
+            subject: ['فيزياء', 'كيمياء', 'أحياء', 'رياضيات'].includes(d.subject) ? d.subject : 'فيزياء',
+            question: d.question || '',
+            options: [opts[0] || '', opts[1] || '', opts[2] || '', opts[3] || ''],
+            correct_index: clamp(Number(d.correct_index) || 0, 0, 3),
+            explanation: d.explanation || ''
+          });
+          okCount++;
+          renderBatchList();
+        } catch (err) {
+          console.error('Batch extract failed for image', i + 1, err);
+          failCount++;
+        }
+        if (i < files.length - 1) await sleepMs(600);
+      }
+
+      setBatchProgress(true, `اكتملت المعالجة (${okCount} ناجحة${failCount > 0 ? ` • ${failCount} تعذّرت` : ''})`, 100);
+      setTimeout(() => setBatchProgress(false), 2500);
+
+      if (okCount > 0) {
+        bankAiStatus.textContent = failCount > 0
+          ? `✅ تم استخراج ${okCount} من ${files.length} صور (تعذّرت ${failCount}). راجع الأسئلة بالأسفل ثم اضغط «نشر جميع الأسئلة».`
+          : `✅ تم استخراج جميع الصور (${okCount}) بنجاح! راجعها سريعاً ثم اضغط «نشر جميع الأسئلة».`;
+        bankAiStatus.className = 'text-xs font-extrabold text-emerald-700';
+      } else {
+        bankAiStatus.textContent = '❌ تعذّر استخراج الأسئلة من الصور المختارة. تأكد من وضوح الصور وحاول مرة أخرى.';
+        bankAiStatus.className = 'text-xs font-extrabold text-rose-700';
+      }
+
+      bankUploadImageBtn.disabled = false;
+      bankImageInput.value = '';
+    });
+
+    submitBankBatchBtn.addEventListener('click', async () => {
+      if (bankBatchItems.length === 0) return;
+
+      // التحقق من اكتمال جميع الأسئلة في القائمة
+      for (let i = 0; i < bankBatchItems.length; i++) {
+        const it = bankBatchItems[i];
+        const qText = String(it.question || '').trim();
+        const opts = Array.isArray(it.options) ? it.options.map((o) => String(o || '').trim()) : [];
+        if (!qText || opts.length < 4 || opts.some((o) => !o)) {
+          bankBatchMsg.textContent = `⚠️ السؤال #${i + 1} ناقص — تأكد من كتابة نص السؤال والخيارات الأربعة أو احذفه.`;
+          bankBatchMsg.className = 'text-xs font-bold rounded-xl p-3 border border-amber-200 bg-amber-50 text-amber-800';
+          return;
+        }
+      }
+
+      submitBankBatchBtn.disabled = true;
+      bankUploadImageBtn.disabled = true;
+      bankBatchClearBtn.disabled = true;
+      bankBatchMsg.classList.add('hidden');
+
+      const totalToPublish = bankBatchItems.length;
+      const failedItems = [];
+      let publishedCount = 0;
+
+      for (let i = 0; i < totalToPublish; i++) {
+        const it = bankBatchItems[i];
+        setBatchProgress(true, `جارٍ نشر السؤال ${i + 1} من ${totalToPublish}…`, (i / totalToPublish) * 100);
+        try {
+          const res = await fetchWithTimeout(BANK_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              action: 'add_question',
+              code: bankState.verifiedCode,
+              subject: it.subject || 'فيزياء',
+              question: String(it.question || '').trim(),
+              options: it.options.map((o) => String(o || '').trim()),
+              correct_index: clamp(Number(it.correct_index) || 0, 0, 3),
+              explanation: String(it.explanation || '').trim()
+            })
+          }, 15000);
+          const data = await res.json();
+          if (data && data.ok) {
+            publishedCount++;
+          } else {
+            failedItems.push(it);
+          }
+        } catch {
+          failedItems.push(it);
+        }
+        if (i < totalToPublish - 1) await sleepMs(350);
+      }
+
+      setBatchProgress(true, `تم نشر ${publishedCount} من ${totalToPublish} سؤالاً`, 100);
+      setTimeout(() => setBatchProgress(false), 2500);
+
+      bankBatchItems = failedItems;
+      renderBatchList();
+      updateBatchUI();
+
+      if (failedItems.length === 0) {
+        const singleMsg = document.getElementById('bankFormMsg');
+        singleMsg.textContent = `✅ تم نشر جميع الأسئلة (${publishedCount}) في بنك الطلاب بنجاح!`;
+        singleMsg.className = 'text-xs font-extrabold rounded-xl p-3 border border-emerald-200 bg-emerald-50 text-emerald-800';
+      } else {
+        bankBatchMsg.textContent = `⚠️ تم نشر ${publishedCount} سؤالاً، وتعذّر نشر ${failedItems.length} — أبقينا الأسئلة المتبقية بالأسفل لتعيد محاولة نشرها.`;
+        bankBatchMsg.className = 'text-xs font-extrabold rounded-xl p-3 border border-amber-200 bg-amber-50 text-amber-800';
+      }
+
+      if (publishedCount > 0) loadBankQuestions(true);
+
+      submitBankBatchBtn.disabled = bankBatchItems.length === 0;
+      bankUploadImageBtn.disabled = false;
+      bankBatchClearBtn.disabled = false;
     });
 
     document.getElementById('submitBankQuestionBtn').addEventListener('click', async () => {
