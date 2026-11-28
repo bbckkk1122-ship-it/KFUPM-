@@ -341,5 +341,81 @@ export const PHYSICS_LESSONS = [
         "explanation": "$F_{\\text{in}} L_{\\text{in}} = F_{\\text{out}} L_{\\text{out}} \\implies 120 \\times 0.6 = F_{\\text{out}} \\times 0.2 \\implies F_{\\text{out}} = \\frac{72}{0.2} = 360\\text{ N}$."
       }
     ]
+  },
+  {
+    "id": "tension-force-equilibrium",
+    "order": 3,
+    "title": "قوة الشد والاتزان",
+    "subtitle": "حساب الشد عند الرفع والإنزال، والاتزان في بعدين بالحبال المائلة والأفقية",
+    "badge": "الدرس الثالث 🪢",
+    "questions": [
+      {
+        "id": "tf-1",
+        "topic": "الشد مع تسارع للأعلى",
+        "question": "يُستخدم حبل لرفع صندوق كتلته $50\\text{ kg}$ بتسارع للأعلى مقداره $2.3\\text{ m/s}^2$. ما مقدار قوة الشد في الحبل؟ (علماً أن $g = 9.8\\text{ m/s}^2$)",
+        "options": [
+          "$605\\text{ N}$",
+          "$490\\text{ N}$",
+          "$375\\text{ N}$",
+          "$115\\text{ N}$"
+        ],
+        "answer": 0,
+        "explanation": "بما أن الحركة بتسارع للأعلى، فإن $T - W = ma \\implies T = m(g + a) = 50 \\times (9.8 + 2.3) = 50 \\times 12.1 = 605\\text{ N}$."
+      },
+      {
+        "id": "tf-2",
+        "topic": "الشد مع تسارع للأسفل",
+        "question": "إذا استُخدم حبل لإنزال صندوق كتلته $50\\text{ kg}$ ببطء بتسارع للأسفل مقداره $0.75\\text{ m/s}^2$، فما مقدار قوة الشد في الحبل؟ (علماً أن $g = 9.8\\text{ m/s}^2$)",
+        "options": [
+          "$527.5\\text{ N}$",
+          "$490\\text{ N}$",
+          "$452.5\\text{ N}$",
+          "$37.5\\text{ N}$"
+        ],
+        "answer": 2,
+        "explanation": "لأن التسارع باتجاه الأسفل نعوّض به سالباً: $T = m(g - a) = 50 \\times (9.8 - 0.75) = 50 \\times 9.05 = 452.5\\text{ N}$."
+      },
+      {
+        "id": "tf-3",
+        "topic": "اتزان جسم بحبلين مائلين",
+        "svg": "<svg viewBox=\"0 0 340 210\" xmlns=\"http://www.w3.org/2000/svg\" class=\"w-full max-w-md mx-auto h-auto bg-white rounded-2xl border border-slate-200 p-2\" style=\"font-family: Tajawal, IBM Plex Sans Arabic, sans-serif;\"><line x1=\"30\" y1=\"25\" x2=\"310\" y2=\"25\" stroke=\"#1e293b\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M40 25 L48 15 M65 25 L73 15 M90 25 L98 15 M115 25 L123 15 M140 25 L148 15 M165 25 L173 15 M190 25 L198 15 M215 25 L223 15 M240 25 L248 15 M265 25 L273 15 M290 25 L298 15\" stroke=\"#94a3b8\" stroke-width=\"1.5\"/><line x1=\"73\" y1=\"25\" x2=\"125\" y2=\"115\" stroke=\"#0f766e\" stroke-width=\"2.5\"/><line x1=\"281\" y1=\"25\" x2=\"125\" y2=\"115\" stroke=\"#2563eb\" stroke-width=\"2.5\"/><path d=\"M 98 25 A 25 25 0 0 1 85.5 46.6\" fill=\"none\" stroke=\"#0f766e\" stroke-width=\"1.8\"/><text x=\"98\" y=\"45\" font-size=\"12\" font-weight=\"700\" fill=\"#0f766e\">60°</text><path d=\"M 248 25 A 33 33 0 0 0 252.4 41.5\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"1.8\"/><text x=\"224\" y=\"43\" font-size=\"12\" font-weight=\"700\" fill=\"#2563eb\">30°</text><text x=\"74\" y=\"82\" font-size=\"14\" font-weight=\"700\" fill=\"#0f766e\">T₁</text><text x=\"210\" y=\"88\" font-size=\"14\" font-weight=\"700\" fill=\"#2563eb\">T₂</text><circle cx=\"125\" cy=\"115\" r=\"4\" fill=\"#1e293b\"/><line x1=\"125\" y1=\"115\" x2=\"125\" y2=\"145\" stroke=\"#334155\" stroke-width=\"2.5\"/><rect x=\"91\" y=\"145\" width=\"68\" height=\"42\" rx=\"6\" fill=\"#f1f5f9\" stroke=\"#1e293b\" stroke-width=\"2.2\"/><text x=\"125\" y=\"171\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"700\" fill=\"#0f172a\">60 kg</text></svg>",
+        "question": "صندوق كتلته $60\\text{ kg}$ معلّق في حالة اتزان بواسطة حبلين كما في الشكل؛ يصنع الحبل الأول ($T_1$) زاوية $60^\\circ$ مع الأفقي، ويصنع الحبل الثاني ($T_2$) زاوية $30^\\circ$ مع الأفقي. ما مقدار قوة الشد في الحبلين تقريباً؟ ($g = 9.8\\text{ m/s}^2$)",
+        "options": [
+          "$T_1 = 294\\text{ N}$ ، $T_2 = 509.2\\text{ N}$",
+          "$T_1 = 509.2\\text{ N}$ ، $T_2 = 294\\text{ N}$",
+          "$T_1 = 588\\text{ N}$ ، $T_2 = 294\\text{ N}$",
+          "$T_1 = 441\\text{ N}$ ، $T_2 = 147\\text{ N}$"
+        ],
+        "answer": 1,
+        "explanation": "الوزن $W = 60 \\times 9.8 = 588\\text{ N}$. من الاتزان الأفقي: $T_1 \\cos 60^\\circ = T_2 \\cos 30^\\circ \\implies T_1 = 1.732 T_2$. وبالتعويض في الاتزان الرأسي: $T_1 \\sin 60^\\circ + T_2 \\sin 30^\\circ = 588 \\implies 2 T_2 = 588 \\implies T_2 = 294\\text{ N}$، ومنه $T_1 = 1.732 \\times 294 \\approx 509.2\\text{ N}$."
+      },
+      {
+        "id": "tf-4",
+        "topic": "اتزان جسم بحبل مائل وحبل أفقي",
+        "svg": "<svg viewBox=\"0 0 340 210\" xmlns=\"http://www.w3.org/2000/svg\" class=\"w-full max-w-md mx-auto h-auto bg-white rounded-2xl border border-slate-200 p-2\" style=\"font-family: Tajawal, IBM Plex Sans Arabic, sans-serif;\"><line x1=\"35\" y1=\"25\" x2=\"285\" y2=\"25\" stroke=\"#1e293b\" stroke-width=\"3\" stroke-linecap=\"round\"/><line x1=\"285\" y1=\"25\" x2=\"285\" y2=\"190\" stroke=\"#1e293b\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M45 25 L53 15 M75 25 L83 15 M105 25 L113 15 M135 25 L143 15 M165 25 L173 15 M195 25 L203 15 M225 25 L233 15 M255 25 L263 15\" stroke=\"#94a3b8\" stroke-width=\"1.5\"/><path d=\"M285 40 L295 32 M285 65 L295 57 M285 90 L295 82 M285 115 L295 107 M285 140 L295 132 M285 165 L295 157\" stroke=\"#94a3b8\" stroke-width=\"1.5\"/><line x1=\"108\" y1=\"25\" x2=\"160\" y2=\"115\" stroke=\"#0f766e\" stroke-width=\"2.5\"/><line x1=\"160\" y1=\"115\" x2=\"285\" y2=\"115\" stroke=\"#2563eb\" stroke-width=\"2.5\"/><path d=\"M 133 25 A 25 25 0 0 1 120.5 46.6\" fill=\"none\" stroke=\"#0f766e\" stroke-width=\"1.8\"/><text x=\"134\" y=\"46\" font-size=\"12\" font-weight=\"700\" fill=\"#0f766e\">60°</text><text x=\"108\" y=\"82\" font-size=\"14\" font-weight=\"700\" fill=\"#0f766e\">T₁</text><text x=\"222\" y=\"106\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"700\" fill=\"#2563eb\">T₂</text><circle cx=\"160\" cy=\"115\" r=\"4\" fill=\"#1e293b\"/><line x1=\"160\" y1=\"115\" x2=\"160\" y2=\"145\" stroke=\"#334155\" stroke-width=\"2.5\"/><rect x=\"122\" y=\"145\" width=\"76\" height=\"42\" rx=\"6\" fill=\"#f1f5f9\" stroke=\"#1e293b\" stroke-width=\"2.2\"/><text x=\"160\" y=\"171\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"700\" fill=\"#0f172a\">100 kg</text></svg>",
+        "question": "جسم كتلته $100\\text{ kg}$ معلّق في حالة اتزان بحبلين كما في الشكل؛ الحبل الأول ($T_1$) مائل للأعلى واليسار بزاوية $60^\\circ$ مع الأفقي، والحبل الثاني ($T_2$) أفقي باتجاه اليمين. ما مقدار الشد في الحبلين تقريباً؟ ($g = 9.8\\text{ m/s}^2$)",
+        "options": [
+          "$T_1 = 980\\text{ N}$ ، $T_2 = 490\\text{ N}$",
+          "$T_1 = 566\\text{ N}$ ، $T_2 = 1132\\text{ N}$",
+          "$T_1 = 1132\\text{ N}$ ، $T_2 = 566\\text{ N}$",
+          "$T_1 = 1960\\text{ N}$ ، $T_2 = 980\\text{ N}$"
+        ],
+        "answer": 2,
+        "explanation": "الوزن $W = 100 \\times 9.8 = 980\\text{ N}$. من الاتزان الرأسي: $T_1 \\sin 60^\\circ = 980 \\implies T_1 = \\frac{980}{0.866} \\approx 1132\\text{ N}$. ومن الاتزان الأفقي: $T_2 = T_1 \\cos 60^\\circ = 1132 \\times 0.5 = 566\\text{ N}$."
+      },
+      {
+        "id": "tf-5",
+        "topic": "مقارنة الشد بالوزن",
+        "question": "عند استخدام حبل لرفع جسم رأسياً بتسارع للأعلى، كيف تكون قوة الشد ($T$) مقارنةً بقوة الوزن ($W$)؟",
+        "options": [
+          "قوة الشد أكبر من الوزن ($T > W$)",
+          "قوة الشد أصغر من الوزن ($T < W$)",
+          "قوة الشد تساوي الوزن ($T = W$)",
+          "قوة الشد تساوي صفراً"
+        ],
+        "answer": 0,
+        "explanation": "لتحقيق تسارع للأعلى يجب أن تتغلب قوة الشد على الوزن ($T = W + ma$)، أما عند الهبوط بتسارع للأسفل فتكون قوة الشد أصغر من الوزن ($T < W$)."
+      }
+    ]
   }
 ];
