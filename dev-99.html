@@ -12,7 +12,7 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>منصة التحصيلي المبكر — الحاسبة + المحاكيات + دروس الفيزياء | Nabthati</title>
+  <title>منصة التحصيلي المبكر — الحاسبة + المحاكيات + المواد | Nabthati</title>
   <meta name="description" content="قدّر درجتك في التحصيلي المبكر بالانحراف المعياري، وجرّب محاكيات إلكترونية بـ 110 أسئلة مع مراجعة الأخطاء. تقدير تقريبي وليس نتيجة رسمية." />
   <meta name="theme-color" content="#059669" />
   <meta property="og:type" content="website" />
@@ -136,7 +136,7 @@
         </div>
         <div>
           <h1 class="text-lg sm:text-xl font-extrabold text-slate-900 leading-tight">منصة التحصيلي المبكر</h1>
-          <p class="text-xs sm:text-sm text-slate-500 font-medium">حاسبة الدرجة + المحاكيات الإلكترونية + دروس الفيزياء</p>
+          <p class="text-xs sm:text-sm text-slate-500 font-medium">حاسبة الدرجة + المحاكيات الإلكترونية + المواد</p>
         </div>
       </div>
 
@@ -174,8 +174,8 @@
           المحاكيات الإلكترونية
         </button>
         <button id="tabPhysicsBtn" type="button" class="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2">
-          <span>⚡</span>
-          دروس الفيزياء
+          <span>📖</span>
+          المواد
         </button>
         <button id="tabBankBtn" type="button" class="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2">
           <span>📚</span>
@@ -603,7 +603,7 @@
 
     </div>
 
-    <!-- ==================== الخانة الثالثة: دروس الفيزياء ==================== -->
+    <!-- ==================== الخانة الثالثة: المواد ==================== -->
     <div id="physicsSection" class="hidden space-y-6">
 
       <!-- 1. قائمة دروس الفيزياء -->
@@ -612,12 +612,13 @@
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70 mb-2">
             ⚡ تدريب مخصّص حسب الدروس (تصحيح وشرح فوري)
           </span>
-          <h2 class="text-xl sm:text-2xl font-black text-slate-900">دروس الفيزياء — تدريب تفاعلي</h2>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900">المواد — تدريب تفاعلي حسب الدروس</h2>
           <p class="text-sm text-slate-500 mt-1">
-            اختر الدرس وتدرّب على مسائل التحصيلي برسومات رسمية واضحة مع <strong>تصحيح فوري وشرح لكل سؤال</strong> فور اختيارك للإجابة. يمكنك إعادة التدريب في أي وقت.
+            اختر المادة والدرس وتدرّب على مسائل التحصيلي برسومات ومعادلات واضحة مع <strong>تصحيح فوري وشرح لكل سؤال</strong> فور اختيارك للإجابة. يمكنك إعادة التدريب في أي وقت.
           </p>
         </div>
 
+        <div id="subjectsFilterBar" class="flex flex-wrap gap-2"></div>
         <div id="physicsLessonsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
       </div>
 
@@ -996,7 +997,7 @@
     } from './irt.js?v=4';
 
     // اختياري: ضع هنا رابط Google Apps Script أو Firebase لحفظ متوسط أخطاء جميع الطلاب سحابياً عبر كل الأجهزة
-    const APP_VERSION = '6'; // ارفع الرقم عند تعديل أي ملف .js حتى لا يبقى المتصفح على نسخة قديمة
+    const APP_VERSION = '7'; // ارفع الرقم عند تعديل أي ملف .js حتى لا يبقى المتصفح على نسخة قديمة
     const MIN_VALID_DURATION_SECONDS = 600; // أقل من 10 دقائق: تُعرض النتيجة للطالب دون إرسالها لجدول المعايرة
     const F2_GOAL_ATTEMPTS = 300; // هدف عدد المختبرين لإطلاق محاكي الفترة الثانية
     const STATS_API_URL = 'https://script.google.com/macros/s/AKfycbw2UnUkxaZ4lYMmas_KM0_1bhIHFYw05NjpnyJOD6Do1s8WeU-hVXbFSLq9_O2GVxt0/exec';
@@ -2318,6 +2319,7 @@ ${shareUrl}`;
     const physicsState = {
       lessons: null,
       loading: false,
+      selectedSubject: 'الكل',
       activeLesson: null,
       currentIdx: 0,
       answers: {} // { qIdx: selectedOptionIdx }
@@ -2346,14 +2348,25 @@ ${shareUrl}`;
       }
       if (physicsState.loading) return;
       physicsState.loading = true;
-      physicsLessonsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-slate-500 bg-white rounded-3xl border border-slate-200/80">جارٍ تحميل دروس الفيزياء…</div>';
+      physicsLessonsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-slate-500 bg-white rounded-3xl border border-slate-200/80">جارٍ تحميل دروس المواد…</div>';
       try {
-        const mod = await import(`./physics_lessons.js?v=${APP_VERSION}`);
-        physicsState.lessons = Array.isArray(mod.PHYSICS_LESSONS) ? mod.PHYSICS_LESSONS : [];
+        const [physRes, mathRes] = await Promise.allSettled([
+          import(`./physics_lessons.js?v=${APP_VERSION}`),
+          import(`./math_lessons.js?v=${APP_VERSION}`)
+        ]);
+        const allLessons = [];
+        if (physRes.status === 'fulfilled' && Array.isArray(physRes.value.PHYSICS_LESSONS)) {
+          physRes.value.PHYSICS_LESSONS.forEach((l) => allLessons.push({ subject: 'فيزياء', ...l }));
+        }
+        if (mathRes.status === 'fulfilled' && Array.isArray(mathRes.value.MATH_LESSONS)) {
+          mathRes.value.MATH_LESSONS.forEach((l) => allLessons.push({ subject: 'رياضيات', ...l }));
+        }
+        if (allLessons.length === 0) throw new Error('No lessons loaded');
+        physicsState.lessons = allLessons;
         renderPhysicsLessonsGrid();
       } catch (err) {
-        console.error('Failed to load physics_lessons.js', err);
-        physicsLessonsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-rose-700 bg-rose-50 rounded-3xl border border-rose-200">تعذّر تحميل ملف دروس الفيزياء (physics_lessons.js). تأكد من رفعه في نفس المجلد مع index.html ثم حدّث الصفحة.</div>';
+        console.error('Failed to load lessons', err);
+        physicsLessonsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-rose-700 bg-rose-50 rounded-3xl border border-rose-200">تعذّر تحميل ملفات المواد (physics_lessons.js / math_lessons.js). تأكد من رفعها في نفس المجلد ثم حدّث الصفحة.</div>';
       } finally {
         physicsState.loading = false;
       }
@@ -2361,13 +2374,43 @@ ${shareUrl}`;
 
     function renderPhysicsLessonsGrid() {
       if (!physicsState.lessons) return;
+      const filterBar = document.getElementById('subjectsFilterBar');
+      if (filterBar) {
+        filterBar.innerHTML = '';
+        const tabs = [
+          { key: 'الكل', label: 'الكل 📚' },
+          { key: 'فيزياء', label: 'الفيزياء ⚡' },
+          { key: 'رياضيات', label: 'الرياضيات 📐' }
+        ];
+        tabs.forEach((t) => {
+          const cnt = t.key === 'الكل' ? physicsState.lessons.length : physicsState.lessons.filter((l) => l.subject === t.key).length;
+          if (t.key !== 'الكل' && cnt === 0) return;
+          const b = document.createElement('button');
+          b.type = 'button';
+          const active = physicsState.selectedSubject === t.key;
+          b.className = active
+            ? 'px-4 py-2 rounded-2xl text-xs sm:text-sm font-extrabold bg-emerald-600 text-white shadow-sm transition cursor-pointer'
+            : 'px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold bg-white text-slate-600 border border-slate-200 hover:border-emerald-400 transition cursor-pointer';
+          b.textContent = `${t.label} (${cnt})`;
+          b.addEventListener('click', () => {
+            physicsState.selectedSubject = t.key;
+            renderPhysicsLessonsGrid();
+          });
+          filterBar.appendChild(b);
+        });
+      }
+
       physicsLessonsGrid.innerHTML = '';
-      if (physicsState.lessons.length === 0) {
-        physicsLessonsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-slate-500 bg-white rounded-3xl border border-slate-200/80">لا توجد دروس متاحة حالياً.</div>';
+      const filteredLessons = physicsState.selectedSubject === 'الكل'
+        ? physicsState.lessons
+        : physicsState.lessons.filter((l) => l.subject === physicsState.selectedSubject);
+
+      if (filteredLessons.length === 0) {
+        physicsLessonsGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-slate-500 bg-white rounded-3xl border border-slate-200/80">لا توجد دروس متاحة في هذه المادة حالياً.</div>';
         return;
       }
 
-      physicsState.lessons.forEach((lesson) => {
+      filteredLessons.forEach((lesson) => {
         const total = Array.isArray(lesson.questions) ? lesson.questions.length : 0;
         const best = getPhysicsBest(lesson.id);
         const card = document.createElement('div');
