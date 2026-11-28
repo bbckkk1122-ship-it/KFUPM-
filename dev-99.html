@@ -181,6 +181,10 @@
           <span>📚</span>
           بنك الطلاب
         </button>
+        <button id="tabFormulasBtn" type="button" class="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-slate-900 transition flex items-center justify-center gap-2">
+          <span>📏</span>
+          القوانين
+        </button>
       </div>
     </div>
   </header>
@@ -935,6 +939,101 @@
       </div>
 
     </div>
+
+    <!-- ==================== الخانة الخامسة: القوانين ==================== -->
+    <div id="formulasSection" class="hidden space-y-6">
+
+      <!-- 1. قائمة مجموعات القوانين -->
+      <div id="formulasListView" class="space-y-6">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70 mb-2">
+            📏 تدريب سريع على القوانين والمتطابقات (تصحيح وشرح فوري)
+          </span>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900">القوانين — اختر القانون المناسب</h2>
+          <p class="text-sm text-slate-500 mt-1">
+            اختبر حفظك وفهمك لقوانين الفيزياء والرياضيات عبر مواقف عملية ومعطيات مباشرة مع <strong>تصحيح فوري وشرح مختصر</strong> لكل قانون.
+          </p>
+        </div>
+
+        <div id="formulasFilterBar" class="flex flex-wrap gap-2"></div>
+        <div id="formulasGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </div>
+
+      <!-- 2. شاشة التدريب على القوانين -->
+      <div id="formulasQuizView" class="hidden max-w-4xl mx-auto space-y-5">
+        <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-slate-200/80 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 id="formulasSetTitle" class="text-base sm:text-lg font-black text-slate-900">مجموعة القوانين</h3>
+            <p id="formulasProgressCounter" class="text-xs font-bold text-emerald-700">تم حل 0 من 10 سؤالاً</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="formulasLiveScore" class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200/70 text-xs font-extrabold">الصح: 0 / 0</span>
+            <button id="exitFormulasBtn" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
+              ← قائمة القوانين
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80 space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span id="formulasTopicBadge" class="px-3 py-1 rounded-xl bg-teal-50 text-teal-700 text-xs font-extrabold border border-teal-200/70">القانون</span>
+            <span id="formulasQNumber" class="text-xs font-extrabold text-slate-500">سؤال 1 من 10</span>
+          </div>
+
+          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div id="formulasProgressBar" class="h-full bg-emerald-600 rounded-full transition-all duration-200" style="width: 10%"></div>
+          </div>
+
+          <div id="formulasNavStrip" class="flex flex-wrap gap-1.5"></div>
+
+          <h3 id="formulasQuestionText" class="exam-font text-base sm:text-lg font-semibold text-slate-900"></h3>
+
+          <div id="formulasOptionsList" class="exam-font space-y-3"></div>
+
+          <div id="formulasFeedbackBox" class="hidden rounded-2xl p-4 border space-y-1.5 text-xs sm:text-sm"></div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
+            <button id="formulasPrevBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
+              → السابق
+            </button>
+            <button id="formulasNextBtn" type="button" class="px-7 py-2.5 rounded-xl text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+              التالي ←
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. شاشة نتيجة القوانين -->
+      <div id="formulasResultView" class="hidden max-w-4xl mx-auto space-y-6">
+        <div class="rounded-3xl bg-gradient-to-l from-emerald-800 via-emerald-700 to-teal-700 text-white p-6 sm:p-8 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+          <div class="space-y-1.5">
+            <span id="formulasResBadge" class="inline-flex px-3 py-1 rounded-full bg-white/15 text-xs font-extrabold">أنهيت التدريب!</span>
+            <h3 id="formulasResTitle" class="text-2xl sm:text-3xl font-black">نتيجة القوانين</h3>
+            <p id="formulasResSubtitle" class="text-xs sm:text-sm text-emerald-100"></p>
+          </div>
+          <div class="bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl px-6 py-4 text-center shrink-0">
+            <div class="text-xs text-emerald-100 font-bold">درجتك</div>
+            <div id="formulasResScore" class="text-4xl font-black mt-1">0 / 10</div>
+            <div id="formulasResPercent" class="text-xs font-extrabold text-emerald-200 mt-0.5">0%</div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <button id="retryFormulasSetBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-extrabold bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+            إعادة التدريب 🔄
+          </button>
+          <button id="backToFormulasListBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-extrabold bg-slate-900 text-white hover:bg-slate-800 transition cursor-pointer">
+            العودة لقائمة القوانين
+          </button>
+        </div>
+
+        <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 space-y-4">
+          <h3 class="text-base sm:text-lg font-extrabold text-slate-900">مراجعة القوانين التي أخطأت فيها</h3>
+          <div id="formulasReviewList" class="exam-font space-y-3"></div>
+        </div>
+      </div>
+
+    </div>
   </main>
 
   <!-- قسم قائمة المساهمين -->
@@ -997,7 +1096,7 @@
     } from './irt.js?v=4';
 
     // اختياري: ضع هنا رابط Google Apps Script أو Firebase لحفظ متوسط أخطاء جميع الطلاب سحابياً عبر كل الأجهزة
-    const APP_VERSION = '7'; // ارفع الرقم عند تعديل أي ملف .js حتى لا يبقى المتصفح على نسخة قديمة
+    const APP_VERSION = '8'; // ارفع الرقم عند تعديل أي ملف .js حتى لا يبقى المتصفح على نسخة قديمة
     const MIN_VALID_DURATION_SECONDS = 600; // أقل من 10 دقائق: تُعرض النتيجة للطالب دون إرسالها لجدول المعايرة
     const F2_GOAL_ATTEMPTS = 300; // هدف عدد المختبرين لإطلاق محاكي الفترة الثانية
     const STATS_API_URL = 'https://script.google.com/macros/s/AKfycbw2UnUkxaZ4lYMmas_KM0_1bhIHFYw05NjpnyJOD6Do1s8WeU-hVXbFSLq9_O2GVxt0/exec';
@@ -1031,6 +1130,8 @@
     const physicsSection = document.getElementById('physicsSection');
     const tabBankBtn = document.getElementById('tabBankBtn');
     const bankSection = document.getElementById('bankSection');
+    const tabFormulasBtn = document.getElementById('tabFormulasBtn');
+    const formulasSection = document.getElementById('formulasSection');
     const calcHeaderActions = document.getElementById('calcHeaderActions');
 
     function trackEvent(eventName, params = {}) {
@@ -1047,15 +1148,17 @@
       mocksSection.classList.toggle('hidden', tab !== 'mocks');
       physicsSection.classList.toggle('hidden', tab !== 'physics');
       bankSection.classList.toggle('hidden', tab !== 'bank');
+      formulasSection.classList.toggle('hidden', tab !== 'formulas');
       calcHeaderActions.classList.toggle('hidden', tab !== 'calc');
 
       tabCalcBtn.className = tab === 'calc' ? TAB_ACTIVE_CLS : TAB_INACTIVE_CLS;
       tabMocksBtn.className = tab === 'mocks' ? TAB_ACTIVE_CLS : TAB_INACTIVE_CLS;
       tabPhysicsBtn.className = tab === 'physics' ? TAB_ACTIVE_CLS : TAB_INACTIVE_CLS;
       tabBankBtn.className = tab === 'bank' ? TAB_ACTIVE_CLS : TAB_INACTIVE_CLS;
+      tabFormulasBtn.className = tab === 'formulas' ? TAB_ACTIVE_CLS : TAB_INACTIVE_CLS;
 
       if (tab === 'calc') {
-        if (updateHash && ['#mock', '#physics', '#bank'].includes(window.location.hash)) {
+        if (updateHash && ['#mock', '#physics', '#bank', '#formulas'].includes(window.location.hash)) {
           try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch {}
         }
         updateAll();
@@ -1076,12 +1179,19 @@
         }
         loadBankQuestions();
         trackEvent('open_student_bank');
+      } else if (tab === 'formulas') {
+        if (updateHash && window.location.hash !== '#formulas') {
+          try { history.replaceState(null, '', '#formulas'); } catch {}
+        }
+        loadFormulasSets();
+        trackEvent('open_formulas');
       }
     }
     tabCalcBtn.addEventListener('click', () => switchTab('calc'));
     tabMocksBtn.addEventListener('click', () => switchTab('mocks'));
     tabPhysicsBtn.addEventListener('click', () => switchTab('physics'));
     tabBankBtn.addEventListener('click', () => switchTab('bank'));
+    tabFormulasBtn.addEventListener('click', () => switchTab('formulas'));
     const goToMockFromCalcBtn = document.getElementById('goToMockFromCalcBtn');
     if (goToMockFromCalcBtn) {
       goToMockFromCalcBtn.addEventListener('click', () => {
@@ -2675,6 +2785,8 @@ ${shareUrl}`;
         switchTab('physics', false);
       } else if (h === '#bank') {
         switchTab('bank', false);
+      } else if (h === '#formulas') {
+        switchTab('formulas', false);
       }
     }
     window.addEventListener('hashchange', applyHashRoute);
@@ -3550,6 +3662,308 @@ ${shareUrl}`;
         btn.disabled = false;
         btn.textContent = 'نشر السؤال في بنك الطلاب 🚀';
       }
+    });
+
+
+    // ==================== منطق خانة القوانين ====================
+    const formulasListView = document.getElementById('formulasListView');
+    const formulasQuizView = document.getElementById('formulasQuizView');
+    const formulasResultView = document.getElementById('formulasResultView');
+    const formulasGrid = document.getElementById('formulasGrid');
+
+    const formulasState = {
+      sets: null,
+      loading: false,
+      selectedSubject: 'الكل',
+      activeSet: null,
+      currentIdx: 0,
+      answers: {}
+    };
+
+    function getFormulaBest(setId) {
+      try {
+        const raw = localStorage.getItem(`nabthati_formula_best_${setId}`);
+        return raw ? JSON.parse(raw) : null;
+      } catch { return null; }
+    }
+
+    function saveFormulaBest(setId, correct, total) {
+      try {
+        const prev = getFormulaBest(setId);
+        if (!prev || correct >= prev.correct) {
+          localStorage.setItem(`nabthati_formula_best_${setId}`, JSON.stringify({ correct, total }));
+        }
+      } catch {}
+    }
+
+    async function loadFormulasSets() {
+      if (formulasState.sets) {
+        renderFormulasGrid();
+        return;
+      }
+      if (formulasState.loading) return;
+      formulasState.loading = true;
+      formulasGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-slate-500 bg-white rounded-3xl border border-slate-200/80">جارٍ تحميل القوانين…</div>';
+      try {
+        const mod = await import(`./formulas.js?v=${APP_VERSION}`);
+        formulasState.sets = Array.isArray(mod.FORMULA_SETS) ? mod.FORMULA_SETS : [];
+        renderFormulasGrid();
+      } catch (err) {
+        console.error('Failed to load formulas.js', err);
+        formulasGrid.innerHTML = '<div class="col-span-full p-6 text-center text-sm font-bold text-rose-700 bg-rose-50 rounded-3xl border border-rose-200">تعذّر تحميل ملف القوانين (formulas.js). تأكد من رفعه في نفس المجلد ثم حدّث الصفحة.</div>';
+      } finally {
+        formulasState.loading = false;
+      }
+    }
+
+    function renderFormulasGrid() {
+      if (!formulasState.sets) return;
+      const filterBar = document.getElementById('formulasFilterBar');
+      if (filterBar) {
+        filterBar.innerHTML = '';
+        const tabs = [
+          { key: 'الكل', label: 'الكل 📏' },
+          { key: 'فيزياء', label: 'الفيزياء ⚡' },
+          { key: 'رياضيات', label: 'الرياضيات 📐' }
+        ];
+        tabs.forEach((t) => {
+          const cnt = t.key === 'الكل' ? formulasState.sets.length : formulasState.sets.filter((s) => s.subject === t.key).length;
+          if (t.key !== 'الكل' && cnt === 0) return;
+          const b = document.createElement('button');
+          b.type = 'button';
+          const active = formulasState.selectedSubject === t.key;
+          b.className = active
+            ? 'px-4 py-2 rounded-2xl text-xs sm:text-sm font-extrabold bg-emerald-600 text-white shadow-sm transition cursor-pointer'
+            : 'px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold bg-white text-slate-600 border border-slate-200 hover:border-emerald-400 transition cursor-pointer';
+          b.textContent = `${t.label} (${cnt})`;
+          b.addEventListener('click', () => {
+            formulasState.selectedSubject = t.key;
+            renderFormulasGrid();
+          });
+          filterBar.appendChild(b);
+        });
+      }
+
+      formulasGrid.innerHTML = '';
+      const filtered = formulasState.selectedSubject === 'الكل'
+        ? formulasState.sets
+        : formulasState.sets.filter((s) => s.subject === formulasState.selectedSubject);
+
+      filtered.forEach((setObj) => {
+        const total = Array.isArray(setObj.questions) ? setObj.questions.length : 0;
+        const best = getFormulaBest(setObj.id);
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-3xl p-5 shadow-sm border border-slate-200/80 flex flex-col justify-between gap-4 hover:border-emerald-400 transition';
+        card.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-extrabold border border-emerald-200/70">${setObj.badge || setObj.subject}</span>
+              <span class="text-[11px] font-bold text-slate-400">${total} سؤالاً</span>
+            </div>
+            <h3 class="text-lg font-black text-slate-900">${setObj.title}</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">${setObj.subtitle || ''}</p>
+            ${best ? `<p class="text-[11px] font-extrabold text-teal-700 bg-teal-50/70 px-2.5 py-1.5 rounded-xl">أفضل نتيجة محفوظة: ${best.correct} / ${best.total} (${Math.round((best.correct / best.total) * 100)}%)</p>` : ''}
+          </div>
+          <button type="button" class="w-full py-2.5 rounded-2xl text-sm font-extrabold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm transition cursor-pointer">
+            ${best ? 'إعادة التدريب ←' : 'ابدأ التدريب ←'}
+          </button>
+        `;
+        card.querySelector('button').addEventListener('click', () => startFormulaSet(setObj));
+        formulasGrid.appendChild(card);
+      });
+    }
+
+    function startFormulaSet(setObj) {
+      formulasState.activeSet = setObj;
+      formulasState.currentIdx = 0;
+      formulasState.answers = {};
+      document.getElementById('formulasSetTitle').textContent = setObj.title;
+      formulasListView.classList.add('hidden');
+      formulasResultView.classList.add('hidden');
+      formulasQuizView.classList.remove('hidden');
+      renderFormulaQuestion();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderFormulaQuestion() {
+      const setObj = formulasState.activeSet;
+      if (!setObj) return;
+      const questions = setObj.questions;
+      const total = questions.length;
+      const idx = formulasState.currentIdx;
+      const q = questions[idx];
+      const chosen = formulasState.answers[idx];
+      const isAnswered = chosen !== undefined;
+
+      let answeredCount = 0, correctCount = 0;
+      for (const [k, v] of Object.entries(formulasState.answers)) {
+        answeredCount++;
+        if (questions[Number(k)] && v === questions[Number(k)].answer) correctCount++;
+      }
+
+      document.getElementById('formulasProgressCounter').textContent = `تم حل ${answeredCount} من ${total} سؤالاً`;
+      document.getElementById('formulasLiveScore').textContent = `الصح: ${correctCount} / ${answeredCount}`;
+      document.getElementById('formulasTopicBadge').textContent = q.topic || setObj.title;
+      document.getElementById('formulasQNumber').textContent = `سؤال ${idx + 1} من ${total}`;
+      document.getElementById('formulasProgressBar').style.width = `${((idx + 1) / total) * 100}%`;
+      document.getElementById('formulasQuestionText').innerHTML = formatMathText(q.question);
+
+      const list = document.getElementById('formulasOptionsList');
+      list.innerHTML = '';
+      const letters = ['أ', 'ب', 'ج', 'د'];
+
+      q.options.forEach((opt, optIdx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        let cls = 'w-full text-right p-4 rounded-2xl border border-slate-200 bg-slate-50/70 hover:border-emerald-400 hover:bg-emerald-50/30 font-bold text-slate-800 transition flex items-center gap-3 cursor-pointer';
+        let badgeCls = 'bg-white border border-slate-200 text-slate-600';
+
+        if (isAnswered) {
+          if (optIdx === q.answer) {
+            cls = 'w-full text-right p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50 font-extrabold text-emerald-900 transition flex items-center gap-3';
+            badgeCls = 'bg-emerald-600 text-white';
+          } else if (optIdx === chosen && chosen !== q.answer) {
+            cls = 'w-full text-right p-4 rounded-2xl border-2 border-rose-500 bg-rose-50 font-extrabold text-rose-800 transition flex items-center gap-3';
+            badgeCls = 'bg-rose-600 text-white';
+          } else {
+            cls = 'w-full text-right p-4 rounded-2xl border border-slate-200 bg-slate-50/50 font-bold text-slate-400 opacity-75 flex items-center gap-3';
+          }
+        }
+
+        btn.className = cls;
+        btn.disabled = isAnswered;
+        btn.innerHTML = `<span class="w-7 h-7 rounded-lg ${badgeCls} text-xs font-extrabold flex items-center justify-center shrink-0">${letters[optIdx]}</span><span>${formatMathText(opt)}</span>`;
+        if (!isAnswered) {
+          btn.addEventListener('click', () => {
+            formulasState.answers[idx] = optIdx;
+            renderFormulaQuestion();
+          });
+        }
+        list.appendChild(btn);
+      });
+
+      const fb = document.getElementById('formulasFeedbackBox');
+      if (isAnswered) {
+        const isRight = chosen === q.answer;
+        fb.className = isRight
+          ? 'rounded-2xl p-4 border border-emerald-300 bg-emerald-50 text-emerald-900 space-y-1.5 text-xs sm:text-sm'
+          : 'rounded-2xl p-4 border border-rose-300 bg-rose-50 text-rose-900 space-y-1.5 text-xs sm:text-sm';
+        fb.innerHTML = `
+          <div class="font-extrabold">${isRight ? '✅ إجابة صحيحة! أحسنت' : '❌ إجابة غير صحيحة'}</div>
+          <div class="text-slate-700 font-medium leading-relaxed">💡 ${formatMathText(q.explanation)}</div>
+        `;
+      } else {
+        fb.className = 'hidden';
+        fb.innerHTML = '';
+      }
+
+      const prevBtn = document.getElementById('formulasPrevBtn');
+      const nextBtn = document.getElementById('formulasNextBtn');
+      prevBtn.disabled = idx === 0;
+      prevBtn.classList.toggle('opacity-40', idx === 0);
+      nextBtn.textContent = idx === total - 1 ? 'إنهاء وعرض النتيجة 🎯' : 'التالي ←';
+
+      const navStrip = document.getElementById('formulasNavStrip');
+      navStrip.innerHTML = '';
+      questions.forEach((itemQ, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = i + 1;
+        const ans = formulasState.answers[i];
+        const isCur = i === idx;
+        let cls = 'w-8 h-8 rounded-lg text-xs font-extrabold transition cursor-pointer ';
+        if (ans === undefined) {
+          cls += isCur ? 'bg-slate-900 text-white ring-2 ring-emerald-400' : 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+        } else if (ans === itemQ.answer) {
+          cls += isCur ? 'bg-emerald-600 text-white ring-2 ring-slate-900' : 'bg-emerald-600 text-white hover:bg-emerald-700';
+        } else {
+          cls += isCur ? 'bg-rose-600 text-white ring-2 ring-slate-900' : 'bg-rose-500 text-white hover:bg-rose-600';
+        }
+        b.className = cls;
+        b.addEventListener('click', () => { formulasState.currentIdx = i; renderFormulaQuestion(); });
+        navStrip.appendChild(b);
+      });
+
+      renderKaTeXIn(formulasQuizView);
+    }
+
+    function showFormulasResult() {
+      const setObj = formulasState.activeSet;
+      if (!setObj) return;
+      const questions = setObj.questions;
+      const total = questions.length;
+      let correct = 0;
+      const wrongs = [];
+      questions.forEach((q, i) => {
+        const ans = formulasState.answers[i];
+        if (ans === q.answer) correct++;
+        else wrongs.push({ num: i + 1, q, userAns: ans });
+      });
+
+      const pct = Math.round((correct / total) * 100);
+      saveFormulaBest(setObj.id, correct, total);
+
+      document.getElementById('formulasResBadge').textContent = setObj.badge || 'القوانين';
+      document.getElementById('formulasResTitle').textContent = setObj.title;
+      document.getElementById('formulasResSubtitle').textContent =
+        pct >= 90 ? 'ممتاز! حفظك وفهمك للقوانين متقن جداً.' :
+        pct >= 70 ? 'أداء جيد جداً — راجع القوانين التي أخطأت فيها بالأسفل.' :
+        'راجع القوانين بالأسفل وأعد التدريب لتثبيتها بسرعة.';
+      document.getElementById('formulasResScore').textContent = `${correct} / ${total}`;
+      document.getElementById('formulasResPercent').textContent = `${pct}%`;
+
+      const reviewList = document.getElementById('formulasReviewList');
+      reviewList.innerHTML = '';
+      if (wrongs.length === 0) {
+        reviewList.innerHTML = '<div class="p-4 rounded-2xl bg-emerald-50 text-emerald-800 font-extrabold text-sm">ما شاء الله! أتقنت جميع قوانين هذه المجموعة 🎉</div>';
+      } else {
+        wrongs.forEach((item) => {
+          const div = document.createElement('div');
+          div.className = 'p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-sm';
+          const userAnsText = item.userAns !== undefined ? formatMathText(item.q.options[item.userAns]) : 'لم يتم اختيار إجابة';
+          div.innerHTML = `
+            <div class="text-xs font-extrabold text-emerald-700">سؤال #${item.num} • ${item.q.topic || ''}</div>
+            <p class="font-extrabold text-slate-900">${formatMathText(item.q.question)}</p>
+            <p class="text-xs font-bold text-rose-700">إجابتك: ${userAnsText}</p>
+            <p class="text-xs font-extrabold text-emerald-700">الإجابة الصحيحة: ${formatMathText(item.q.options[item.q.answer])}</p>
+            <p class="text-xs text-slate-600 bg-white p-2.5 rounded-xl border border-slate-100">💡 ${formatMathText(item.q.explanation)}</p>
+          `;
+          reviewList.appendChild(div);
+        });
+      }
+
+      formulasQuizView.classList.add('hidden');
+      formulasResultView.classList.remove('hidden');
+      renderKaTeXIn(reviewList);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.getElementById('formulasPrevBtn').addEventListener('click', () => {
+      if (formulasState.currentIdx > 0) { formulasState.currentIdx--; renderFormulaQuestion(); }
+    });
+    document.getElementById('formulasNextBtn').addEventListener('click', () => {
+      const setObj = formulasState.activeSet;
+      if (!setObj) return;
+      if (formulasState.currentIdx < setObj.questions.length - 1) {
+        formulasState.currentIdx++;
+        renderFormulaQuestion();
+      } else {
+        showFormulasResult();
+      }
+    });
+    document.getElementById('exitFormulasBtn').addEventListener('click', () => {
+      formulasQuizView.classList.add('hidden');
+      formulasResultView.classList.add('hidden');
+      formulasListView.classList.remove('hidden');
+      renderFormulasGrid();
+    });
+    document.getElementById('retryFormulasSetBtn').addEventListener('click', () => {
+      if (formulasState.activeSet) startFormulaSet(formulasState.activeSet);
+    });
+    document.getElementById('backToFormulasListBtn').addEventListener('click', () => {
+      formulasResultView.classList.add('hidden');
+      formulasListView.classList.remove('hidden');
+      renderFormulasGrid();
     });
 
     window.__nabthatiReady = true;
